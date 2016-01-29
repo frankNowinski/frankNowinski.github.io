@@ -108,6 +108,7 @@ body {
   width: 200%;
   height: 200%;
   min-height: $feature-image-height;
+  box-shadow: 2px 3px #888888;
   overflow: hidden;
   &:after {
     content: '';
@@ -127,7 +128,6 @@ body {
     margin: auto;
     min-width: 50%;
     min-height: $feature-image-height; // match .entry-image min-height
-    box-shadow: 2px 3px #888888;
   }
 }
 // Feature Image height on Front Page
