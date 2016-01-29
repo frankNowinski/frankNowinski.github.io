@@ -81,7 +81,7 @@ body {
     margin: 10px 60px;
     color: $white;
     // text-shadow: 1px 2px 4px rgba($base-color,0.6);
-    text-shadow: 1px 2px 4px #002266; 
+    text-shadow: 1px 2px 4px #002266;
     a {
       color: $white;
     }
@@ -369,7 +369,7 @@ header .entry-meta {
       margin-right: 20px;
     }
     @media #{$large} {
-      max-width: 800px;
+      max-width: 900px;
       margin-top: 50px;
       margin-left: auto;
       margin-right: auto;
