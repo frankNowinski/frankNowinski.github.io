@@ -5,25 +5,25 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Page Not Found &#8211; Frank Nowinski</title>
-<meta name="description" content="Page not found. Your pixels are in another canvas.">
-
+<title>Formatting the URL for the Yahoo Finance API &#8211; Frank Nowinski</title>
+<meta name="description" content="My personal blog.">
+<meta name="keywords" content="">
 
 
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Page Not Found">
-<meta property="og:description" content="Page not found. Your pixels are in another canvas.">
-<meta property="og:url" content="http://franknowinski.github.io/404.html">
+<meta property="og:title" content="Formatting the URL for the Yahoo Finance API">
+<meta property="og:description" content="My personal blog.">
+<meta property="og:url" content="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/">
 <meta property="og:site_name" content="Frank Nowinski">
 
 
 
 
 
-<link rel="canonical" href="http://franknowinski.github.io/404.html">
+<link rel="canonical" href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/">
 <link href="http://franknowinski.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Frank Nowinski Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -59,7 +59,7 @@
 
 </head>
 
-<body id="page" >
+<body id="post" >
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 <nav id="dl-menu" class="dl-menuwrapper" role="navigation">
@@ -114,7 +114,10 @@
   <article class="hentry">
     <header class="header-title">
       <div class="header-title-wrap">
-        <h1 class="entry-title">Page Not Found</h1>
+        
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" rel="bookmark" title="Formatting the URL for the Yahoo Finance API">Formatting the URL for the Yahoo Finance API</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-01-29T04:17:17-05:00">January 29, 2016</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
@@ -125,23 +128,56 @@ Reading time ~1 minute
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <p>Sorry, but the page you were trying to view does not exist — perhaps you can try searching for it below.</p>
+      <p>For the CLI Data Gem Project I paired with Roberto to create a program that would use the Yahoo! Finance API to return realtime stock data to the user.</p>
 
-<script type="text/javascript">
-  var GOOG_FIXURL_LANG = 'en';
-  var GOOG_FIXURL_SITE = 'http://franknowinski.github.io'
-</script>
+<p>Our main challenge was finding a way to retrieve realtime stock information and display it in our program in a formatted table. With the help of Yahoo! Finances incredibly convenient API, this process was made exceptionally easy. If used correctly, this API would return realtime stock data within a csv file—all we had to do was properly assemble the URL.</p>
 
-<script type="text/javascript" src="//linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js">
-</script>
+<p>To accomplish this we would need to input information into two positions of the base URL: the stock tickers position and the tags position. The stock tickers position (represented as “{STOCKS}” in the below URL) contains the stock tickers that you want to look up joined together by an addition sign (“+”). So if the user wanted to look up Apple’s and Google’s stock, the URL in the stock tickers position would read: “AAPL+GOOG.”</p>
 
+<blockquote>
+  <p>Base URL: “http://finance.yahoo.com/d/quotes.csv?s={STOCKS}&amp;f={TAGS}”</p>
+</blockquote>
+
+<p>The second position we needed to populate was the tags position (represented by “{TAGS}” in the above URL). Tags are just characters that symbolize different descriptions that, when included, return information relating to a stock. So if you include an “n” tag it displays the stocks name, an “a” tag displays the stocks asking price, a “t8” tag displays the stocks 1 Year Target Price (you get the idea). Continuing with our example, if the user wanted to look up the name, earnings per share and 52 week high for Apple’s and Google’s stock, we would include the “n”, “e” and “k” tags in the tags position of the base URL. However, when we add the tags to the URL we concatenate them together, so the end result would be ”nek.”</p>
+
+<p>Below is the final URL of the aforementioned example that will return a csv file that contains the specific information that we requested.</p>
+
+<blockquote>
+  <p>http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG&amp;f=nek</p>
+</blockquote>
 
       <footer class="entry-meta">
+        <span class="entry-tags"></span>
         
-        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
       </footer>
     </div><!-- /.entry-content -->
     
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://franknowinski.github.io" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://franknowinski.github.io/dynamic-dispatching/" title="Dynamic Dispatching Basics">Dynamic Dispatching Basics</a></h3>
+      <p>Besides the added benefit of writing more concise and considerably less code, metaprogramming has many other advantages as well. Possibly...&hellip; <a href="http://franknowinski.github.io/dynamic-dispatching/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://franknowinski.github.io/using-csv-parse-to-access-stock-data/" title="Using CSV.parse to Access Stock Data">Using CSV.parse to Access Stock Data</a></h4>
+        <span>Published on January 29, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
   </article>
 </div><!-- /#main -->
 
@@ -160,7 +196,7 @@ Reading time ~1 minute
 
 
 
-          
+	        
 
 </body>
 </html>
