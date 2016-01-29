@@ -13,16 +13,13 @@ $caption-font: $base-font;
 $code-font: monospace;
 $alt-font: serif;
 
-// $doc-font-size: 16;
-// $doc-line-height: 26;
-$doc-font-size: 1.4em;
+$doc-font-size: 16;
 $doc-line-height: 26;
-
 
 // set-up the body font-size / line-height
 body {
   margin-top: 0px + $doc-line-height;
-  font-size: 0px + $doc-font-size;
+  font-size: 4px + $doc-font-size;
 }
 
 
