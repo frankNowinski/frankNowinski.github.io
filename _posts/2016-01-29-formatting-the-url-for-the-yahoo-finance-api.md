@@ -26,5 +26,3 @@ The second position we needed to populate was the tags position (represented by 
 Below is the final URL of the aforementioned example that will return a csv file that contains the specific information that we requested.
 
 http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG&amp;f=nek
-
-(See a full list of Yahoo! Finance's tags <a href="https://code.google.com/p/yahoo-finance-managed/wiki/enumQuoteProperty">here</a>)
