@@ -46,6 +46,6 @@ The CSV.parse method would then create a new array for each row of data and sepa
 [“Alphabet Inc.“, “755.97“]
 {% endhighlight %}
 
-Now each array is represented as a row in the CSV.parse loop. So if we wanted to access Apple's name, and we were on the first iteration of row, we would enter row[0] in our loop, or if we wanted to access Apple's price we would enter row[1]. Then on our next iteration of row we would be able to access Alphabet Inc.'s elements.
+Now each array is represented as a row in the CSV.parse loop. So if we wanted to access Apple's name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple's price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.'s elements.
 
 Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.
