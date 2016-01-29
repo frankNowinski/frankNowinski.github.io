@@ -3,8 +3,6 @@ layout: post-index
 description: "Describe this nonsense."
 tags: [Jekyll, theme, themes, responsive, blog, modern]
 comments: false
-github:
-  feature: GitHub-Mark-64px.jpg
 image:
   feature: cover-photo.jpg
 ---
@@ -18,11 +16,7 @@ image:
       </div><!-- /.entry-image -->
     {% endif %}
 
-    {% if post.github.feature %}
-      <div class="entry-image-index">
-        <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}"><img src="{{ site.url }}/images/{{ post.image.feature }}" alt="{{ post.title }}"></a>
-      </div><!-- /.entry-image -->
-    {% endif %}
+
     <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="{{ post.date | date_to_xmlschema }}"><a href="{{ site.url }}{{ post.url }}">{{ post.date | date: "%B %d, %Y" }}</a></time></span><span class="author vcard"><span class="fn"><a href="{{ site.url }}/about/" title="About {{ site.owner.name }}">{{ site.owner.name }}</a></span></span>
       {% if site.reading_time %}
