@@ -16,4 +16,10 @@ date: 2016-01-29T03:42:57-05:00
 This is my post?
 
 
-<button type="button" class="btn btn-github"></button>
+{% highlight ruby %}
+
+@posts.each do |post|
+  puts post
+end
+
+{% endhighlight %}
