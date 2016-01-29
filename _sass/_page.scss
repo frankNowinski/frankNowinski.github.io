@@ -74,7 +74,6 @@ body {
     vertical-align: middle;
     margin: 0 auto;
     text-align: center;
-    box-shadow: 2px 3px grey;
   }
   h1 {
     margin: 10px;
@@ -128,6 +127,7 @@ body {
     margin: auto;
     min-width: 50%;
     min-height: $feature-image-height; // match .entry-image min-height
+    box-shadow: 2px 3px #888888;
   }
 }
 // Feature Image height on Front Page
