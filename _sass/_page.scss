@@ -74,14 +74,14 @@ body {
     vertical-align: middle;
     margin: 0 auto;
     text-align: center;
-    text-shadow: 1px 2px 2px 002266;
   }
   h1 {
     margin: 10px;
     font-weight: 700;
     margin: 10px 60px;
     color: $white;
-    text-shadow: 1px 1px 4px rgba($base-color,0.6);
+    // text-shadow: 1px 2px 4px rgba($base-color,0.6);
+    text-shadow: 1px 2px 4px #002266; 
     a {
       color: $white;
     }
