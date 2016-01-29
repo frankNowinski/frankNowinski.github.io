@@ -1,5 +1,5 @@
-title:            Site Title
-description:      Describe your website here.
+title:            Frank Nowinski
+description:      My personal blog.
 disqus_shortname:
 reading_time:     true
 words_per_minute: 200
@@ -11,12 +11,12 @@ url: http://franknowinski.github.io/
 owner:
   name:           Frank Nowisnki
   avatar:         avatar.jpg
-  bio:            "Your bio goes here. It shouldn't be super long but a good two sentences or two should suffice."
-  email:          you@email.com
+  bio:            "My personal blog to express various coding obstacles I've faced on my journey to becoming a Web Developer."
+  email:          nowinski.frank@gmail.com
   # Social networking links used in footer. Update and remove as you like.
   twitter:
   facebook:
-  github:
+  github: https://github.com/frankNowinski
   stackexchange:
   linkedin:
   instagram:
