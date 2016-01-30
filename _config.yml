@@ -52,7 +52,6 @@ permalink:   /:categories/:title/
 paginate: 5
 excerpt_separator: <!--break-->
 
-
 kramdown:
   auto_ids: true
   footnote_nr: 1
