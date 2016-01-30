@@ -95,12 +95,12 @@ blockquote {
 // --------------------------------------------------
 tt, code, kbd, samp, pre {
   font-family: $code-font;
+  font-size: 0.75em;
 
 }
 p,
 li {
   code {
-    font-size: 1.0em;
     line-height: 1.5;
     white-space: nowrap;
     margin: 0 2px;
@@ -111,7 +111,7 @@ li {
   }
 }
 pre {
-  @include font-rem(20);
+  @include font-rem(18);
   line-height: 1.5;
   overflow-x: auto;
   &::-webkit-scrollbar {

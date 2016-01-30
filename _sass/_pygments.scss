@@ -1,6 +1,6 @@
 .highlight {
   margin-bottom: 1.5em;
-  @include font(16);
+  @include font(18);
   color: #d0d0d0;
   border: 1px solid darken($body-color, 5);
   background-color: #272822;
@@ -9,7 +9,6 @@
     position: relative;
     margin: 0;
     padding: 1em;
-    font-size: 1.0em;
   }
   .lineno { padding-right: 24px; color: #8f908a;}
   .hll { background-color: #49483e }
