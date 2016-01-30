@@ -33,7 +33,18 @@ image:
     {% endif %}
   </header>
   <div class="entry-content">
-    {{ post.content }}
+    {{ post.excerpt }}
+    {% capture content_words %}
+      {{ post.content | number_of_words }}
+    {% endcapture %}
+    {% capture excerpt_words %}
+      {{ post.excerpt | number_of_words }}
+    {% endcapture %}
+    {% if excerpt_words != content_words %}
+   <p><a class="btn btn-sm btn-info" href="{{ post.url }}/#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   {% endif %}
+    <!-- {{ post.content }} -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 {% endfor %}

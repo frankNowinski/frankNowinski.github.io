@@ -50,6 +50,8 @@ permalink:   /:categories/:title/
 
 # Amount of post to show on home page
 paginate: 5
+excerpt_separator: <!--break-->
+
 
 kramdown:
   auto_ids: true
