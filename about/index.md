@@ -2,7 +2,7 @@
 layout: page
 title: About Me
 image:
-  feature: abstract-5.jpg
+  feature: cover-photo.jpg
 comments: false
 modified: 2014-12-24
 ---
