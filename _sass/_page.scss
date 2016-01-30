@@ -41,7 +41,9 @@ body {
     margin: 10px 20px;
     font-weight: 700;
     @include font-rem(32);
-    color: lighten($base-color,20);
+    color: navy;
+
+    // color: lighten($base-color,20);
     @media #{$medium} {
       @include font-rem(48);
     }
