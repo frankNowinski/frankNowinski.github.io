@@ -144,7 +144,7 @@ Reading time ~4 minutes
 
 <p>However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Hello, World&quot;</span><span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Hello, World&quot;</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="lineno">2</span>  <span class="c1">#=&gt; TypeError: no implicit conversion of Fixnum into String</span></code></pre></div>
 
 <hr />

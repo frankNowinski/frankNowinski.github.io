@@ -31,7 +31,7 @@ Here, the <code>send</code> method, or the message, converts the <code> "reverse
 However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:
 
 {% highlight ruby linenos %}
-"Hello, World"s.send(:+, 1)
+"Hello, World".send(:+, 1)
  #=> TypeError: no implicit conversion of Fixnum into String
 {% endhighlight %}
 

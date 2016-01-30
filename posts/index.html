@@ -4,10 +4,11 @@ title: All Posts
 description: "An archive of posts."
 comments: false
 image:
-  feature: cover-photo.jpg
+  feature: stocks-pic.jpg
 ---
 {% if post.image.feature %}
 {% endif %}
+
 {% for post in site.posts %}
     {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
     {% capture next_year %}{{ post.previous.date | date: "%Y" }}{% endcapture %}
