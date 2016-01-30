@@ -95,11 +95,12 @@ blockquote {
 // --------------------------------------------------
 tt, code, kbd, samp, pre {
   font-family: $code-font;
+
 }
 p,
 li {
   code {
-    @include font-rem(20);
+    font-size: 1.0em;
     line-height: 1.5;
     white-space: nowrap;
     margin: 0 2px;
