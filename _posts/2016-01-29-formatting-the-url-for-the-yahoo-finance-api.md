@@ -6,7 +6,7 @@ categories:
 description:
 tags: []
 image:
-  feature: space.jpg
+  feature: stocks-photo.jpg
   credit:
   creditlink:
 comments:
