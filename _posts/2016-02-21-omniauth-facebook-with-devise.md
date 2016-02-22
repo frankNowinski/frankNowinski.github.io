@@ -13,7 +13,7 @@ comments:
 share:
 date: 2016-02-21T19:25:01-05:00
 ---
-Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to Tech Gaints such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.
+Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.
 
 Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth-Facebook with Devise, a popular gem used for user authentication.
 

@@ -86,7 +86,7 @@ blockquote {
 // --------------------------------------------------
 .entry-content .footnotes {
   ol, li, p {
-    @include font-size(14);
+    @include font-size(12);
   }
 }
 
