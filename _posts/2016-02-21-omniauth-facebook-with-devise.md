@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Omniauth Facebook With Devise
+title: Omniauth-Facebook With Devise
 modified:
 categories:
 description:
@@ -13,11 +13,9 @@ comments:
 share:
 date: 2016-02-21T19:25:01-05:00
 ---
-Initializing a User Using Omniauth-Facebook with Devise
-
 Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to Tech Gaints such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.
 
-Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth with Devise, a popular gem used for user authentication.
+Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth-Facebook with Devise, a popular gem used for user authentication.
 
 First, you’ll need to include the following gems in your ‘Gemfile’:
 
@@ -35,7 +33,7 @@ rails generate devise:install
 rails g devise User
 {% endhighlight %}
 
-This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file will have different numbers).
+This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file will have different numbers).
 
 Before you run `rake db:migrate` you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.
 
@@ -43,13 +41,13 @@ Before you run `rake db:migrate` you’ll need to create a new table to add two 
 
 Now you can run `rake db:migrate`
 
-Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was `config/initializers/devise.rb`. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook `APP_ID` and `APP_SECRET`. Include in `config/initializers/devise.rb`:
+Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was `config/initializers/devise.rb`. Go to that file to declare the authentication provider you’re using (Facebook) and set your Facebook `APP_ID` and `APP_SECRET`:
 
 {% highlight ruby linenos %}
 config.omniauth :facebook, "APP_ID", "APP_SECRET"
 {% endhighlight %}
 
-To get an `APP_ID` and `APP_SECRET`  you’ll have to create an app at the Facebook Developers website https://developers.facebook.com/. If this is your first time creating a Facebook app then follow this guide: https://developers.facebook.com/docs/apps/register
+To get an `APP_ID` and `APP_SECRET`  you’ll have to create an app at the <a href="{{https://developers.facebook.com/}}">Facebook Developers website</a>. If this is your first time creating a Facebook app then follow this <a href="{{https://developers.facebook.com/docs/apps/register}}">guide</a> .
 
 In order for Devise to be aware that Omniauth exists in your application you’ll need to declare it. Go to your user model and input the following code:
 
@@ -105,6 +103,6 @@ end
 
 Inside this method we can extract data that is returned to us from Facebook and creates a new User. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. However, it's important to note that the `first_or_create` method automatically sets the `uid` and `provider` fields when initializing a new user.
 
-Besides the `uid` and `password`, the programmer is free to use whatever data that Facebook provides to incorporate it into their User intance. For instance, you can  extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop. 
+Besides the `uid` and `password`, the programmer is free to use whatever data that Facebook provides to incorporate it into their User intance. For instance, you can  extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop.
 
 In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
