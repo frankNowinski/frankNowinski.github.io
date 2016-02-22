@@ -97,21 +97,14 @@ On line 4 inside the `facebook` method you’ll notice we’re calling a method 
 {% highlight ruby linenos %}
 def self.from_omniauth(auth)
   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-   user.uid = user.uid
    user.name = auth.info.name
    user.password = Devise.friendly_token[0,20]
   end
 end
 {% endhighlight %}
 
-Inside this method we can extract data that is returned to us from Facebook and initialize a new User. Auth, the argument of this method, contains the following data is assigned:
+Inside this method we can extract data that is returned to us from Facebook and creates a new User. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. However, it's important to note that the `first_or_create` method automatically sets the `uid` and `provider` fields when initializing a new user.
 
-{"provider"=>"facebook",
- "uid"=>"10207528486042900",
- "info"=>{"name"=>"Frank Nowinski", "image"=>"http://graph.facebook.com/10207528486042900/picture"},
- "credentials"=>
-  {"token"=>
-    "CAAMOIT5sGIcBALLCG7IZCcruM7RppvzNQWZClaC9fDtkgiYL1U0QlQVCfe7Euw1yPErZBq0j78osqaPrTZAHIkbGCl7bfiQLGRxLyfo2EI2v23jt4LNB1yCKjFQTA6z5ZC3c91l1kkHAEJU2J8PLj8ZAjF5WBNqC5d3oeEneZABLvxiCoUFFgZBhmMwwC6C0NfCwXVZAOwBJtAgZDZD",
-   "expires_at"=>1461190586,
-   "expires"=>true},
- "extra"=>{"raw_info"=>{"name"=>"Frank Nowinski", "id"=>"10207528486042900"}}}
+Besides the `uid` and `password`, the programmer is free to use whatever data that Facebook provides to incorporate it into their User intance. For instance, you can  extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop. 
+
+In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
