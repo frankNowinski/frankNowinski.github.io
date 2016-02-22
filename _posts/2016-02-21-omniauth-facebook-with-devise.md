@@ -47,7 +47,7 @@ Earlier when you ran the two commands to install Devise into your rails applicat
 config.omniauth :facebook, "APP_ID", "APP_SECRET"
 {% endhighlight %}
 
-To get an `APP_ID` and `APP_SECRET`  you’ll have to create an app at the <a href="{{https://developers.facebook.com/}}">Facebook Developers website</a>. If this is your first time creating a Facebook app then follow this <a href="{{https://developers.facebook.com/docs/apps/register}}">guide</a> .
+To get an `APP_ID` and `APP_SECRET`  you’ll have to create an app at the [Facebook Developers website](https://developers.facebook.com/). If this is your first time creating a Facebook app then follow this <a href="{{https://developers.facebook.com/docs/apps/register}}">guide</a> .
 
 In order for Devise to be aware that Omniauth exists in your application you’ll need to declare it. Go to your user model and input the following code:
 
