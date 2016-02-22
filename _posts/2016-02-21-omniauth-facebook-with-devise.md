@@ -15,7 +15,6 @@ date: 2016-02-21T19:25:01-05:00
 ---
 Initializing a User Using Omniauth-Facebook with Devise
 
-
 Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to Tech Gaints such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.
 
 Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth with Devise, a popular gem used for user authentication.
@@ -44,40 +43,68 @@ Before you run `rake db:migrate` you’ll need to create a new table to add two 
 
 Now you can run `rake db:migrate`
 
-Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was `config/initializers/devise.rb`. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”
+Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was `config/initializers/devise.rb`. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook `APP_ID` and `APP_SECRET`. Include in `config/initializers/devise.rb`:
 
-Include in config/initializers/devise.rb:
-
+{% highlight ruby linenos %}
 config.omniauth :facebook, "APP_ID", "APP_SECRET"
+{% endhighlight %}
 
-To get an ‘APP_ID’ and ‘APP_SECRET’  you’ll have to create an app at the Facebook Developers website https://developers.facebook.com/. If this is your first time creating a Facebook app then follow this guide: https://developers.facebook.com/docs/apps/register
+To get an `APP_ID` and `APP_SECRET`  you’ll have to create an app at the Facebook Developers website https://developers.facebook.com/. If this is your first time creating a Facebook app then follow this guide: https://developers.facebook.com/docs/apps/register
 
 In order for Devise to be aware that Omniauth exists in your application you’ll need to declare it. Go to your user model and input the following code:
 
+{% highlight ruby linenos %}
 devise :omniauthable, :omniauth providers => [:facebook]
+{% endhighlight %}
 
 This code will create the following routes or url methods:
 
-  user_omniauth_authorize_path(proivider)
+user_omniauth_authorize_path(proivider)
 user_omniauth_callback_path(proivider)
 
 To activate the user_omniauth_authrorize_path you’ll need to display a link in your application. In the view where you would like your user to have the option to sign in through Facebook, input the following link:
 
+{% highlight ruby linenos %}
 <%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %>
+{% endhighlight %}
 
-Although you won’t be explicitly calling the user_omniauth_callback_path, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this url where you’ll have access to their data. To declare this callback url you’ll have to update your ‘config/routes.rb file:
+Although you won’t be explicitly calling the user_omniauth_callback_path, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this url where you’ll have access to their data. To declare this callback url you’ll have to update your `config/routes.rb` file:
 
+{% highlight ruby linenos %}
 devise_for :users, :controllers => { :omniauth_callbacks => “users/omniauth_callbacks” }
+{% endhighlight %}
 
-We’ve specified our url methods that we’ll need to use for our Facebook authentication so now we’ll need to create a controller. Label the controller file “app/controllers/users/omniauth_callbacks_controller.rb” and set up the file like so:
+We’ve specified our url methods that we’ll need to use for our Facebook authentication so now we’ll need to create a controller. Label the controller file `app/controllers/users/omniauth_callbacks_controller.rb` and set up the file like so:
 
-Copy users omniauth section
+{% highlight ruby linenos %}
+class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  def facebook
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
-On line 4 inside the ‘facebook’ method you’ll notice we’re calling the ‘from_omniauth’ method on the User class. To utilize this method we’ll have to define it, so head over to app/models/user.rb and update your file with the following code:
+    @user.save if !@user
+    sign_in_and_redirect @user, :event => :authentication
+    set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+  end
 
-From omniauth method
+  def failure
+    redirect_to root_path
+  end
+end
+{% endhighlight %}
 
-Inside this method we can extract data that is returned to us from Facebook and initialize a new User. The argument of this method (auth) is assigned:
+On line 4 inside the `facebook` method you’ll notice we’re calling a method `from_omniauth` on the User class. To utilize this method we’ll have to define it, so head over to `app/models/user.rb` and update your file with the following code:
+
+{% highlight ruby linenos %}
+def self.from_omniauth(auth)
+  where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+   user.uid = user.uid
+   user.name = auth.info.name
+   user.password = Devise.friendly_token[0,20]
+  end
+end
+{% endhighlight %}
+
+Inside this method we can extract data that is returned to us from Facebook and initialize a new User. Auth, the argument of this method, contains the following data is assigned:
 
 {"provider"=>"facebook",
  "uid"=>"10207528486042900",
