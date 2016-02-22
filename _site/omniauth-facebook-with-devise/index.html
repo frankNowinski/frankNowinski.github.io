@@ -136,30 +136,25 @@ Reading time ~2 minutes
 
 <p>First, you’ll need to include the following gems in your ‘Gemfile’:</p>
 
-<p>gem ‘devise’
-gem ‘omniauth-facebook’</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">gem &#39;devise&#39;
+gem &#39;omniauth-facebook&#39;</code></pre></div>
 
-<p>Now run ‘bundle install’</p>
+<p>Now run <code>bundle install</code></p>
 
 <p>Next, create your User model with Devise by entering the following two commands in your terminal:</p>
 
-<p>rails generate devise:install
-rails g devise User</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">rails generate devise:install
+rails g devise User</code></pre></div>
 
-<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to the following path:</p>
+<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to <code>db/migrate/20160215180931_devise_create_users.rb</code> (your file will have different numbers).</p>
 
-<p>db/migrate/20160215180931_devise_create_users.rb
-(your file will have different numbers)</p>
+<p>Before you run <code>rake db:migrate</code> you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
 
-<p>Before you run ‘rake db:migrate’ you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
+<p><code>rails g migration AddOmniauthToUsers provider:string uid:string</code></p>
 
-<p>rails g migration AddOmniauthToUsers provider:string uid:string</p>
+<p>Now you can run <code>rake db:migrate</code></p>
 
-<p>Now you can run:</p>
-
-<p>rake db:migrate</p>
-
-<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was config/initializers/devise.rb. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
+<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was <code>config/initializers/devise.rb</code>. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
 
 <p>Include in config/initializers/devise.rb:</p>
 

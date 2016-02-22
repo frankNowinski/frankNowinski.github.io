@@ -132,11 +132,11 @@ Reading time ~2 minutes
 
 <p>Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
-<span class="lineno">2</span>   <span class="no">CSV</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
-<span class="lineno">3</span>     <span class="nb">puts</span> <span class="n">row</span>
-<span class="lineno">4</span>   <span class="k">end</span>
-<span class="lineno">5</span> <span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">open(url) do |csv|
+  CSV.parse(csv) do |row|
+    puts row
+  end
+end</code></pre></div>
 
 <p>With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.</p>
 
@@ -146,15 +146,15 @@ Reading time ~2 minutes
 
 <p>I think it’s time for an example. Say we requested to view the name and asking price of Apple’s and Google’s stock. The csv file would look like this:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Apple Inc.&quot;</span><span class="p">,</span> <span class="mi">115</span><span class="o">.</span><span class="mi">46</span>
-<span class="lineno">2</span> <span class="s2">&quot;Alphabet Inc.&quot;</span><span class="p">,</span> <span class="mi">755</span><span class="o">.</span><span class="mi">97</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Apple Inc.&quot;, 115.46
+&quot;Alphabet Inc.&quot;, 755.97</code></pre></div>
 
 <pre>(Alphabet Inc. is Google's parent company)</pre>
 
 <p>The CSV.parse method would then create a new array for each row of data and separately input each value as it’s own String into that array. The final result would be:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="o">[</span><span class="err">“</span><span class="no">Apple</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">115</span><span class="o">.</span><span class="mi">46</span><span class="err">“</span><span class="o">]</span>
-<span class="lineno">2</span> <span class="o">[</span><span class="err">“</span><span class="no">Alphabet</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="err">“</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">[“Apple Inc.“, “115.46“]
+[“Alphabet Inc.“, “755.97“]</code></pre></div>
 
 <p>Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple’s name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple’s price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.’s elements.</p>
 

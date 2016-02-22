@@ -162,30 +162,25 @@ Reading time ~2 minutes
 
 <p>First, you’ll need to include the following gems in your ‘Gemfile’:</p>
 
-<p>gem ‘devise’
-gem ‘omniauth-facebook’</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">gem &#39;devise&#39;
+gem &#39;omniauth-facebook&#39;</code></pre></div>
 
-<p>Now run ‘bundle install’</p>
+<p>Now run <code>bundle install</code></p>
 
 <p>Next, create your User model with Devise by entering the following two commands in your terminal:</p>
 
-<p>rails generate devise:install
-rails g devise User</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">rails generate devise:install
+rails g devise User</code></pre></div>
 
-<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to the following path:</p>
+<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to <code>db/migrate/20160215180931_devise_create_users.rb</code> (your file will have different numbers).</p>
 
-<p>db/migrate/20160215180931_devise_create_users.rb
-(your file will have different numbers)</p>
+<p>Before you run <code>rake db:migrate</code> you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
 
-<p>Before you run ‘rake db:migrate’ you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
+<p><code>rails g migration AddOmniauthToUsers provider:string uid:string</code></p>
 
-<p>rails g migration AddOmniauthToUsers provider:string uid:string</p>
+<p>Now you can run <code>rake db:migrate</code></p>
 
-<p>Now you can run:</p>
-
-<p>rake db:migrate</p>
-
-<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was config/initializers/devise.rb. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
+<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was <code>config/initializers/devise.rb</code>. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
 
 <p>Include in config/initializers/devise.rb:</p>
 
@@ -244,7 +239,7 @@ user_omniauth_callback_path(proivider)</p>
       <span class="entry-reading-time">
         <i class="fa fa-clock-o"></i>
         
-Reading time ~4 minutes
+Reading time ~3 minutes
       </span><!-- /.entry-reading-time -->
       
     </div><!-- /.entry-meta -->
@@ -266,7 +261,7 @@ Reading time ~4 minutes
 
 <p>In Ruby, we rely on the <code>send</code> method to dynamically dispatch. To illustrate how the <code>send</code> method works I’ll use the below example:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Hello, World&quot;</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;reverse&quot;</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(&quot;reverse&quot;)</code></pre></div>
 
 <ul>
   <li>The arguments passed into the send method could be a String or a Symbol.</li>
@@ -274,12 +269,12 @@ Reading time ~4 minutes
 
 <p>Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Hello, World&quot;</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;reverse&quot;</span><span class="p">)</span> <span class="c1">#=&gt; &quot;dlroW ,olleH&quot;</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(&quot;reverse&quot;) #=&gt; &quot;dlroW ,olleH&quot;</code></pre></div>
 
 <p>However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Hello, World&quot;</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">2</span>  <span class="c1">#=&gt; TypeError: no implicit conversion of Fixnum into String</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(:+, 1)
+ #=&gt; TypeError: no implicit conversion of Fixnum into String</code></pre></div>
 
 <hr />
 
@@ -287,18 +282,18 @@ Reading time ~4 minutes
 
 <p>Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;goal&quot;</span><span class="o">=&gt;</span> <span class="p">{</span>
-<span class="lineno">2</span>   <span class="s2">&quot;chest&quot;</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-<span class="lineno">3</span>   <span class="s2">&quot;back&quot;</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-<span class="lineno">4</span>   <span class="s2">&quot;legs&quot;</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-<span class="lineno">5</span>   <span class="s2">&quot;shoulders&quot;</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-<span class="lineno">6</span>   <span class="s2">&quot;arms&quot;</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-<span class="lineno">7</span>   <span class="s2">&quot;cardio&quot;</span><span class="o">=&gt;</span> <span class="mi">120</span>
-<span class="lineno">8</span> <span class="p">}</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;goal&quot;=&gt; {
+  &quot;chest&quot;=&gt; 45,
+  &quot;back&quot;=&gt; 45,
+  &quot;legs&quot;=&gt; 45,
+  &quot;shoulders&quot;=&gt; 30,
+  &quot;arms&quot;=&gt; 30,
+  &quot;cardio&quot;=&gt; 120
+}</code></pre></div>
 
 <p>Our intention is to have the <code>goal</code> hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="n">updated_muscles</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chest&quot;</span><span class="o">=&gt;</span> <span class="mi">40</span><span class="p">,</span>  <span class="s2">&quot;cardio&quot;</span><span class="o">=&gt;</span> <span class="mi">20</span><span class="p">}</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles = {&quot;chest&quot;=&gt; 40,  &quot;cardio&quot;=&gt; 20}</code></pre></div>
 
 <ul>
   <li>We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.</li>
@@ -306,29 +301,29 @@ Reading time ~4 minutes
 
 <p>Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno"> 1</span> <span class="n">updated_muscles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
-<span class="lineno"> 2</span>   <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="lineno"> 3</span>   <span class="k">if</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;chest&quot;</span>
-<span class="lineno"> 4</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:chest</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno"> 5</span>   <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;back&quot;</span>
-<span class="lineno"> 6</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:back</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno"> 7</span>   <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;legs&quot;</span>
-<span class="lineno"> 8</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:legs</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno"> 9</span>   <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;shoulders&quot;</span>
-<span class="lineno">10</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:shoulders</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno">11</span>   <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;arms&quot;</span>
-<span class="lineno">12</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:arms</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno">13</span>   <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">&quot;cardio&quot;</span>
-<span class="lineno">14</span>     <span class="n">goal</span><span class="o">[</span><span class="ss">:cardio</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-<span class="lineno">15</span>   <span class="k">end</span>
-<span class="lineno">16</span> <span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles.each do |muscle, updated_t|
+  original_t = goal.send(&quot;#{muscle}&quot;)
+  if muscle == &quot;chest&quot;
+    goal[:chest] = (original_t - updated_t)
+  elsif muscle == &quot;back&quot;
+    goal[:back] = (original_t - updated_t)
+  elsif muscle == &quot;legs&quot;
+    goal[:legs] = (original_t - updated_t)
+  elsif muscle == &quot;shoulders&quot;
+    goal[:shoulders] = (original_t - updated_t)
+  elsif muscle == &quot;arms&quot;
+    goal[:arms] = (original_t - updated_t)
+  elsif muscle == &quot;cardio&quot;
+    goal[:cardio] = (original_t - updated_t)
+  end
+end</code></pre></div>
 
 <p>Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="n">updated_muscles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
-<span class="lineno">2</span>   <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="lineno">3</span>   <span class="n">goal</span><span class="o">.</span><span class="n">send</span><span class="p">((</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">))</span>
-<span class="lineno">4</span> <span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles.each do |muscle, updated_t|
+  original_t = goal.send(&quot;#{muscle}&quot;)
+  goal.send((&quot;#{muscle}=&quot;), (original_t - updated_t))
+end</code></pre></div>
 
 <p>That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.</p>
 
@@ -336,14 +331,14 @@ Reading time ~4 minutes
 
 <p>Now we can use the value of <code>original_t</code>, subtract it from the value of <code>updated_t</code>, and assign the difference to the original <code>goal</code> hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our <code>goal</code> hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in <code>updated_muscles</code> is iterated over. The updated <code>goal</code> hash would become:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;goal&quot;</span><span class="o">=&gt;</span> <span class="p">{</span>
-<span class="lineno">2</span>   <span class="s2">&quot;chest&quot;</span><span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
-<span class="lineno">3</span>   <span class="s2">&quot;back&quot;</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-<span class="lineno">4</span>   <span class="s2">&quot;legs&quot;</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-<span class="lineno">5</span>   <span class="s2">&quot;shoulders&quot;</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-<span class="lineno">6</span>   <span class="s2">&quot;arms&quot;</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-<span class="lineno">7</span>   <span class="s2">&quot;cardio&quot;</span><span class="o">=&gt;</span> <span class="mi">100</span>
-<span class="lineno">8</span> <span class="p">}</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;goal&quot;=&gt; {
+  &quot;chest&quot;=&gt; 5,
+  &quot;back&quot;=&gt; 45,
+  &quot;legs&quot;=&gt; 45,
+  &quot;shoulders&quot;=&gt; 30,
+  &quot;arms&quot;=&gt; 30,
+  &quot;cardio&quot;=&gt; 100
+}</code></pre></div>
 
 <p>By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?</p>
  -->
@@ -383,11 +378,11 @@ Reading time ~2 minutes
 
 <p>Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
-<span class="lineno">2</span>   <span class="no">CSV</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
-<span class="lineno">3</span>     <span class="nb">puts</span> <span class="n">row</span>
-<span class="lineno">4</span>   <span class="k">end</span>
-<span class="lineno">5</span> <span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">open(url) do |csv|
+  CSV.parse(csv) do |row|
+    puts row
+  end
+end</code></pre></div>
 
 <p>With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.</p>
 
@@ -397,15 +392,15 @@ Reading time ~2 minutes
 
 <p>I think it’s time for an example. Say we requested to view the name and asking price of Apple’s and Google’s stock. The csv file would look like this:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="s2">&quot;Apple Inc.&quot;</span><span class="p">,</span> <span class="mi">115</span><span class="o">.</span><span class="mi">46</span>
-<span class="lineno">2</span> <span class="s2">&quot;Alphabet Inc.&quot;</span><span class="p">,</span> <span class="mi">755</span><span class="o">.</span><span class="mi">97</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Apple Inc.&quot;, 115.46
+&quot;Alphabet Inc.&quot;, 755.97</code></pre></div>
 
 <pre>(Alphabet Inc. is Google's parent company)</pre>
 
 <p>The CSV.parse method would then create a new array for each row of data and separately input each value as it’s own String into that array. The final result would be:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="lineno">1</span> <span class="o">[</span><span class="err">“</span><span class="no">Apple</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">115</span><span class="o">.</span><span class="mi">46</span><span class="err">“</span><span class="o">]</span>
-<span class="lineno">2</span> <span class="o">[</span><span class="err">“</span><span class="no">Alphabet</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="err">“</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">[“Apple Inc.“, “115.46“]
+[“Alphabet Inc.“, “755.97“]</code></pre></div>
 
 <p>Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple’s name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple’s price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.’s elements.</p>
 
