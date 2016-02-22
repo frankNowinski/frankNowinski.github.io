@@ -131,6 +131,114 @@
 
 
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-02-21T19:25:01-05:00"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">February 21, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" rel="bookmark" title="Omniauth Facebook With Devise" itemprop="url">Omniauth Facebook With Devise</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Initializing a User Using Omniauth-Facebook with Devise</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/omniauth-facebook-with-devise//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>Initializing a User Using Omniauth-Facebook with Devise</p>
+
+<p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to Tech Gaints such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
+
+<p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth with Devise, a popular gem used for user authentication.</p>
+
+<p>First, you’ll need to include the following gems in your ‘Gemfile’:</p>
+
+<p>gem ‘devise’
+gem ‘omniauth-facebook’</p>
+
+<p>Now run ‘bundle install’</p>
+
+<p>Next, create your User model with Devise by entering the following two commands in your terminal:</p>
+
+<p>rails generate devise:install
+rails g devise User</p>
+
+<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to the following path:</p>
+
+<p>db/migrate/20160215180931_devise_create_users.rb
+(your file will have different numbers)</p>
+
+<p>Before you run ‘rake db:migrate’ you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
+
+<p>rails g migration AddOmniauthToUsers provider:string uid:string</p>
+
+<p>Now you can run:</p>
+
+<p>rake db:migrate</p>
+
+<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was config/initializers/devise.rb. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
+
+<p>Include in config/initializers/devise.rb:</p>
+
+<p>config.omniauth :facebook, “APP_ID”, “APP_SECRET”</p>
+
+<p>To get an ‘APP_ID’ and ‘APP_SECRET’  you’ll have to create an app at the Facebook Developers website https://developers.facebook.com/. If this is your first time creating a Facebook app then follow this guide: https://developers.facebook.com/docs/apps/register</p>
+
+<p>In order for Devise to be aware that Omniauth exists in your application you’ll need to declare it. Go to your user model and input the following code:</p>
+
+<p>devise :omniauthable, :omniauth providers =&gt; [:facebook]</p>
+
+<p>This code will create the following routes or url methods:</p>
+
+<p>user_omniauth_authorize_path(proivider)
+user_omniauth_callback_path(proivider)</p>
+
+<p>To activate the user_omniauth_authrorize_path you’ll need to display a link in your application. In the view where you would like your user to have the option to sign in through Facebook, input the following link:</p>
+
+<p>&lt;%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %&gt;</p>
+
+<p>Although you won’t be explicitly calling the user_omniauth_callback_path, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this url where you’ll have access to their data. To declare this callback url you’ll have to update your ‘config/routes.rb file:</p>
+
+<p>devise_for :users, :controllers =&gt; { :omniauth_callbacks =&gt; “users/omniauth_callbacks” }</p>
+
+<p>We’ve specified our url methods that we’ll need to use for our Facebook authentication so now we’ll need to create a controller. Label the controller file “app/controllers/users/omniauth_callbacks_controller.rb” and set up the file like so:</p>
+
+<p>Copy users omniauth section</p>
+
+<p>On line 4 inside the ‘facebook’ method you’ll notice we’re calling the ‘from_omniauth’ method on the User class. To utilize this method we’ll have to define it, so head over to app/models/user.rb and update your file with the following code:</p>
+
+<p>From omniauth method</p>
+
+<p>Inside this method we can extract data that is returned to us from Facebook and initialize a new User. The argument of this method (auth) is assigned:</p>
+
+<p>{“provider”=&gt;”facebook”,
+ “uid”=&gt;”10207528486042900”,
+ “info”=&gt;{“name”=&gt;”Frank Nowinski”, “image”=&gt;”http://graph.facebook.com/10207528486042900/picture”},
+ “credentials”=&gt;
+  {“token”=&gt;
+    “CAAMOIT5sGIcBALLCG7IZCcruM7RppvzNQWZClaC9fDtkgiYL1U0QlQVCfe7Euw1yPErZBq0j78osqaPrTZAHIkbGCl7bfiQLGRxLyfo2EI2v23jt4LNB1yCKjFQTA6z5ZC3c91l1kkHAEJU2J8PLj8ZAjF5WBNqC5d3oeEneZABLvxiCoUFFgZBhmMwwC6C0NfCwXVZAOwBJtAgZDZD”,
+   “expires_at”=&gt;1461190586,
+   “expires”=&gt;true},
+ “extra”=&gt;{“raw_info”=&gt;{“name”=&gt;”Frank Nowinski”, “id”=&gt;”10207528486042900”}}}</p>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-01-29T05:46:01-05:00"><a href="http://franknowinski.github.io/dynamic-dispatching/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
       
       <span class="entry-reading-time">

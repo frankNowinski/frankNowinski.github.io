@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://franknowinski.github.io/omniauth-facebook-with-devise/</loc>
+<lastmod>2016-02-21T19:25:01-05:00</lastmod>
+</url>
+<url>
 <loc>http://franknowinski.github.io/dynamic-dispatching/</loc>
 <lastmod>2016-01-29T05:46:01-05:00</lastmod>
 </url>
@@ -29,5 +33,9 @@
 </url>
 <url>
 <loc>http://franknowinski.github.io/theme-setup/</loc>
+</url>
+<url>
+<loc>http://franknowinski.github.io/images/WorkoutTracker.html</loc>
+<lastmod>2016-02-15T13:52:17-05:00</lastmod>
 </url>
 </urlset>
