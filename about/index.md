@@ -2,7 +2,7 @@
 layout: page
 title: About Me
 image:
-  feature: cover-photo.jpg
+  feature: space.jpg
 comments: false
 modified: 2014-12-24
 ---
