@@ -14,9 +14,9 @@ share:
 date: 2016-03-18T17:37:55-04:00
 ---
 
-One essential feature of any good app is responsive and user-friendly forms.  
-
 Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to make for a more seamless user experience. In this blog post I'll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.
+
+<img src="{{ workout.png }}/{{ workout.png }}" alt="{{ workout }}"/>
 
 Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workouts reps from 12 to 15? Wouldn't it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this exceptionally convenient feature can be accomplished with the help of Ajax and JavaScript.
 
@@ -119,4 +119,4 @@ The new workout values will now be transferred to the controller action declared
 
 First, we'll have to assign the workout id to a variable so we could reference it within our jQuery selectors. Next, we'll assign the new values that the user entered into the edit workout form to variable. Then, we'll update the DOM to display the new workout value and remove the `hide-row` class so the span will appear. Lastly, we'll remove the input fields by removing the id field.
 
-Although it was a multistep process, giving your users the ability to update their data without having to be redirected to a new page is a feature worth implementing.
+Although it was a multistep process, giving users the ability to update their data without within the DOM and not have to be redirected to a new page is a feature worth implementing.  
