@@ -30,6 +30,7 @@ I'll be referring to the following code throughout this blog:
   <tr class="workout-rows" data-muscle-group-id="<%= exercise.muscle_group.id %>" data-workout-id="<%= workout.id %>">
 
   <%= form_for [exercise.workout_plan, workout], remote: :true do |f| %>
+    <!-- Either display the html text or the form input -->
     <td>
       <span data-workout-name="<%= workout.id %>"><%= workout.name %></span>
       <%= f.text_field :name, {class: "form-control #{workout.id}-name"}%>
@@ -44,7 +45,19 @@ I'll be referring to the following code throughout this blog:
       <span data-workout-reps="<%= workout.id %>"><%= workout.reps %></span>
       <%= f.text_field :reps, {class: "form-control #{workout.id}-reps"} %>
     </td>
+    <!-- So the user can press enter to submit the form -->
     <%= f.submit style: 'display: none;' %>
   <% end %>
+
+  <td><%= link_to 'Edit', edit_workout_plan_workout_path(current_user.current_plan, workout), class: 'edit-link', remote: :true %></td>
+  <td><%= link_to 'X', workout_plan_destroy_workout_path(workout.exercise.workout_plan, workout), data: {id: workout.id }, method: :delete, remote: :true %></td>
 <% end %>
+{% endhighlight %}
+
+Within each table data field we have the capability to either render text or an input form depending on what element we choose to show/hide. To begin with we'll want to display the workout text so we'll need to hide the input form field. Without even assigning a class to inputs field we can accomplish this task by writing some basic CSS:
+
+{% highlight css %}
+.workout-rows input {
+  display: none;
+}
 {% endhighlight %}
