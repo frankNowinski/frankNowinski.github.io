@@ -54,10 +54,67 @@ I'll be referring to the following code throughout this blog:
 <% end %>
 {% endhighlight %}
 
-Within each table data field we have the capability to either render text or an input form depending on what element we choose to show/hide. To begin with we'll want to display the workout text so we'll need to hide the input form field. Without even assigning a class to inputs field we can accomplish this task by writing some basic CSS:
+Within each table data field we have the capability to either render text or an input form depending on what element we choose to show/hide. To begin with we'll want to display the workout text so we'll need to hide the input form field. Without even assigning a class to the input fields we can accomplish this task by writing some basic CSS:
 
 {% highlight css %}
 .workout-rows input {
   display: none;
 }
+{% endhighlight %}
+
+Now all of the input fields will default to being hidden within the DOM unless told otherwise.
+
+The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the 'Edit' link. To achieve this we'll have to create an event listener that will perform this function whenever an 'Edit' link gets clicked:
+
+{% highlight javascript %}
+  $('a.edit-link').click(function(){
+    var workoutRow = $(this).parents('tr')
+
+    // Hide plain text workout row and display edit workout input form
+    $('span', workoutRow).addClass('hide-row');
+    $('input', workoutRow).attr('id', 'edit-workout')
+  });
+{% endhighlight %}
+
+First, we're tracking down what particular workout row we're dealing with. Then, we can conceal the span element showing the plain html by adding the 'hide-row' class, and we can display the edit workout input by adding the 'edit-workout' id to the input fields.
+
+Now that the user has upgraded their workout to fulfill their beast mode requirements, we'll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
+
+Remote true makes capturing the inputted values and transferring it to the backend server a piece  of cake. All you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
+
+{% highlight javascript %}
+  $('form').submit(function(event){
+    event.preventDefault();
+  })
+{% endhighlight %}
+
+The new workout values will now be transferred to the controller action declared in the form where you can now successfully update your database. Okay, your database reflects the  correct values for this particular workout but we'll have to write some JavaScript if we want these values to appear in the DOM. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript by the title of that action. In the case of my application, rails explicitly rendered `views/workouts/update.js.erb` where I displayed the following code:
+
+{% highlight javascript %}
+var workoutId = <%= @workout.id %>
+
+// Assign inputed values to be updated to variables
+var workoutName = $('input.' + workoutId +'-name').val();
+var workoutSets = $('input.' + workoutId +'-sets').val();
+var workoutReps = $('input.' + workoutId +'-reps').val();
+
+
+// Display new workout values in DOM
+$('span[data-workout-name="' + workoutId + '"]').text(workoutName)
+$('span[data-workout-name="' + workoutId + '"]').toggleClass('hide-row')
+
+
+$('span[data-workout-sets="' + workoutId + '"]').text(workoutSets)
+$('span[data-workout-sets="' + workoutId + '"]').toggleClass('hide-row')
+
+$('span[data-workout-reps="' + workoutId + '"]').text(workoutReps)
+$('span[data-workout-reps="' + workoutId + '"]').toggleClass('hide-row')
+
+// $('span.' + workoutId + '-sets').text(workoutSets)
+// $('span.' + workoutId + '-sets').removeClass('hide-row')
+
+// Remove input fields from DOM
+$('input.' + workoutId +'-name').removeAttr('id')
+$('input.' + workoutId +'-sets').removeAttr('id')
+$('input.' + workoutId +'-reps').removeAttr('id')  
 {% endhighlight %}
