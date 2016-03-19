@@ -26,7 +26,7 @@ I'll be referring to the following code throughout this blog:
 
 {% highlight erb linenos %}
 <% exercise.workouts.each do |workout| %>
-  # Workout row
+  <!-- Workout row -->
   <tr class="workout-rows" data-muscle-group-id="<%= exercise.muscle_group.id %>" data-workout-id="<%= workout.id %>">
 
   <%= form_for [exercise.workout_plan, workout], remote: :true do |f| %>
