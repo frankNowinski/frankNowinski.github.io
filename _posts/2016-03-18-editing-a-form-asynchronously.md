@@ -22,7 +22,7 @@ But what happens if the user wants to enter beast mode and increase their reps f
 
 Implementing this feature is complex, and requires a lot of moving components so it would be best to break it down into small, manageable parts. Our first obstacle is setting up our DOM so we could either display the table data (the workout) or the form for the user to edit their workout. Here, we can assign a particular class to the element that we want to display and a class to the elements we want to hide.
 
-{% highlight ruby linenos %}
+{% highlight erb linenos %}
 <% exercise.workouts.each do |workout| %>
   <tr class="workout-rows" data-muscle-group-id="<%= exercise.muscle_group.id %>" data-workout-id="<%= workout.id %>">
 
