@@ -15,7 +15,8 @@ date: 2016-03-18T17:37:55-04:00
 ---
 
 Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to make for a more seamless user experience. In this blog post I'll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.
-<img src="{{ /images/workout.png }}" alt="{{ workout }}"/>
+
+<img src="{{ /images/workout.png }}/{{ /images/workout.png }}" alt="{{ include.title }}"/>
 
 Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workouts reps from 12 to 15? Wouldn't it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this exceptionally convenient feature can be accomplished with the help of Ajax and JavaScript.
 
