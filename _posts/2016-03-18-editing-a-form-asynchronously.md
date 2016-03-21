@@ -64,7 +64,7 @@ Now all of the input fields will default to being hidden within the DOM unless t
 The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
 
 {% highlight javascript linenos %}
-  $('a.edit-link').click(function(){
+  $('tbody').on('click', 'a.edit-link', function(){
     var workoutRow = $(this).parents('tr')
 
     // Hide workout values and display edit workout input form
