@@ -14,11 +14,11 @@ share:
 date: 2016-03-18T17:37:55-04:00
 ---
 
-Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to make for a more seamless user experience. In this blog post I'll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.
+Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to create a more seamless user experience. In this blog post I'll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.
 
-Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workout reps from 12 to 15? Wouldn't it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this exceptionally convenient feature can be accomplished with Ajax and JavaScript.
+Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workout reps from 12 to 15? Wouldn't it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this convenient feature can be accomplished with Ajax and JavaScript.
 
-Implementing this feature is complex and requires a lot of moving components so it would be best to break it down into small, manageable parts. The first obstacle is setting up the DOM so it could either display the table data (the workout) or the form for the user to edit their workout. Initially, the workout values should be displayed in the DOM, and then when the user clicks the 'Edit' link it should hide the workout data and display an input form. So, within each workout row, the table data will either reflect html text or a form. Since we'll be toggling between these two options, we can designate a particular id/class to the elements I want to display and an id/class to the elements I want to hide.
+Implementing this feature is complex and requires a lot of moving components so it would be best to break it down into small, manageable parts. The first obstacle is setting up the DOM so it either displays the table data (the workout) or the form for the user to edit their workout. Initially, the workout values should be displayed in the DOM, and then when the user clicks the 'Edit' link it should hide the workout data and display an input form. So, within each workout row, the table data will either reflect html text or a form. Since we'll be toggling between these two options, we can designate a particular id/class to the elements I want to display and an id/class to the elements I want to hide.
 
 Below you can view the code I used to implement this functionality:
 
@@ -51,7 +51,7 @@ Below you can view the code I used to implement this functionality:
   workout), class: 'edit-link', remote: :true %></td>
 {% endhighlight %}
 
-Within each table data field I have the capability to either render text or an input form depending on what element I  choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
+Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
 
 {% highlight ruby linenos %}
 .workout-rows input {
@@ -95,7 +95,6 @@ The new workout values will be sent to the controller action declared in the for
     var workoutName = $('input.' + workoutId +'-name').val();
     var workoutSets = $('input.' + workoutId +'-sets').val();
     var workoutReps = $('input.' + workoutId +'-reps').val();
-
 
     // Display new workout values in DOM
     $('span[data-workout-name="' + workoutId + '"]').text(workoutName);
