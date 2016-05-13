@@ -5,6 +5,10 @@ body {
   background-color: $body-color;
 }
 
+pre {
+    white-space: pre-wrap;
+}
+
 // Main
 // --------------------------------------------------
 .entry,

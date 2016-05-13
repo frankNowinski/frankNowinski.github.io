@@ -63,7 +63,7 @@ The above code creates these two routes or url methods:
 
  To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
 
-{% highlight ruby linenos %}
+{% highlight erb linenos %}
 <%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %>
 {% endhighlight %}
 
