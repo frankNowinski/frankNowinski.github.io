@@ -22,7 +22,7 @@ Implementing this feature is complex and requires a lot of moving components so 
 
 Below you can view the code I used to implement this functionality:
 
-{% highlight erb linenos %}
+{% highlight ruby linenos %}
 <% exercise.workouts.each do |workout| %>
   <!-- Workout row -->
   <tr class="workout-rows" data-muscle-group-id="<%= exercise.muscle_group.id %>" data-workout-id="<%= workout.id %>">

@@ -160,9 +160,13 @@ Reading time ~2 minutes
 
 <p>In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
-<p>RSpotify::authenticate(ENV[“SPOTIFY_CLIENT”], ENV[“SPOTIFY_SECRET”])</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>Then, in <code>config/initializers/omniauth.rb</code> include:</p>
+
+
+Then, in `config/initializers/omniauth.rb` include:
+
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
@@ -177,20 +181,20 @@ Reading time ~2 minutes
 
 
 
-By including the `user-top-read` scope, you’ll receive an access token which authorizes your application to access a users top artists. You can access additional user information by including other scopes found here.
+By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found here.
 
-Create a link in your app so the user can log in to their Spotify account and give you permission to access their top artists:
+Provide a link anywhere you'd like in your app so the user can log in to their Spotify account:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">‘</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Spotify</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span> <span class="cp">%&gt;</span><span class="w">
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="o">&lt;</span><span class="sx">%= link_to ‘Sign in with Spotify’, ‘/auth/spotify’ %&gt;</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
 
-Now we’ll need to create a callback so we can manipulate the data that’s returned to us. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
+Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre>get ‘/auth/spotify/callback’, to: ‘users/spotify’<span class="w">
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">get</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="o">/</span><span class="n">callback</span><span class="err">’</span><span class="p">,</span> <span class="ss">to: </span><span class="err">‘</span><span class="n">users</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
@@ -201,23 +205,23 @@ After you retrieve the access token you’re ready to make a request to the Spot
 The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s API guidelines:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
 3
 4
 5
-6</pre></td><td class="code"><pre>http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
-    http.headers['Accept'] = 'application/json',
-    http.headers['Authorization'] = "Bearer #{token}"
-  end.body_str
+6</pre></td><td class="code"><pre><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">body_str</span>
 
-  JSON.parse(http)<span class="w">
+  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
 
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -259,7 +263,7 @@ Reading time ~5 minutes
 
 <p>Below you can view the code I used to implement this functionality:</p>
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
 3
 4
@@ -284,32 +288,32 @@ Reading time ~5 minutes
 23
 24
 25
-26</pre></td><td class="code"><pre><span class="cp">&lt;%</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">workouts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="cp">%&gt;</span>
-  <span class="c">&lt;!-- Workout row --&gt;</span>
-  <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"workout-rows"</span> <span class="na">data-muscle-group-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">muscle_group</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">data-workout-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+26</pre></td><td class="code"><pre><span class="o">&lt;</span><span class="sx">% exercise.workouts.each </span><span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="sx">%&gt;
+  &lt;!-- Workout row --&gt;</span>
+  <span class="o">&lt;</span><span class="n">tr</span> <span class="k">class</span><span class="o">=</span><span class="s2">"workout-rows"</span> <span class="n">data</span><span class="o">-</span><span class="n">muscle</span><span class="o">-</span><span class="n">group</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s2">"&lt;%= exercise.muscle_group.id %&gt;"</span> <span class="n">data</span><span class="o">-</span><span class="n">workout</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s2">"&lt;%= workout.id %&gt;"</span><span class="o">&gt;</span>
 
-  <span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="p">[</span><span class="n">exercise</span><span class="p">.</span><span class="nf">workout_plan</span><span class="p">,</span> <span class="n">workout</span><span class="p">],</span> <span class="ss">remote: :true</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
-    <span class="c">&lt;!-- Either display the html text or the form input --&gt;</span>
-    <span class="nt">&lt;td&gt;</span>
-      <span class="nt">&lt;span</span> <span class="na">data-workout-name=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
-      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-name"</span><span class="p">}</span><span class="cp">%&gt;</span>
-    <span class="nt">&lt;/td&gt;</span>
+  <span class="o">&lt;</span><span class="sx">%= form_for [exercise.workout_plan, workout], remote: :true do |f| %&gt;
+    &lt;!-- Either display the html text or the form input --&gt;
+    &lt;td&gt;
+      &lt;span data-workout-name=</span><span class="s2">"&lt;%= workout.id %&gt;"</span><span class="o">&gt;&lt;</span><span class="sx">%= workout.name %&gt;&lt;/span&gt;
+      &lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-name"</span><span class="p">}</span><span class="o">%&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/td&gt;
 
-    <span class="nt">&lt;td&gt;</span>
-      <span class="nt">&lt;span</span> <span class="na">data-workout-sets=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">sets</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
-      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:sets</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-sets"</span><span class="p">}</span> <span class="cp">%&gt;</span>
-    <span class="nt">&lt;/td&gt;</span>
+    &lt;td&gt;
+      &lt;span data-workout-sets="&lt;%= workout.id %&gt;"&gt;&lt;%= workout.sets %&gt;&lt;/s</span><span class="n">pan</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="sx">%= f.text_field :sets, {class: "form-control #{workout.id}-sets"} %&gt;
+    &lt;/td&gt;
 
-    <span class="nt">&lt;td&gt;</span>
-      <span class="nt">&lt;span</span> <span class="na">data-workout-reps=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">reps</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
-      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:reps</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-reps"</span><span class="p">}</span> <span class="cp">%&gt;</span>
-    <span class="nt">&lt;/td&gt;</span>
-    <span class="c">&lt;!-- So the user can press enter to submit the form --&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">submit</span> <span class="ss">style: </span><span class="s1">'display: none;'</span> <span class="cp">%&gt;</span>
-  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    &lt;td&gt;
+      &lt;span data-workout-reps=</span><span class="s2">"&lt;%= workout.id %&gt;"</span><span class="o">&gt;&lt;</span><span class="sx">%= workout.reps %&gt;&lt;/span&gt;
+      &lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:reps</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-reps"</span><span class="p">}</span> <span class="o">%&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/td&gt;
+    &lt;!-- So the user can press enter to submit the form --&gt;
+    &lt;%= f.submit style: 'display: none;' %&gt;
+  &lt;% end %&gt;
 
-  <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_workout_plan_workout_path</span><span class="p">(</span><span class="n">current_user</span><span class="p">.</span><span class="nf">current_plan</span><span class="p">,</span>
-  <span class="n">workout</span><span class="p">),</span> <span class="ss">class: </span><span class="s1">'edit-link'</span><span class="p">,</span> <span class="ss">remote: :true</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span><span class="w">
+  &lt;td&gt;&lt;%= link_to 'Edit', edit_workout_plan_workout_path(current_user.current_plan,
+  workout), class: 'edit-link', remote: :true %&gt;&lt;/</span><span class="n">td</span><span class="o">&gt;</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 

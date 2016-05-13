@@ -134,9 +134,13 @@ Reading time ~2 minutes
 
 <p>In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
-<p>RSpotify::authenticate(ENV[“SPOTIFY_CLIENT”], ENV[“SPOTIFY_SECRET”])</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>Then, in <code>config/initializers/omniauth.rb</code> include:</p>
+
+
+Then, in `config/initializers/omniauth.rb` include:
+
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
@@ -151,20 +155,20 @@ Reading time ~2 minutes
 
 
 
-By including the `user-top-read` scope, you’ll receive an access token which authorizes your application to access a users top artists. You can access additional user information by including other scopes found here.
+By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found here.
 
-Create a link in your app so the user can log in to their Spotify account and give you permission to access their top artists:
+Provide a link anywhere you'd like in your app so the user can log in to their Spotify account:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">‘</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Spotify</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span> <span class="cp">%&gt;</span><span class="w">
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="o">&lt;</span><span class="sx">%= link_to ‘Sign in with Spotify’, ‘/auth/spotify’ %&gt;</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
 
-Now we’ll need to create a callback so we can manipulate the data that’s returned to us. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
+Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre>get ‘/auth/spotify/callback’, to: ‘users/spotify’<span class="w">
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">get</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="o">/</span><span class="n">callback</span><span class="err">’</span><span class="p">,</span> <span class="ss">to: </span><span class="err">‘</span><span class="n">users</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
@@ -175,23 +179,23 @@ After you retrieve the access token you’re ready to make a request to the Spot
 The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s API guidelines:
 
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
 3
 4
 5
-6</pre></td><td class="code"><pre>http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
-    http.headers['Accept'] = 'application/json',
-    http.headers['Authorization'] = "Bearer #{token}"
-  end.body_str
+6</pre></td><td class="code"><pre><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">body_str</span>
 
-  JSON.parse(http)<span class="w">
+  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
 
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>

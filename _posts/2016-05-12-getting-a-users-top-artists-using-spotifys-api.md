@@ -19,7 +19,9 @@ To integrate Spotify’s API into your app, add `gem 'rspotify'` to your Gemfile
 
 In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In `application.rb` add:
 
-RSpotify::authenticate(ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"])
+{% highlight ruby linenos %}
+  RSpotify::authenticate(ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"])
+{% endhighlight %}
 
 Then, in `config/initializers/omniauth.rb` include:
 
@@ -31,17 +33,17 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 {% endhighlight %}
 
-By including the `user-top-read` scope, you’ll receive an access token which authorizes your application to access a users top artists. You can access additional user information by including other scopes found here.
+By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found here.
 
-Create a link in your app so the user can log in to their Spotify account and give you permission to access their top artists:
+Provide a link anywhere you'd like in your app so the user can log in to their Spotify account:
 
-{% highlight erb linenos %}
+{% highlight ruby linenos %}
   <%= link_to ‘Sign in with Spotify’, ‘/auth/spotify’ %>
 {% endhighlight %}
 
-Now we’ll need to create a callback so we can manipulate the data that’s returned to us. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
+Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
 
-{% highlight erb linenos %}
+{% highlight ruby linenos %}
   get ‘/auth/spotify/callback’, to: ‘users/spotify’
 {% endhighlight %}
 
@@ -50,7 +52,7 @@ You can now access basic user information such as name and email address as well
 After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL, I relied on the `curb` gem. To install `curb` into your application simply include `gem 'curb'` in your `Gemfile` and run `bundle`.
 The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s API guidelines:
 
-{% highlight erb linenos %}
+{% highlight ruby linenos %}
   http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
     http.headers['Accept'] = 'application/json',
     http.headers['Authorization'] = "Bearer #{token}"
