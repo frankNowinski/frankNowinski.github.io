@@ -49,6 +49,7 @@ Below you can view the code I used to implement this functionality:
 
   <td><%= link_to 'Edit', edit_workout_plan_workout_path(current_user.current_plan,
   workout), class: 'edit-link', remote: :true %></td>
+<% end %>
 {% endhighlight %}
 
 Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
@@ -64,13 +65,13 @@ Now all of the input fields will default to being hidden within the DOM unless t
 The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
 
 {% highlight javascript linenos %}
-  $('tbody').on('click', 'a.edit-link', function(){
-    var workoutRow = $(this).parents('tr')
+$('tbody').on('click', 'a.edit-link', function(){
+  var workoutRow = $(this).parents('tr')
 
-    // Hide workout values and display edit workout input form
-    $('span', workoutRow).addClass('hide-row');
-    $('input', workoutRow).attr('id', 'edit-workout')
-  });
+  // Hide workout values and display edit workout input form
+  $('span', workoutRow).addClass('hide-row');
+  $('input', workoutRow).attr('id', 'edit-workout')
+});
 {% endhighlight %}
 
 First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
@@ -80,37 +81,37 @@ Now that the user has upgraded their workout to fulfill their beast mode require
 Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
 
 {% highlight javascript linenos %}
-  $('form').submit(function(event){
-    event.preventDefault();
-  })
+$('form').submit(function(event){
+  event.preventDefault();
+})
 {% endhighlight %}
 
 The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
 
 {% highlight javascript linenos %}
-  $(function(){
-    var workoutId = <%= @workout.id %>;
+$(function(){
+  var workoutId = <%= @workout.id %>;
 
-    // Assign updated workout values to variables
-    var workoutName = $('input.' + workoutId +'-name').val();
-    var workoutSets = $('input.' + workoutId +'-sets').val();
-    var workoutReps = $('input.' + workoutId +'-reps').val();
+  // Assign updated workout values to variables
+  var workoutName = $('input.' + workoutId +'-name').val();
+  var workoutSets = $('input.' + workoutId +'-sets').val();
+  var workoutReps = $('input.' + workoutId +'-reps').val();
 
-    // Display new workout values in DOM
-    $('span[data-workout-name="' + workoutId + '"]').text(workoutName);
-    $('span[data-workout-name="' + workoutId + '"]').toggleClass('hide-row');
+  // Display new workout values in DOM
+  $('span[data-workout-name="' + workoutId + '"]').text(workoutName);
+  $('span[data-workout-name="' + workoutId + '"]').toggleClass('hide-row');
 
-    $('span[data-workout-sets="' + workoutId + '"]').text(workoutSets);
-    $('span[data-workout-sets="' + workoutId + '"]').toggleClass('hide-row');
+  $('span[data-workout-sets="' + workoutId + '"]').text(workoutSets);
+  $('span[data-workout-sets="' + workoutId + '"]').toggleClass('hide-row');
 
-    $('span[data-workout-reps="' + workoutId + '"]').text(workoutReps);
-    $('span[data-workout-reps="' + workoutId + '"]').toggleClass('hide-row');
+  $('span[data-workout-reps="' + workoutId + '"]').text(workoutReps);
+  $('span[data-workout-reps="' + workoutId + '"]').toggleClass('hide-row');
 
-    // Remove input fields from DOM
-    $('input.' + workoutId +'-name').removeAttr('id');
-    $('input.' + workoutId +'-sets').removeAttr('id');
-    $('input.' + workoutId +'-reps').removeAttr('id');
-  });
+  // Remove input fields from DOM
+  $('input.' + workoutId +'-name').removeAttr('id');
+  $('input.' + workoutId +'-sets').removeAttr('id');
+  $('input.' + workoutId +'-reps').removeAttr('id');
+});
 {% endhighlight %}
 
 First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.

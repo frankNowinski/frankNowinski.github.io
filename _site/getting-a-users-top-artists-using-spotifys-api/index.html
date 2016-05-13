@@ -130,7 +130,7 @@ Reading time ~2 minutes
     <div class="entry-content">
       <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the “User’s Top Artists and Tracks” endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.</p>
 
-<p>To integrate Spotify’s API into your app, add <code>gem 'rspotify'</code> to your Gemfile and run <code>bundle</code>.</p>
+<p>To integrate Spotify’s API into your app add <code>gem 'rspotify'</code> to your Gemfile and run <code>bundle</code>.</p>
 
 <p>In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
@@ -157,7 +157,7 @@ Then, in `config/initializers/omniauth.rb` include:
 
 
 
-By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
+By including the `user-top-read` scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted to log in, you'll be granted an access token that you will later use to access their top artists. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
 Provide a link anywhere you'd like in your app so the user can log into their Spotify account:
 
@@ -175,11 +175,11 @@ Now, we’ll need to create a callback so we can manipulate the data that’s re
 
 
 
-You can now access basic user information such as name and email address as well as a unique access token in the spotify action of your app.
+You now have access to basic user information such as name and email address as well as the unique access token in the spotify action of your app.
 
 After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL I relied on the `curb` gem. To install `curb` into your application simply include `gem 'curb'` in your `Gemfile` and run `bundle`.
 
-The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s guidelines for the 'Users Top Artist' endpoint:
+The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the 'Users Top Artist' endpoint:
 
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
@@ -188,16 +188,16 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 4
 5
 6</pre></td><td class="code"><pre><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
-    <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">end</span><span class="p">.</span><span class="nf">body_str</span>
+  <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span><span class="p">.</span><span class="nf">body_str</span>
 
-  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span><span class="w">
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll receive a list of the users top artists.
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, call `JSON.parse` on the http request and you're done! You’ll receive a list of how many artists you specified in the limit query.
 
 You can take a look at all the other endpoints Spotify's APi offers <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
