@@ -47,10 +47,11 @@ Now, we’ll need to create a callback so we can manipulate the data that’s re
   get ‘/auth/spotify/callback’, to: ‘users/spotify’
 {% endhighlight %}
 
-You can now access basic user information such as name and email address as well as a unique access token in the spotify action.
+You can now access basic user information such as name and email address as well as a unique access token in the spotify action of your app.
 
-After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL, I relied on the `curb` gem. To install `curb` into your application simply include `gem 'curb'` in your `Gemfile` and run `bundle`.
-The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s API guidelines:
+After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL I relied on the `curb` gem. To install `curb` into your application simply include `gem 'curb'` in your `Gemfile` and run `bundle`.
+
+The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s guidelines for the 'Users Top Artist' endpoint:
 
 {% highlight ruby linenos %}
   http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
@@ -62,3 +63,7 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 {% endhighlight %}
 
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
+
+You can take a look at all the other endpoints Spotfiy offers with their API [here]:(https://developer.spotify.com/web-api/endpoint-reference/).
+
+[https://developer.spotify.com/web-api/endpoint-reference/]({% post_url 2010-07-21-name-of-post %})

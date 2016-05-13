@@ -6,9 +6,9 @@ categories:
 description:
 tags: []
 image:
-  feature:
-  credit:
-  creditlink:
+feature:
+credit:
+creditlink:
 comments:
 share:
 date: 2016-02-21T19:25:01-05:00
@@ -61,10 +61,10 @@ The above code creates these two routes or url methods:
 `user_omniauth_authorize_path(proivider)`
 `user_omniauth_callback_path(proivider)`
 
- To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
+To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
 
 {% highlight erb linenos %}
-<%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %>
+  <%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %>
 {% endhighlight %}
 
 Although you won’t be explicitly calling `user_omniauth_callback_path` in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your `config/routes.rb` file:
@@ -77,17 +77,17 @@ Now we’ll need to create a controller so we can create users with Facebook's a
 
 {% highlight ruby linenos %}
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def facebook
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+def facebook
+@user = User.from_omniauth(request.env["omniauth.auth"])
 
-    @user.save if !@user
-    sign_in_and_redirect @user, :event => :authentication
-    set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
-  end
+@user.save if !@user
+sign_in_and_redirect @user, :event => :authentication
+set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+end
 
-  def failure
-    redirect_to root_path
-  end
+def failure
+redirect_to root_path
+end
 end
 {% endhighlight %}
 
@@ -95,10 +95,10 @@ On line 3 inside the `facebook` method you’ll notice we’re calling the `from
 
 {% highlight ruby linenos %}
 def self.from_omniauth(auth)
-  where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-   user.name = auth.info.name
-   user.password = Devise.friendly_token[0,20]
-  end
+where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+user.name = auth.info.name
+user.password = Devise.friendly_token[0,20]
+end
 end
 {% endhighlight %}
 
