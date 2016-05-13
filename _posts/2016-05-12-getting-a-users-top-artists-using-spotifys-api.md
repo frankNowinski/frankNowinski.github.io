@@ -29,15 +29,16 @@ Then, in `config/initializers/omniauth.rb` include:
 require 'rspotify/oauth'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :spotify, ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"], scope: 'user-read-email user-top-read'
+  provider :spotify, ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"],
+  scope: 'user-read-email user-top-read'
 end
 {% endhighlight %}
 
 By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
-Provide a link anywhere you'd like in your app so the user can log in to their Spotify account:
+Provide a link anywhere you'd like in your app so the user can log into their Spotify account:
 
-{% highlight ruby linenos %}
+{% highlight erb linenos %}
   <%= link_to ‘Sign in with Spotify’, ‘/auth/spotify’ %>
 {% endhighlight %}
 
@@ -62,6 +63,6 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
   JSON.parse(http)
 {% endhighlight %}
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll receive a list of the users top artists.
 
-You can take a look at all the other endpoints Spotify offers with their API <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
+You can take a look at all the other endpoints Spotify's APi offers <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.

@@ -172,10 +172,12 @@ Then, in `config/initializers/omniauth.rb` include:
 2
 3
 4
-5</pre></td><td class="code"><pre><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
+5
+6</pre></td><td class="code"><pre><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
 
 <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
-  <span class="n">provider</span> <span class="ss">:spotify</span><span class="p">,</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">],</span> <span class="ss">scope: </span><span class="s1">'user-read-email user-top-read'</span>
+  <span class="n">provider</span> <span class="ss">:spotify</span><span class="p">,</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">],</span>
+  <span class="ss">scope: </span><span class="s1">'user-read-email user-top-read'</span>
 <span class="k">end</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
@@ -183,10 +185,10 @@ Then, in `config/initializers/omniauth.rb` include:
 
 By including the `user-top-read` scope you're asking the user for permission to access their data. If the user accepts, you'll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
-Provide a link anywhere you'd like in your app so the user can log in to their Spotify account:
+Provide a link anywhere you'd like in your app so the user can log into their Spotify account:
 
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="o">&lt;</span><span class="sx">%= link_to ‘Sign in with Spotify’, ‘/auth/spotify’ %&gt;</span><span class="w">
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">‘</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Spotify</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span> <span class="cp">%&gt;</span><span class="w">
 </span></pre></td></tr></tbody></table>
 
 
@@ -221,9 +223,9 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 
 
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll receive a list of the users top artists.
 
-You can take a look at all the other endpoints Spotify offers with their API <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
+You can take a look at all the other endpoints Spotify's APi offers <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
