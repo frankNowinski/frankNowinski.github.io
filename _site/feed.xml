@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-12T23:13:29-04:00</updated>
+<updated>2016-05-12T23:16:54-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -52,7 +52,7 @@ Then, in `config/initializers/omniauth.rb` include:
 
 
 
-By including the `user-top-read` scope you&#39;re asking the user for permission to access their data. If the user accepts, you&#39;ll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found here.
+By including the `user-top-read` scope you&#39;re asking the user for permission to access their data. If the user accepts, you&#39;ll be granted an access token which you will later need to access their top artists. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.
 
 Provide a link anywhere you&#39;d like in your app so the user can log in to their Spotify account:
 
@@ -94,7 +94,7 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
 
-You can take a look at all the other endpoints Spotify offers with their API &lt;a href=&quot;https://developer.spotify.com/web-api/endpoint-reference/&quot;&gt;here&lt;/a&gt;.
+You can take a look at all the other endpoints Spotify offers with their API &lt;a href=&quot;https://developer.spotify.com/web-api/endpoint-reference/&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/&quot;&gt;Getting a Users Top Artists Using Spotify&#39;s API&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on May 12, 2016.&lt;/p&gt;
