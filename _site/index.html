@@ -158,7 +158,7 @@ Reading time ~2 minutes
 
 <p>To integrate Spotify’s API into your app add <code>gem 'rspotify'</code> to your Gemfile and run <code>bundle</code>.</p>
 
-<p>In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
+<p>In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive sensitive user information. This can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span><span class="w">
 </span></pre></td></tr></tbody></table>
@@ -185,7 +185,7 @@ Then, in `config/initializers/omniauth.rb` include:
 
 By including the `user-top-read` scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you'll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
-Provide a link anywhere you'd like in your app so the user can log into their Spotify account:
+Next, provide a link anywhere you'd like in your app so the user can log into their Spotify account:
 
 
 <div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Sign in with Spotify"</span><span class="p">,</span> <span class="s2">"/auth/spotify"</span> <span class="cp">%&gt;</span><span class="w">
@@ -223,9 +223,9 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 
 
 
-You can request a minimum of one or a maximum of fifty top artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http variable as an argument to the `JSON.parse` method and you're done! You’ll receive a list of how many artists you specified in the limit query.
+You can request a minimum of one or a maximum of fifty top artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http variable as an argument to the `JSON.parse` method and you're done!
 
-You can take a look at all the other endpoints Spotify's APi offers <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
+View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->

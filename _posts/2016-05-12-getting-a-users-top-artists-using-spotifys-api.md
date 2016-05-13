@@ -17,7 +17,7 @@ Spotify’s API has a whole host of endpoints that allow programmers to extract 
 
 To integrate Spotify’s API into your app add `gem 'rspotify'` to your Gemfile and run `bundle`.
 
-In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In `application.rb` add:
+In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive sensitive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
 
 {% highlight ruby linenos %}
 RSpotify::authenticate(ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"])
@@ -36,7 +36,7 @@ end
 
 By including the `user-top-read` scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you'll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
-Provide a link anywhere you'd like in your app so the user can log into their Spotify account:
+Next, provide a link anywhere you'd like in your app so the user can log into their Spotify account:
 
 {% highlight erb linenos %}
 <%= link_to "Sign in with Spotify", "/auth/spotify" %>
@@ -63,6 +63,6 @@ end.body_str
 JSON.parse(http)
 {% endhighlight %}
 
-You can request a minimum of one or a maximum of fifty top artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http variable as an argument to the `JSON.parse` method and you're done! You’ll receive a list of how many artists you specified in the limit query.
+You can request a minimum of one or a maximum of fifty top artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http variable as an argument to the `JSON.parse` method and you're done!
 
-You can take a look at all the other endpoints Spotify's APi offers <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
+View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
