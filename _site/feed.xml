@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-12T22:55:09-04:00</updated>
+<updated>2016-05-12T23:01:37-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -74,7 +74,7 @@ You can now access basic user information such as name and email address as well
 
 After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
 
-The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s guidelines for the &#39;Users Top Artist&#39; endpoint: 
+The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s guidelines for the &#39;Users Top Artist&#39; endpoint:
 
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
@@ -93,6 +93,8 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 
 
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
+
+You can take a look at all the other endpoints Spotfiy offers with their API [here]:(https://developer.spotify.com/web-api/endpoint-reference/).
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/&quot;&gt;Getting a Users Top Artists Using Spotify&#39;s API&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on May 12, 2016.&lt;/p&gt;
