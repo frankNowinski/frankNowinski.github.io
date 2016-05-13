@@ -70,7 +70,7 @@
       <a href="#">About</a>
       <ul class="dl-submenu">
         <li>
-          <img src="http://franknowinski.github.io/images/cover-photo.jpg" alt="Frank Nowisnki photo" class="author-photo">
+          <img src="http://franknowinski.github.io/images/space.jpg" alt="Frank Nowisnki photo" class="author-photo">
           <h4>Frank Nowisnki</h4>
           <p>My personal blog to express various coding obstacles I've faced on my journey to becoming a Web Developer.</p>
         </li>
@@ -132,33 +132,50 @@ Reading time ~2 minutes
 
 <p>Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">open(url) do |csv|
-  CSV.parse(csv) do |row|
-    puts row
-  end
-end</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+  <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">row</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.</p>
 
-<p>However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the ‘csv’ and ‘open-uri’ gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.</p>
 
-<p>The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it’s own String object within that array.</p>
+With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.
 
-<p>I think it’s time for an example. Say we requested to view the name and asking price of Apple’s and Google’s stock. The csv file would look like this:</p>
+However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the 'csv' and 'open-uri' gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Apple Inc.&quot;, 115.46
-&quot;Alphabet Inc.&quot;, 755.97</code></pre></div>
+The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it's own String object within that array.
+
+I think it's time for an example. Say we requested to view the name and asking price of Apple's and Google's stock. The csv file would look like this:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="s2">"Apple Inc."</span><span class="p">,</span> <span class="mi">115</span><span class="o">.</span><span class="mi">46</span>
+<span class="s2">"Alphabet Inc."</span><span class="p">,</span> <span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
 
 <pre>(Alphabet Inc. is Google's parent company)</pre>
 
-<p>The CSV.parse method would then create a new array for each row of data and separately input each value as it’s own String into that array. The final result would be:</p>
+The CSV.parse method would then create a new array for each row of data and separately input each value as it's own String into that array. The final result would be:
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">[“Apple Inc.“, “115.46“]
-[“Alphabet Inc.“, “755.97“]</code></pre></div>
 
-<p>Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple’s name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple’s price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.’s elements.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="p">[</span><span class="err">“</span><span class="no">Apple</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">115</span><span class="o">.</span><span class="mi">46</span><span class="err">“</span><span class="p">]</span>
+<span class="p">[</span><span class="err">“</span><span class="no">Alphabet</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="err">“</span><span class="p">]</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.</p>
+
+
+Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple's name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple's price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.'s elements.
+
+Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.
+</code></pre></div></code></pre></div></code></pre></div>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
@@ -179,20 +196,20 @@ end</code></pre></div>
       <a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth Facebook With Devise">Omniauth Facebook With Devise</a></h3>
-      <p>Initializing a User Using Omniauth-Facebook with DeviseInstead of putting the burden on yourself and your team for implementing an authen...&hellip; <a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Getting a Users Top Artists Using Spotify's API">Getting a Users Top Artists Using Spotify's API</a></h3>
+      <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their t...&hellip; <a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/dynamic-dispatching/" title="Dynamic Dispatching Basics">Dynamic Dispatching Basics</a></h4>
-        <span>Published on January 29, 2016</span>
+        <h4><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h4>
+        <span>Published on March 18, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Formatting the URL for the Yahoo Finance API">Formatting the URL for the Yahoo Finance API</a></h4>
-        <span>Published on January 29, 2016</span>
+        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
+        <span>Published on February 21, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

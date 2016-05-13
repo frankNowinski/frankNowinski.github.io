@@ -70,7 +70,7 @@
       <a href="#">About</a>
       <ul class="dl-submenu">
         <li>
-          <img src="http://franknowinski.github.io/images/cover-photo.jpg" alt="Frank Nowisnki photo" class="author-photo">
+          <img src="http://franknowinski.github.io/images/space.jpg" alt="Frank Nowisnki photo" class="author-photo">
           <h4>Frank Nowisnki</h4>
           <p>My personal blog to express various coding obstacles I've faced on my journey to becoming a Web Developer.</p>
         </li>
@@ -112,7 +112,7 @@
   
   
     <div class="entry-image">
-      <img src="http://franknowinski.github.io/images/cover-photo.jpg" alt="">
+      <img src="http://franknowinski.github.io/images/space.jpg" alt="">
     </div><!-- /.entry-image -->
   
   <div class="header-title">
@@ -131,7 +131,7 @@
 
 
     <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-02-21T19:25:01-05:00"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">February 21, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      <span class="entry-date date published updated"><time datetime="2016-05-12T22:02:58-04:00"><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">May 12, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
       
       <span class="entry-reading-time">
         <i class="fa fa-clock-o"></i>
@@ -141,11 +141,310 @@ Reading time ~2 minutes
       
     </div><!-- /.entry-meta -->
     
-      <h1 class="entry-title"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" rel="bookmark" title="Omniauth Facebook With Devise" itemprop="url">Omniauth Facebook With Devise</a></h1>
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" rel="bookmark" title="Getting a Users Top Artists Using Spotify's API" itemprop="url">Getting a Users Top Artists Using Spotify's API</a></h1>
     
   </header>
   <div class="entry-content">
-    <p>Initializing a User Using Omniauth-Facebook with Devise</p>
+    <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the “User’s Top Artists and Tracks” endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/getting-a-users-top-artists-using-spotifys-api//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the “User’s Top Artists and Tracks” endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.</p>
+
+<p>To integrate Spotify’s API into your app, add <code>gem 'rspotify'</code> to your Gemfile and run <code>bundle</code>.</p>
+
+<p>In order to access a users Spotify account we’ll need to obtain an access token which can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
+
+<p>RSpotify::authenticate(ENV[“SPOTIFY_CLIENT”], ENV[“SPOTIFY_SECRET”])</p>
+
+<p>Then, in <code>config/initializers/omniauth.rb</code> include:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
+
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+  <span class="n">provider</span> <span class="ss">:spotify</span><span class="p">,</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">],</span> <span class="ss">scope: </span><span class="s1">'user-read-email user-top-read'</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+By including the `user-top-read` scope, you’ll receive an access token which authorizes your application to access a users top artists. You can access additional user information by including other scopes found here.
+
+Create a link in your app so the user can log in to their Spotify account and give you permission to access their top artists:
+
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">‘</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Spotify</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">spotify</span><span class="err">’</span> <span class="cp">%&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now we’ll need to create a callback so we can manipulate the data that’s returned to us. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
+
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre>get ‘/auth/spotify/callback’, to: ‘users/spotify’<span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+You can now access basic user information such as name and email address as well as a unique access token in the spotify action.
+
+After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL, I relied on the `curb` gem. To install `curb` into your application simply include `gem 'curb'` in your `Gemfile` and run `bundle`.
+The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your url to meet Spotify’s API guidelines:
+
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6</pre></td><td class="code"><pre>http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
+    http.headers['Accept'] = 'application/json',
+    http.headers['Authorization'] = "Bearer #{token}"
+  end.body_str
+
+  JSON.parse(http)<span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the end of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token and you’ll have a list of the users top 25 artists.
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-03-18T17:37:55-04:00"><a href="http://franknowinski.github.io/editing-a-form-asynchronously/">March 18, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~5 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" rel="bookmark" title="Editing a Form Asynchronously" itemprop="url">Editing a Form Asynchronously</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to create a more seamless user experience. In this blog post I’ll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/editing-a-form-asynchronously//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to create a more seamless user experience. In this blog post I’ll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.</p>
+
+<p>Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workout reps from 12 to 15? Wouldn’t it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this convenient feature can be accomplished with Ajax and JavaScript.</p>
+
+<p>Implementing this feature is complex and requires a lot of moving components so it would be best to break it down into small, manageable parts. The first obstacle is setting up the DOM so it either displays the table data (the workout) or the form for the user to edit their workout. Initially, the workout values should be displayed in the DOM, and then when the user clicks the ‘Edit’ link it should hide the workout data and display an input form. So, within each workout row, the table data will either reflect html text or a form. Since we’ll be toggling between these two options, we can designate a particular id/class to the elements I want to display and an id/class to the elements I want to hide.</p>
+
+<p>Below you can view the code I used to implement this functionality:</p>
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></td><td class="code"><pre><span class="cp">&lt;%</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">workouts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="c">&lt;!-- Workout row --&gt;</span>
+  <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"workout-rows"</span> <span class="na">data-muscle-group-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">muscle_group</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">data-workout-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="p">[</span><span class="n">exercise</span><span class="p">.</span><span class="nf">workout_plan</span><span class="p">,</span> <span class="n">workout</span><span class="p">],</span> <span class="ss">remote: :true</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="c">&lt;!-- Either display the html text or the form input --&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-name=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-name"</span><span class="p">}</span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-sets=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">sets</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:sets</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-sets"</span><span class="p">}</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-reps=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">reps</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:reps</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-reps"</span><span class="p">}</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+    <span class="c">&lt;!-- So the user can press enter to submit the form --&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">submit</span> <span class="ss">style: </span><span class="s1">'display: none;'</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_workout_plan_workout_path</span><span class="p">(</span><span class="n">current_user</span><span class="p">.</span><span class="nf">current_plan</span><span class="p">,</span>
+  <span class="n">workout</span><span class="p">),</span> <span class="ss">class: </span><span class="s1">'edit-link'</span><span class="p">,</span> <span class="ss">remote: :true</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="p">.</span><span class="nf">workout</span><span class="o">-</span><span class="n">rows</span> <span class="n">input</span> <span class="p">{</span>
+  <span class="ss">display: </span><span class="n">none</span><span class="p">;</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now all of the input fields will default to being hidden within the DOM unless told otherwise.
+
+The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">workoutRow</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">'tr'</span><span class="p">)</span>
+
+    <span class="c1">// Hide workout values and display edit workout input form</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'edit-workout'</span><span class="p">)</span>
+  <span class="p">});</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
+
+Now that the user has upgraded their workout to fulfill their beast mode requirements, I'll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
+
+Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="p">})</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="err">@</span><span class="nx">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
+
+    <span class="c1">// Assign updated workout values to variables</span>
+    <span class="kd">var</span> <span class="nx">workoutName</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">workoutSets</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-sets'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">workoutReps</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+
+    <span class="c1">// Display new workout values in DOM</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-name="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutName</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-name="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-sets="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutSets</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-sets="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-reps="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutReps</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-reps="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="c1">// Remove input fields from DOM</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-sets'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+  <span class="p">});</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
+
+Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-02-21T19:25:01-05:00"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">February 21, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" rel="bookmark" title="Omniauth-Facebook With Devise" itemprop="url">Omniauth-Facebook With Devise</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
 
 
     
@@ -154,76 +453,137 @@ Reading time ~2 minutes
    <p><a class="btn btn-sm btn-info" href="/omniauth-facebook-with-devise//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
    </p>
    
-    <!-- <p>Initializing a User Using Omniauth-Facebook with Devise</p>
+    <!-- <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
 
-<p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to Tech Gaints such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
+<p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. For the purpose of this blog I’m going to demonstrate how you can use <a href="https://github.com/mkdynamic/omniauth-facebook">Omniauth-Facebook</a> with <a href="https://github.com/plataformatec/devise">Devise</a>, a popular gem used for user authentication.</p>
 
-<p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. However, for the purpose of this blog, I’m going to demonstrate how you can use Omniauth with Devise, a popular gem used for user authentication.</p>
+<p>First, you’ll need to include the following gems in your <code>Gemfile</code>:</p>
 
-<p>First, you’ll need to include the following gems in your ‘Gemfile’:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="n">gem</span> <span class="s1">'devise'</span>
+<span class="n">gem</span> <span class="s1">'omniauth-facebook'</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">gem &#39;devise&#39;
-gem &#39;omniauth-facebook&#39;</code></pre></div>
 
-<p>Now run <code>bundle install</code></p>
 
-<p>Next, create your User model with Devise by entering the following two commands in your terminal:</p>
+Now run `bundle install`
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">rails generate devise:install
-rails g devise User</code></pre></div>
+Next, create your User model with Devise by entering the following two commands in your terminal:
 
-<p>This will create a migration file for your User model with all the predefined attributes that ship with Devise. You can view all of these attributes by going to <code>db/migrate/20160215180931_devise_create_users.rb</code> (your file will have different numbers).</p>
 
-<p>Before you run <code>rake db:migrate</code> you’ll need to create a new table to add two more attributes to the User model so you’ll be able to create User instances from data returned to you from Facebook.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">generate</span> <span class="n">devise</span><span class="ss">:install</span>
+<span class="n">rails</span> <span class="n">g</span> <span class="n">devise</span> <span class="no">User</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p><code>rails g migration AddOmniauthToUsers provider:string uid:string</code></p>
 
-<p>Now you can run <code>rake db:migrate</code></p>
 
-<p>Earlier when you ran the two commands to install Devise into your rails application you created several files. One of those files was <code>config/initializers/devise.rb</code>. Head there so you can declare the authentication provider you’re using (Facebook) and declare your Facebook “APP_ID” and “APP_SECRET.”</p>
+This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file name will have different numbers).
 
-<p>Include in config/initializers/devise.rb:</p>
+Before you run `rake db:migrate` you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.
 
-<p>config.omniauth :facebook, “APP_ID”, “APP_SECRET”</p>
 
-<p>To get an ‘APP_ID’ and ‘APP_SECRET’  you’ll have to create an app at the Facebook Developers website https://developers.facebook.com/. If this is your first time creating a Facebook app then follow this guide: https://developers.facebook.com/docs/apps/register</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">g</span> <span class="n">migration</span> <span class="no">AddOmniauthToUsers</span> <span class="n">provider</span><span class="ss">:string</span> <span class="n">uid</span><span class="ss">:string</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>In order for Devise to be aware that Omniauth exists in your application you’ll need to declare it. Go to your user model and input the following code:</p>
 
-<p>devise :omniauthable, :omniauth providers =&gt; [:facebook]</p>
 
-<p>This code will create the following routes or url methods:</p>
+Now you can run `rake db:migrate`
 
-<p>user_omniauth_authorize_path(proivider)
-user_omniauth_callback_path(proivider)</p>
+Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be `config/initializers/devise.rb`. Go to that file to declare Facebook as your authentication provider and fill in your Facebook `APP_ID` and `APP_SECRET`:
 
-<p>To activate the user_omniauth_authrorize_path you’ll need to display a link in your application. In the view where you would like your user to have the option to sign in through Facebook, input the following link:</p>
 
-<p>&lt;%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %&gt;</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">config</span><span class="p">.</span><span class="nf">omniauth</span> <span class="ss">:facebook</span><span class="p">,</span> <span class="s2">"APP_ID"</span><span class="p">,</span> <span class="s2">"APP_SECRET"</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>Although you won’t be explicitly calling the user_omniauth_callback_path, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this url where you’ll have access to their data. To declare this callback url you’ll have to update your ‘config/routes.rb file:</p>
 
-<p>devise_for :users, :controllers =&gt; { :omniauth_callbacks =&gt; “users/omniauth_callbacks” }</p>
 
-<p>We’ve specified our url methods that we’ll need to use for our Facebook authentication so now we’ll need to create a controller. Label the controller file “app/controllers/users/omniauth_callbacks_controller.rb” and set up the file like so:</p>
+To get an `APP_ID` and `APP_SECRET` you’ll have to create an app at the [Facebook Developers website](https://developers.facebook.com/). If this is your first time creating a Facebook app then follow this [guide](https://developers.facebook.com/docs/apps/register).
 
-<p>Copy users omniauth section</p>
+In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in `app/models/user.rb`:
 
-<p>On line 4 inside the ‘facebook’ method you’ll notice we’re calling the ‘from_omniauth’ method on the User class. To utilize this method we’ll have to define it, so head over to app/models/user.rb and update your file with the following code:</p>
 
-<p>From omniauth method</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise</span> <span class="ss">:omniauthable</span><span class="p">,</span> <span class="ss">:omniauth</span> <span class="n">providers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:facebook</span><span class="p">]</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>Inside this method we can extract data that is returned to us from Facebook and initialize a new User. The argument of this method (auth) is assigned:</p>
 
-<p>{“provider”=&gt;”facebook”,
- “uid”=&gt;”10207528486042900”,
- “info”=&gt;{“name”=&gt;”Frank Nowinski”, “image”=&gt;”http://graph.facebook.com/10207528486042900/picture”},
- “credentials”=&gt;
-  {“token”=&gt;
-    “CAAMOIT5sGIcBALLCG7IZCcruM7RppvzNQWZClaC9fDtkgiYL1U0QlQVCfe7Euw1yPErZBq0j78osqaPrTZAHIkbGCl7bfiQLGRxLyfo2EI2v23jt4LNB1yCKjFQTA6z5ZC3c91l1kkHAEJU2J8PLj8ZAjF5WBNqC5d3oeEneZABLvxiCoUFFgZBhmMwwC6C0NfCwXVZAOwBJtAgZDZD”,
-   “expires_at”=&gt;1461190586,
-   “expires”=&gt;true},
- “extra”=&gt;{“raw_info”=&gt;{“name”=&gt;”Frank Nowinski”, “id”=&gt;”10207528486042900”}}}</p>
+
+The above code creates these two routes or url methods:
+`user_omniauth_authorize_path(proivider)`
+`user_omniauth_callback_path(proivider)`
+
+ To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="o">&lt;</span><span class="sx">%= link_to “Sign in with Facebook”, user_omniauth_authorize_path(:facebook) %&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Although you won’t be explicitly calling `user_omniauth_callback_path` in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your `config/routes.rb` file:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">users</span><span class="o">/</span><span class="n">omniauth_callbacks</span><span class="err">”</span> <span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now we’ll need to create a controller so we can create users with Facebook's authentication and sign them in to our app. Label the controller file `app/controllers/users/omniauth_callbacks_controller.rb` and set up the file like so:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
+  <span class="k">def</span> <span class="nf">facebook</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s2">"omniauth.auth"</span><span class="p">])</span>
+
+    <span class="vi">@user</span><span class="p">.</span><span class="nf">save</span> <span class="k">if</span> <span class="o">!</span><span class="vi">@user</span>
+    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">:event</span> <span class="o">=&gt;</span> <span class="ss">:authentication</span>
+    <span class="n">set_flash_message</span><span class="p">(</span><span class="ss">:notice</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:kind</span> <span class="o">=&gt;</span> <span class="s2">"Facebook"</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_navigational_format?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">failure</span>
+    <span class="n">redirect_to</span> <span class="n">root_path</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+On line 3 inside the `facebook` method you’ll notice we’re calling the `from_omniauth` method on the User class. To utilize this method we’ll have to define it, so head over to `app/models/user.rb` and update your file with the following code:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6</pre></td><td class="code"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+  <span class="n">where</span><span class="p">(</span><span class="ss">provider: </span><span class="n">auth</span><span class="p">.</span><span class="nf">provider</span><span class="p">,</span> <span class="ss">uid: </span><span class="n">auth</span><span class="p">.</span><span class="nf">uid</span><span class="p">).</span><span class="nf">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+   <span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">auth</span><span class="p">.</span><span class="nf">info</span><span class="p">.</span><span class="nf">name</span>
+   <span class="n">user</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="no">Devise</span><span class="p">.</span><span class="nf">friendly_token</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Inside this method we use the data that is provided by Facebook to either find a user or create one. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It's important to note that when initializing a new user the `first_or_create` method automatically sets the `uid` and `provider` fields with their appropriate data.
+
+To create a new user for your app you will need to include at minimum the `password` field inside the `first_or_create` loop (remember the `uid` is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop.
+
+In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -239,7 +599,7 @@ user_omniauth_callback_path(proivider)</p>
       <span class="entry-reading-time">
         <i class="fa fa-clock-o"></i>
         
-Reading time ~3 minutes
+Reading time ~4 minutes
       </span><!-- /.entry-reading-time -->
       
     </div><!-- /.entry-meta -->
@@ -261,86 +621,145 @@ Reading time ~3 minutes
 
 <p>In Ruby, we rely on the <code>send</code> method to dynamically dispatch. To illustrate how the <code>send</code> method works I’ll use the below example:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(&quot;reverse&quot;)</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<ul>
-  <li>The arguments passed into the send method could be a String or a Symbol.</li>
-</ul>
 
-<p>Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:</p>
+* The arguments passed into the send method could be a String or a Symbol.
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(&quot;reverse&quot;) #=&gt; &quot;dlroW ,olleH&quot;</code></pre></div>
+Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:
 
-<p>However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Hello, World&quot;.send(:+, 1)
- #=&gt; TypeError: no implicit conversion of Fixnum into String</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span> <span class="c1">#=&gt; "dlroW ,olleH"</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<hr />
 
-<h1 id="updating-a-hash-using-dynamic-dispatching">Updating a Hash using Dynamic Dispatching</h1>
 
-<p>Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:</p>
+However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;goal&quot;=&gt; {
-  &quot;chest&quot;=&gt; 45,
-  &quot;back&quot;=&gt; 45,
-  &quot;legs&quot;=&gt; 45,
-  &quot;shoulders&quot;=&gt; 30,
-  &quot;arms&quot;=&gt; 30,
-  &quot;cardio&quot;=&gt; 120
-}</code></pre></div>
 
-<p>Our intention is to have the <code>goal</code> hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(:</span><span class="o">+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="c1">#=&gt; TypeError: no implicit conversion of Fixnum into String</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles = {&quot;chest&quot;=&gt; 40,  &quot;cardio&quot;=&gt; 20}</code></pre></div>
 
-<ul>
-  <li>We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.</li>
-</ul>
 
-<p>Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:</p>
+---
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles.each do |muscle, updated_t|
-  original_t = goal.send(&quot;#{muscle}&quot;)
-  if muscle == &quot;chest&quot;
-    goal[:chest] = (original_t - updated_t)
-  elsif muscle == &quot;back&quot;
-    goal[:back] = (original_t - updated_t)
-  elsif muscle == &quot;legs&quot;
-    goal[:legs] = (original_t - updated_t)
-  elsif muscle == &quot;shoulders&quot;
-    goal[:shoulders] = (original_t - updated_t)
-  elsif muscle == &quot;arms&quot;
-    goal[:arms] = (original_t - updated_t)
-  elsif muscle == &quot;cardio&quot;
-    goal[:cardio] = (original_t - updated_t)
-  end
-end</code></pre></div>
+#Updating a Hash using Dynamic Dispatching
 
-<p>Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.</p>
+Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">updated_muscles.each do |muscle, updated_t|
-  original_t = goal.send(&quot;#{muscle}&quot;)
-  goal.send((&quot;#{muscle}=&quot;), (original_t - updated_t))
-end</code></pre></div>
 
-<p>That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">120</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>To correctly update the <code>goal</code> hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the <code>updated_muscles</code> variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called <code>original_t</code>. In our example, the first iteration being called is the chest key-value pair, therefore <code>original_t</code> is set equal to 45, the value of the chest key from the original <code>goal</code> hash.</p>
 
-<p>Now we can use the value of <code>original_t</code>, subtract it from the value of <code>updated_t</code>, and assign the difference to the original <code>goal</code> hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our <code>goal</code> hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in <code>updated_muscles</code> is iterated over. The updated <code>goal</code> hash would become:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;goal&quot;=&gt; {
-  &quot;chest&quot;=&gt; 5,
-  &quot;back&quot;=&gt; 45,
-  &quot;legs&quot;=&gt; 45,
-  &quot;shoulders&quot;=&gt; 30,
-  &quot;arms&quot;=&gt; 30,
-  &quot;cardio&quot;=&gt; 100
-}</code></pre></div>
+Our intention is to have the <code>goal</code> hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.
 
-<p>By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">updated_muscles</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">40</span><span class="p">,</span>  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">20</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+* We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.
+
+Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
+  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"chest"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:chest</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"back"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:back</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"legs"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:legs</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"shoulders"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:shoulders</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"arms"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:arms</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"cardio"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:cardio</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
+  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">((</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">="</span><span class="p">),</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">))</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.
+
+To correctly update the <code>goal</code> hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the <code>updated_muscles</code> variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called <code>original_t</code>. In our example, the first iteration being called is the chest key-value pair, therefore <code>original_t</code> is set equal to 45, the value of the chest key from the original <code>goal</code> hash.
+
+Now we can use the value of <code>original_t</code>, subtract it from the value of <code>updated_t</code>, and assign the difference to the original <code>goal</code> hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our <code>goal</code> hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in <code>updated_muscles</code> is iterated over. The updated <code>goal</code> hash would become:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">100</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -378,90 +797,88 @@ Reading time ~2 minutes
 
 <p>Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">open(url) do |csv|
-  CSV.parse(csv) do |row|
-    puts row
-  end
-end</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+  <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">row</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
-<p>With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.</p>
 
-<p>However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the ‘csv’ and ‘open-uri’ gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.</p>
 
-<p>The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it’s own String object within that array.</p>
+With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.
 
-<p>I think it’s time for an example. Say we requested to view the name and asking price of Apple’s and Google’s stock. The csv file would look like this:</p>
+However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the 'csv' and 'open-uri' gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">&quot;Apple Inc.&quot;, 115.46
-&quot;Alphabet Inc.&quot;, 755.97</code></pre></div>
+The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it's own String object within that array.
+
+I think it's time for an example. Say we requested to view the name and asking price of Apple's and Google's stock. The csv file would look like this:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="s2">"Apple Inc."</span><span class="p">,</span> <span class="mi">115</span><span class="o">.</span><span class="mi">46</span>
+<span class="s2">"Alphabet Inc."</span><span class="p">,</span> <span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
 
 <pre>(Alphabet Inc. is Google's parent company)</pre>
 
-<p>The CSV.parse method would then create a new array for each row of data and separately input each value as it’s own String into that array. The final result would be:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">[“Apple Inc.“, “115.46“]
-[“Alphabet Inc.“, “755.97“]</code></pre></div>
-
-<p>Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple’s name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple’s price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.’s elements.</p>
-
-<p>Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.</p>
- -->
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Formatting the URL for the Yahoo Finance API"><img src="http://franknowinski.github.io/images/stocks-photo.jpg" alt="Formatting the URL for the Yahoo Finance API"></a>
-      </div><!-- /.entry-image -->
-    
+The CSV.parse method would then create a new array for each row of data and separately input each value as it's own String into that array. The final result would be:
 
 
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-01-29T04:17:17-05:00"><a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" rel="bookmark" title="Formatting the URL for the Yahoo Finance API" itemprop="url">Formatting the URL for the Yahoo Finance API</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>On a mission to create a ruby gem to return realtime stock data to the user, I was confronted with a dilemma: how can I attain stock data from the internet and displaying it in a formatted table within my gem? With the help of Yahoo! Finances incredibly convenient API, this process was made exceptionally easy. If used correctly, this API would return realtime stock data within a csv file—all I had to do was properly assemble the URL.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="p">[</span><span class="err">“</span><span class="no">Apple</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">115</span><span class="o">.</span><span class="mi">46</span><span class="err">“</span><span class="p">]</span>
+<span class="p">[</span><span class="err">“</span><span class="no">Alphabet</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="err">“</span><span class="p">]</span><span class="w">
+</span></pre></td></tr></tbody></table>
 
 
-    
-    
-    
-   <p><a class="btn btn-sm btn-info" href="/formatting-the-url-for-the-yahoo-finance-api//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
-   </p>
-   
-    <!-- <p>On a mission to create a ruby gem to return realtime stock data to the user, I was confronted with a dilemma: how can I attain stock data from the internet and displaying it in a formatted table within my gem? With the help of Yahoo! Finances incredibly convenient API, this process was made exceptionally easy. If used correctly, this API would return realtime stock data within a csv file—all I had to do was properly assemble the URL.</p>
 
-<p>To accomplish this I needed to input information into two positions of the base URL: the stock tickers position and the tags position. The stock tickers position (represented as <code>{STOCKS}</code> in the below URL) contains the stock tickers that you want to look up joined together by an addition sign (<code>+</code>). So, if the user wanted to look up Apple’s and Google’s stock, the URL in the stock tickers position would read: <code>AAPL+GOOG</code>.</p>
+Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple's name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple's price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.'s elements.
 
-<blockquote>
-  <p>Base URL: “http://finance.yahoo.com/d/quotes.csv?s=<code>{STOCKS}</code>&amp;f=<code>{TAGS}</code>”</p>
-</blockquote>
-
-<p>The second position that is required to be populated was the tags position (represented by <code>{TAGS}</code> in the above URL). Tags are just characters that symbolize different descriptions that, when included, return information relating to a stock; so, if you include an “n” tag it displays the stocks name, an “a” tag displays the stocks asking price, a “t8” tag displays the stocks 1 Year Target Price (you get the idea). Continuing with our example, if the user wanted to look up the name, earnings per share, and the 52 week high for Apple’s and Google’s stock, we would include the “n”, “e”, and “k” tags in the tags position of the base URL. However, when we add the tags to the URL we concatenate them together, so the end result would be ”nek.”</p>
-
-<p>Below is the final URL of the aforementioned example that will return a csv file that contains the specific information that we requested.</p>
-
-<blockquote>
-  <p>http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG&amp;f=nek</p>
-</blockquote>
+Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.
+</code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
 
 
+
+<div class="pagination">
+  <ul class="inline-list">
+    
+    
+
+    
+    
+      <li><strong class="current-page">1</strong></li>
+    
+
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+
+    
+      <li><a href="http://franknowinski.github.io/page2/">2</a></li>
+    
+
+    
+    
+      <li><a href="http://franknowinski.github.io/page2/" class="btn">Next</a></li>
+    
+  </ul>
+</div>
 
 
 </div><!-- /#main -->

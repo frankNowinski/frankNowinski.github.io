@@ -1,0 +1,359 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Editing a Form Asynchronously &#8211; Frank Nowinski</title>
+<meta name="description" content="My personal blog.">
+<meta name="keywords" content="">
+
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Editing a Form Asynchronously">
+<meta property="og:description" content="My personal blog.">
+<meta property="og:url" content="http://franknowinski.github.io/editing-a-form-asynchronously/">
+<meta property="og:site_name" content="Frank Nowinski">
+
+
+
+
+
+<link rel="canonical" href="http://franknowinski.github.io/editing-a-form-asynchronously/">
+<link href="http://franknowinski.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Frank Nowinski Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://franknowinski.github.io/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="http://franknowinski.github.io/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://franknowinski.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://franknowinski.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://franknowinski.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://franknowinski.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+  <button class="dl-trigger">Open Menu</button>
+  <ul class="dl-menu">
+    <li><a href="http://franknowinski.github.io/">Home</a></li>
+    <li>
+      <a href="#">About</a>
+      <ul class="dl-submenu">
+        <li>
+          <img src="http://franknowinski.github.io/images/space.jpg" alt="Frank Nowisnki photo" class="author-photo">
+          <h4>Frank Nowisnki</h4>
+          <p>My personal blog to express various coding obstacles I've faced on my journey to becoming a Web Developer.</p>
+        </li>
+        <li><a href="http://franknowinski.github.io/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+        <li>
+          <a href="mailto:nowinski.frank@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+        </li>
+        
+        
+        
+        
+        <li>
+          <a href="https://github.com/frankNowinski"><i class="fa fa-fw fa-github"></i> GitHub</a>
+        </li>
+        
+        
+        
+        
+      </ul><!-- /.dl-submenu -->
+    </li>
+    <li>
+      <a href="#">Posts</a>
+      <ul class="dl-submenu">
+        <li><a href="http://franknowinski.github.io/posts/">All Posts</a></li>
+        <li><a href="http://franknowinski.github.io/tags/">All Tags</a></li>
+      </ul>
+    </li>
+    
+      
+          
+      
+      <li><a href="http://franknowinski.github.io/theme-setup/" >Theme Setup</a></li>
+    
+  </ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" rel="bookmark" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-03-18T17:37:55-04:00">March 18, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~5 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I continuously relied on Ajax and JavaScript to create a more seamless user experience. In this blog post I’ll explain in detail how I used Ajax and JavaScript to allow a user to edit their workout without having to refresh the page.</p>
+
+<p>Say a user enters a chest workout but a few days later decides they want to enter beast mode and increase their chest workout reps from 12 to 15? Wouldn’t it be a nice user experience if they could edit their workout right in the workout table row rather than requesting a new webpage? Fortunately, this convenient feature can be accomplished with Ajax and JavaScript.</p>
+
+<p>Implementing this feature is complex and requires a lot of moving components so it would be best to break it down into small, manageable parts. The first obstacle is setting up the DOM so it either displays the table data (the workout) or the form for the user to edit their workout. Initially, the workout values should be displayed in the DOM, and then when the user clicks the ‘Edit’ link it should hide the workout data and display an input form. So, within each workout row, the table data will either reflect html text or a form. Since we’ll be toggling between these two options, we can designate a particular id/class to the elements I want to display and an id/class to the elements I want to hide.</p>
+
+<p>Below you can view the code I used to implement this functionality:</p>
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></td><td class="code"><pre><span class="cp">&lt;%</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">workouts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="c">&lt;!-- Workout row --&gt;</span>
+  <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"workout-rows"</span> <span class="na">data-muscle-group-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">muscle_group</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">data-workout-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="p">[</span><span class="n">exercise</span><span class="p">.</span><span class="nf">workout_plan</span><span class="p">,</span> <span class="n">workout</span><span class="p">],</span> <span class="ss">remote: :true</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="c">&lt;!-- Either display the html text or the form input --&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-name=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:name</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-name"</span><span class="p">}</span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-sets=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">sets</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:sets</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-sets"</span><span class="p">}</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;span</span> <span class="na">data-workout-reps=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">reps</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:reps</span><span class="p">,</span> <span class="p">{</span><span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="n">workout</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">-reps"</span><span class="p">}</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+    <span class="c">&lt;!-- So the user can press enter to submit the form --&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">submit</span> <span class="ss">style: </span><span class="s1">'display: none;'</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_workout_plan_workout_path</span><span class="p">(</span><span class="n">current_user</span><span class="p">.</span><span class="nf">current_plan</span><span class="p">,</span>
+  <span class="n">workout</span><span class="p">),</span> <span class="ss">class: </span><span class="s1">'edit-link'</span><span class="p">,</span> <span class="ss">remote: :true</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="p">.</span><span class="nf">workout</span><span class="o">-</span><span class="n">rows</span> <span class="n">input</span> <span class="p">{</span>
+  <span class="ss">display: </span><span class="n">none</span><span class="p">;</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now all of the input fields will default to being hidden within the DOM unless told otherwise.
+
+The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">workoutRow</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">'tr'</span><span class="p">)</span>
+
+    <span class="c1">// Hide workout values and display edit workout input form</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'edit-workout'</span><span class="p">)</span>
+  <span class="p">});</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
+
+Now that the user has upgraded their workout to fulfill their beast mode requirements, I'll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
+
+Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="p">})</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
+
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="err">@</span><span class="nx">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
+
+    <span class="c1">// Assign updated workout values to variables</span>
+    <span class="kd">var</span> <span class="nx">workoutName</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">workoutSets</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-sets'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">workoutReps</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+
+    <span class="c1">// Display new workout values in DOM</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-name="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutName</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-name="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-sets="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutSets</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-sets="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-reps="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">workoutReps</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'span[data-workout-reps="'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span> <span class="s1">'"]'</span><span class="p">).</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
+
+    <span class="c1">// Remove input fields from DOM</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-sets'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+  <span class="p">});</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
+
+Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/editing-a-form-asynchronously/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/editing-a-form-asynchronously/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/editing-a-form-asynchronously/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Getting a Users Top Artists Using Spotify's API">Getting a Users Top Artists Using Spotify's API</a></h3>
+      <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their t...&hellip; <a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
+        <span>Published on February 21, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://franknowinski.github.io/dynamic-dispatching/" title="Dynamic Dispatching Basics">Dynamic Dispatching Basics</a></h4>
+        <span>Published on January 29, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Frank Nowisnki.</span>
+
+   <!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span> -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://franknowinski.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://franknowinski.github.io/assets/js/scripts.min.js"></script>
+
+
+
+	        
+
+</body>
+</html>
