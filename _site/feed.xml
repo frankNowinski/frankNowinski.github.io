@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-13T00:36:12-04:00</updated>
+<updated>2016-05-13T00:55:56-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -25,7 +25,7 @@
     <email>nowinski.frank@gmail.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the “User’s Top Artists and Tracks” endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.&lt;/p&gt;
+    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.&lt;/em&gt;&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;To integrate Spotify’s API into your app add &lt;code&gt;gem &#39;rspotify&#39;&lt;/code&gt; to your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;.&lt;/p&gt;
 
@@ -54,12 +54,12 @@ Then, in `config/initializers/omniauth.rb` include:
 
 
 
-By including the `user-top-read` scope you&#39;re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted to log in, you&#39;ll be granted an access token that you will later use to access their top artists. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot;&gt;here&lt;/a&gt;.
+By including the `user-top-read` scope you&#39;re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you&#39;ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot;&gt;here&lt;/a&gt;.
 
 Provide a link anywhere you&#39;d like in your app so the user can log into their Spotify account:
 
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Sign&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Spotify&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spotify&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Sign in with Spotify&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/auth/spotify&quot;&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
 
 
@@ -74,7 +74,7 @@ Now, we’ll need to create a callback so we can manipulate the data that’s re
 
 You now have access to basic user information such as name and email address as well as the unique access token in the spotify action of your app.
 
-After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the URL I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
+After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
 
 The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &#39;Users Top Artist&#39; endpoint:
 
