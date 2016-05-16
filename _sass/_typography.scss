@@ -5,6 +5,11 @@ body {
   color: $text-color;
 }
 
+time {
+  color: rgb(0, 102, 153);
+  font-weight: 300;
+}
+
 // Headings
 // --------------------------------------------------
 h1, h2, h3, h4, h5, h6 {
@@ -23,9 +28,6 @@ a {
   text-decoration: none;
   font-weight: 500;
   color: $link-color;
-  // &:visited {
-  //   color: lighten($link-color, 20);
-  // }
   &:hover {
     color: darken($link-color, 20);
   }

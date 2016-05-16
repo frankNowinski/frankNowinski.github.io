@@ -77,17 +77,17 @@ Now we’ll need to create a controller so we can create users with Facebook's a
 
 {% highlight ruby linenos %}
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-def facebook
-@user = User.from_omniauth(request.env["omniauth.auth"])
+  def facebook
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
-@user.save if !@user
-sign_in_and_redirect @user, :event => :authentication
-set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
-end
+    @user.save if !@user
+    sign_in_and_redirect @user, :event => :authentication
+    set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+  end
 
-def failure
-redirect_to root_path
-end
+  def failure
+    redirect_to root_path
+  end
 end
 {% endhighlight %}
 
@@ -95,10 +95,10 @@ On line 3 inside the `facebook` method you’ll notice we’re calling the `from
 
 {% highlight ruby linenos %}
 def self.from_omniauth(auth)
-where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-user.name = auth.info.name
-user.password = Devise.friendly_token[0,20]
-end
+  where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    user.name = auth.info.name
+    user.password = Devise.friendly_token[0,20]
+  end
 end
 {% endhighlight %}
 
