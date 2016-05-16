@@ -21,11 +21,11 @@ h1, h2, h3, h4, h5, h6 {
 // --------------------------------------------------
 a {
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
   color: $link-color;
-  &:visited {
-    color: lighten($link-color, 20);
-  }
+  // &:visited {
+  //   color: lighten($link-color, 20);
+  // }
   &:hover {
     color: darken($link-color, 20);
   }
