@@ -1,7 +1,4 @@
-body {
-  font-family: 'Roboto',sans-serif;
-  font-weight: 300;
-}
+
 // Page
 // --------------------------------------------------
 
@@ -12,7 +9,7 @@ $front-page-feature-image-height: 550px; // min 150px recommended
 // --------------------------------------------------
 
 // $base-font: 'Lato', Calibri, Arial, sans-serif;
-$base-font: 'Roboto',sans-serif;;
+$base-font: 'Roboto', sans-serif;
 $heading-font: $base-font;
 $caption-font: $base-font;
 $code-font: monospace;
@@ -39,7 +36,9 @@ $comp-color 	 		   : complement(#222);
 $border-color    		 : lighten($base-color,60);
 $white           		 : #fff;
 $black           		 : #000;
-$link-color 		     : rgba(#222,0.8);
+// $link-color 		     : rgba(#222,0.8);
+$link-color          : rgb(0, 102, 153);
+
 
 $primary			       : #222;
 $success			       : #5cb85c;
