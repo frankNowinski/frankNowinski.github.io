@@ -13,7 +13,7 @@ comments:
 share:
 date: 2016-05-12T22:02:58-04:00
 ---
-Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.
+Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from an artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.
 
 To integrate Spotify’s API into your app add `gem 'rspotify'` to your Gemfile and run `bundle`.
 
