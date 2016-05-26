@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+      font-weight: 200;
   background-color: $body-color;
 }
 
@@ -215,7 +216,6 @@ header .entry-meta {
 #page {
   .entry-content {
     margin: 40px 2px 20px 2px;
-    font-weight: 300;
     padding: 10px 15px;
     background-color: $white;
     box-shadow: 0 0 0 0, 0 6px 12px rgba($black,0.1);
