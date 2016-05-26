@@ -57,12 +57,12 @@ The `curb` gem offers a straightforward way to append headers in your GET reques
 {% highlight ruby linenos %}
 http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
   http.headers['Accept'] = 'application/json',
-  http.headers['Authorization'] = "Bearer #{token}"
+  http.headers['Authorization'] = "Bearer #{access_token}"
 end.body_str
 
 JSON.parse(http)
 {% endhighlight %}
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local gvariable as an argument to the `JSON.parse` method and you're done!
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you're done!
 
 View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
