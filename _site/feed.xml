@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-13T13:35:35-04:00</updated>
+<updated>2016-05-26T14:42:17-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -25,11 +25,11 @@
     <email>nowinski.frank@gmail.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything between artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.&lt;/p&gt;
+    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from an artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.&lt;/p&gt;
 
 &lt;p&gt;To integrate Spotify’s API into your app add &lt;code&gt;gem &#39;rspotify&#39;&lt;/code&gt; to your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive sensitive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
+&lt;p&gt;In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;no&quot;&gt;RSpotify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_CLIENT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_SECRET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
@@ -56,7 +56,7 @@ Then, in `config/initializers/omniauth.rb` include:
 
 By including the `user-top-read` scope you&#39;re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you&#39;ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot;&gt;here&lt;/a&gt;.
 
-Next, provide a link anywhere you&#39;d like in your app so the user can log into their Spotify account:
+Next, provide a link so the user can log into their Spotify account:
 
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Sign in with Spotify&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/auth/spotify&quot;&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -64,7 +64,7 @@ Next, provide a link anywhere you&#39;d like in your app so the user can log int
 
 
 
-Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to your `routes.rb` file and declare what controller and action you’ll like your callback to hit:
+Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to `routes.rb` and declare what controller and action you’ll like your callback to hit:
 
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/auth/spotify/callback&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;to: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;users/spotify&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -72,11 +72,11 @@ Now, we’ll need to create a callback so we can manipulate the data that’s re
 
 
 
-You now have access to basic user information such as name and email address as well as the unique access token in the spotify action of your app.
+You now have access to basic user information, such as name and email address, as well as the unique access token in the spotify action of your app.
 
-After you retrieve the access token you’re ready to make a request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
+Once you&#39;ve retrieved the access token you&#39;re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
 
-The `curb` gem offers a straightforward and readable way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &lt;em&gt;Users Top Artist&lt;/em&gt; endpoint:
+The `curb` gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &lt;em&gt;Users Top Artist&lt;/em&gt; endpoint:
 
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
@@ -86,7 +86,7 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 5
 6&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Curl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://api.spotify.com/v1/me/top/artists?limit=25&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Accept&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;application/json&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Authorization&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Bearer &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Authorization&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Bearer &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;access_token&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;body_str&lt;/span&gt;
 
 &lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -94,7 +94,7 @@ The `curb` gem offers a straightforward and readable way to append headers in yo
 
 
 
-You can request a minimum of one or a maximum of fifty top artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http variable as an argument to the `JSON.parse` method and you&#39;re done!
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you&#39;re done!
 
 View all of the other endpoints Spotify&#39;s API has to offer &lt;a href=&quot;https://developer.spotify.com/web-api/endpoint-reference/&quot;&gt;here&lt;/a&gt;.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -396,17 +396,17 @@ Now we’ll need to create a controller so we can create users with Facebook&#39
 11
 12
 13&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;facebook&lt;/span&gt;
-&lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;omniauth.auth&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;facebook&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;omniauth.auth&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-&lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;sign_in_and_redirect&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:event&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:authentication&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;set_flash_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:notice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Facebook&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_navigational_format?&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sign_in_and_redirect&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:event&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:authentication&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;set_flash_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:notice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Facebook&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_navigational_format?&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;failure&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root_path&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;failure&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root_path&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
 
@@ -421,10 +421,10 @@ On line 3 inside the `facebook` method you’ll notice we’re calling the `from
 4
 5
 6&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;provider: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;uid: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first_or_create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;friendly_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;provider: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;uid: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first_or_create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;friendly_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
 
