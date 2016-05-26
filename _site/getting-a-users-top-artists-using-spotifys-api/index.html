@@ -1,4 +1,134 @@
-<p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.</p>
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Getting a Users Top Artists Using Spotify's API &#8211; Frank Nowinski</title>
+<meta name="description" content="My personal blog.">
+<meta name="keywords" content="">
+
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Getting a Users Top Artists Using Spotify's API">
+<meta property="og:description" content="My personal blog.">
+<meta property="og:url" content="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">
+<meta property="og:site_name" content="Frank Nowinski">
+
+
+
+
+
+<link rel="canonical" href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">
+<link href="http://franknowinski.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Frank Nowinski Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://franknowinski.github.io/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="http://franknowinski.github.io/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://franknowinski.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://franknowinski.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://franknowinski.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://franknowinski.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+  <button class="dl-trigger">Open Menu</button>
+  <ul class="dl-menu">
+    <li><a href="http://franknowinski.github.io/">Home</a></li>
+    <li>
+      <a href="#">About</a>
+      <ul class="dl-submenu">
+        <li>
+          <img src="http://franknowinski.github.io/images/space.jpg" alt="Frank Nowisnki photo" class="author-photo">
+          <h4>Frank Nowisnki</h4>
+          <p>My personal blog to express various coding obstacles I've faced on my journey to becoming a Web Developer.</p>
+        </li>
+        <li><a href="http://franknowinski.github.io/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+        <li>
+          <a href="mailto:nowinski.frank@gmail.com"><i class="fa fa-fw fa-envelope"></i> Email</a>
+        </li>
+        
+        
+        
+        
+        <li>
+          <a href="https://github.com/frankNowinski"><i class="fa fa-fw fa-github"></i> GitHub</a>
+        </li>
+        
+        
+        
+        
+      </ul><!-- /.dl-submenu -->
+    </li>
+    <li>
+      <a href="#">Posts</a>
+      <ul class="dl-submenu">
+        <li><a href="http://franknowinski.github.io/posts/">All Posts</a></li>
+        <li><a href="http://franknowinski.github.io/tags/">All Tags</a></li>
+      </ul>
+    </li>
+    
+      
+          
+      
+      <li><a href="http://franknowinski.github.io/theme-setup/" >Theme Setup</a></li>
+    
+  </ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" rel="bookmark" title="Getting a Users Top Artists Using Spotify's API">Getting a Users Top Artists Using Spotify's API</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2016-05-12T22:02:58-04:00">May 12, 2016</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~2 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.</p>
 
 <p>Before we get underway, let’s add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API. Include <code>gem 'rspotify'</code> in your Gemfile and run <code>bundle</code>.</p>
 
@@ -73,3 +203,63 @@ You can request a minimum of one or a maximum of fifty artists by modifying the 
 
 View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"></span>
+        
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="http://franknowinski.github.io/editing-a-form-asynchronously/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h3>
+      <p>Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I ...&hellip; <a href="http://franknowinski.github.io/editing-a-form-asynchronously/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
+        <span>Published on February 21, 2016</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="http://franknowinski.github.io/dynamic-dispatching/" title="Dynamic Dispatching Basics">Dynamic Dispatching Basics</a></h4>
+        <span>Published on January 29, 2016</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2016 Frank Nowisnki.</span>
+
+   <!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span> -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://franknowinski.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://franknowinski.github.io/assets/js/scripts.min.js"></script>
+
+
+
+	        
+
+</body>
+</html>

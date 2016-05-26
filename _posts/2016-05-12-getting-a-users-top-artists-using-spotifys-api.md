@@ -5,7 +5,7 @@ modified:
 categories:
 description:
 tags: []
-image: space.jpg
+image:
   feature:
   credit:
   creditlink:
