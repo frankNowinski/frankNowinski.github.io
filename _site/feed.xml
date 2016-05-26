@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-26T15:12:33-04:00</updated>
+<updated>2016-05-26T18:37:52-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -14,20 +14,22 @@
 
 
 <entry>
-  <title type="html"><![CDATA[Getting a Users Top Artists Using Spotify's API]]></title>
+  <title type="html"><![CDATA[Getting A Users Top Artists Using Spotifys Api]]></title>
  <link rel="alternate" type="text/html" href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" />
   <id>http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api</id>
-  <published>2016-05-12T22:02:58-04:00</published>
-  <updated>2016-05-12T22:02:58-04:00</updated>
+  <published>2016-05-12T00:00:00-04:00</published>
+  <updated>2016-05-12T00:00:00-04:00</updated>
   <author>
     <name>Frank Nowisnki</name>
     <uri>http://franknowinski.github.io</uri>
     <email>nowinski.frank@gmail.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from an artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. In this blog post I’m going to demonstrate how to retrieve data from this endpoint so you can utilize it in your rails application.&lt;/p&gt;
+    &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.&lt;/p&gt;
 
-&lt;p&gt;To integrate Spotify’s API into your app add &lt;code&gt;gem &#39;rspotify&#39;&lt;/code&gt; to your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Before we get underway, let’s add the &lt;a href=&quot;https://github.com/guilhermesad/rspotify&quot;&gt;RSpotify&lt;/a&gt; gem into our app to help access the Spotify API. Include &lt;code&gt;gem &#39;rspotify&#39;&lt;/code&gt; in your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If our end goal is to display upcoming concerts of our top artists on Spotify, out first priority is attain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
 
 &lt;p&gt;In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
 
@@ -99,7 +101,7 @@ You can request a minimum of one or a maximum of fifty artists by modifying the 
 View all of the other endpoints Spotify&#39;s API has to offer &lt;a href=&quot;https://developer.spotify.com/web-api/endpoint-reference/&quot;&gt;here&lt;/a&gt;.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/&quot;&gt;Getting a Users Top Artists Using Spotify&#39;s API&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on May 12, 2016.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/&quot;&gt;Getting A Users Top Artists Using Spotifys Api&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on May 12, 2016.&lt;/p&gt;
   </content>
 </entry>
 
