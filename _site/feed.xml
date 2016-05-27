@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-05-26T18:47:14-04:00</updated>
+<updated>2016-05-26T19:10:23-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -27,11 +27,17 @@
   <content type="html">
     &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.&lt;/p&gt;
 
-&lt;p&gt;Before we get underway, let’s add the &lt;a href=&quot;https://github.com/guilhermesad/rspotify&quot;&gt;RSpotify&lt;/a&gt; gem into our app to help access the Spotify API. Include &lt;code&gt;gem &#39;rspotify&#39;&lt;/code&gt; in your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Before we get underway, let’s add the &lt;a href=&quot;https://github.com/guilhermesad/rspotify&quot;&gt;RSpotify&lt;/a&gt; gem into our app to help access the Spotify API as well as the &lt;a href=&quot;https://github.com/taf2/curb&quot;&gt;Curb&lt;/a&gt; gem for formatting a get request (more on &lt;code&gt;Curb&lt;/code&gt; later). Include the following gems in your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;If our end goal is to display upcoming concerts of our top artists on Spotify, out first priority is attain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;sb&quot;&gt;`gem &#39;rspotify&#39;`&lt;/span&gt;
+&lt;span class=&quot;sb&quot;&gt;`gem &#39;curb&#39;`&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
 
-&lt;p&gt;In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives you permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
+
+
+If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;no&quot;&gt;RSpotify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_CLIENT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_SECRET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
@@ -74,9 +80,9 @@ Now, we’ll need to create a callback so we can manipulate the data that’s re
 
 
 
-You now have access to basic user information, such as name and email address, as well as the unique access token in the spotify action of your app.
+You now have access to basic user information, such as name and email address, as well as the unique access token in the `spotify` action of your app.
 
-Once you&#39;ve retrieved the access token you&#39;re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem. To install `curb` into your application simply include `gem &#39;curb&#39;` in your `Gemfile` and run `bundle`.
+Once you&#39;ve retrieved the access token you&#39;re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem which we previously installed in our app.
 
 The `curb` gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &lt;em&gt;Users Top Artist&lt;/em&gt; endpoint:
 
@@ -96,10 +102,95 @@ The `curb` gem offers a straightforward way to append headers in your GET reques
 
 
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you&#39;re done!
+You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you&#39;ll receive your top artists!
+
+
+#Onto finding local concerts with the BandsInTown API
+
+The BandsInTown API is fairly simple to use: encode and parse the BandsInTown API URL, send the request and then parse the response. Let’s start by encoding and parsing the BandsInTown URL.
+
+The BandsInTown API endpoint requires the following five components:
+
+artist_name
+location
+app_id
+api_version
+format
+
+These five parameters referenced in the BandsInTown URL we’re aiming to construct looks like this:
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bandsintown&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;artists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#{artist_name}/events/recommended?location=#{location}&amp;amp;app_id=#{app_id}&amp;amp;api_version=#{api_version}&amp;amp;format=#{format}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
+
+Now let’s populate these parameters.
+
+Input the name of the artist in the `artist_name` parameter. Feel free to use spaces to separate words since we’ll be encoding the url anyways. For this demonstration, let’s look up the artist `Kanye West`.
+To get upcoming concerts in an area nearby your current location, insert `use_geoip&amp;amp;radius=50` in the `location` parameter. `use_geoip` uses the ip address of the computer you’re currently on to find your location. If you’d like to broaden your search of nearby concerts, increase the value of the radius parameter (maximum value is 150).
+Your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, my app_id will be `discover-shows`.
+There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.
+Finally, fill in the format parameter with ‘json’ so our data will be formatted in json when it is returned to us.
+
+Our end url should look like this:
+
+http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json
+
+See that space between Kanye and West? Yeah, that’s no good, and it will generate an error if we submit this to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method will replace any whitespace characters with `%20`, resulting in a valid URL.
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;escaped_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://api.bandsintown.com/artists/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
+Next, we’ll convert this URL into an URI object by passing it into the URI.parse method.
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;escaped_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://api.bandsintown.com/artists/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;escaped_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
+Now, we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the `uri` variable into the `get_response` method of the `Net::HTTP` class:  
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTTP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
+Chaining `body` to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is to parse the response!
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
+Let’s refactor our code and encapsulate it inside an method called `events`:
+
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;events&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;escaped_uri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://api.bandsintown.com/artists/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;escaped_uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTTP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+
+
 
 View all of the other endpoints Spotify&#39;s API has to offer &lt;a href=&quot;https://developer.spotify.com/web-api/endpoint-reference/&quot;&gt;here&lt;/a&gt;.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/&quot;&gt;Getting a Users Top Artists Using Spotify&#39;s API&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on May 12, 2016.&lt;/p&gt;
   </content>
