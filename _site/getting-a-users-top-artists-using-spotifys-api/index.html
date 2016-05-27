@@ -241,9 +241,7 @@ Now let’s populate these parameters.
 So, now our url should look like this:
 
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span></code></pre></div>
 
 
 See that space between Kanye and West? Yeah, that’s no good, and it will generate an error if we submit this to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method will replace any whitespace characters with `%20`, resulting in a valid URL.
@@ -298,7 +296,7 @@ Let’s refactor our code and encapsulate it inside an method called `events`:
 
 
 View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>

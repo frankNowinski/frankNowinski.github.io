@@ -101,7 +101,7 @@ Now let’s populate these parameters.
 
 So, now our url should look like this:
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json"
 {% endhighlight %}
 
