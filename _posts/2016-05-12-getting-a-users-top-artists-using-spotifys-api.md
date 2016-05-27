@@ -71,36 +71,39 @@ JSON.parse(http)
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you'll receive your top artists!
 
 
-#Onto finding local concerts with the BandsInTown API
+<h2>Finding local concerts with the BandsInTown API</h2>
 
-The BandsInTown API is fairly simple to use: encode and parse the BandsInTown API URL, send the request and then parse the response. Let’s start by encoding and parsing the BandsInTown URL.
+The BandsInTown API endpoint requires the following five parameters:
 
-The BandsInTown API endpoint requires the following five components:
+<ol>
+  <li>artist_name</li>
+  <li>location</li>
+  <li>app_id</li>
+  <li>api_version</li>
+  <li>format</li>
+</ol>
 
-artist_name
-location
-app_id
-api_version
-format
-
-These five parameters referenced in the BandsInTown URL we’re aiming to construct looks like this:
+Below is the BandsInTown URL we’re aiming to construct:
 
 {% highlight ruby linenos %}
-http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}
+"http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}"
 {% endhighlight %}
-
 
 Now let’s populate these parameters.
 
-Input the name of the artist in the `artist_name` parameter. Feel free to use spaces to separate words since we’ll be encoding the url anyways. For this demonstration, let’s look up the artist `Kanye West`.
-To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of the computer you’re currently on to find your location. If you’d like to broaden your search of nearby concerts, increase the value of the radius parameter (maximum value is 150).
-Your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, my app_id will be `discover-shows`.
-There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.
-Finally, fill in the format parameter with ‘json’ so our data will be formatted in json when it is returned to us.
+<ol>
+  <li>Input the name of the artist in the `artist_name` parameter. Feel free to use spaces to separate words since we’ll be encoding the url anyways. For this demonstration, let’s look up the artist `Kanye West`.</li>
+  <li>To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of the computer you’re currently on to find your location. If you’d like to broaden your search of nearby concerts, increase the value of the radius parameter (maximum value is 150).</li>
+  <li>Your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, my app_id will be `discover-shows`.</li>
+  <li>There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
+  <li>Finally, fill in the format parameter with ‘json’ so our data will be formatted in json when it is returned to us.</li>
+</ol>
 
-Our end url should look like this:
+So, now our url should look like this:
 
-http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json
+{% highlight ruby linenos %}
+"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json"
+{% endhighlight %}
 
 See that space between Kanye and West? Yeah, that’s no good, and it will generate an error if we submit this to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method will replace any whitespace characters with `%20`, resulting in a valid URL.
 
