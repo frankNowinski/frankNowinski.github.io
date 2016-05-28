@@ -17,20 +17,20 @@ Spotify’s API has a whole host of endpoints that allow programmers to extract 
 
 Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on `Curb` later). Include the following gems in your Gemfile and run `bundle`: edit this
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 `gem 'rspotify'`
 `gem 'curb'`
 {% endhighlight %}
 
 If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 RSpotify::authenticate(ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"])
 {% endhighlight %}
 
 Then, in `config/initializers/omniauth.rb` include:
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 require 'rspotify/oauth'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
@@ -43,13 +43,13 @@ By including the `user-top-read` scope you're asking the user for permission to 
 
 Next, provide a link so the user can log into their Spotify account:
 
-{% highlight erb linenos %}
+{% highlight erb %}
 <%= link_to "Sign in with Spotify", "/auth/spotify" %>
 {% endhighlight %}
 
 Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to `routes.rb` and declare what controller and action you’ll like your callback to hit:
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 get "/auth/spotify/callback", to: "users/spotify"
 {% endhighlight %}
 
@@ -59,7 +59,7 @@ Once you've retrieved the access token you're ready to make a subsequent request
 
 The `curb` gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
   http.headers['Accept'] = 'application/json',
   http.headers['Authorization'] = "Bearer #{access_token}"
@@ -78,13 +78,13 @@ In accordance to the BandsInTown API, if we want our app to return the upcoming 
 {% highlight ruby %} "http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}" {% endhighlight %}
 
 The BandsInTown API  artist endpoint requires the following five parameters:
-<ul>
+<ol>
   <li>`artist_name`: Populate the `artist_name` parameter with the artist you’d like to look up. Feel free to use spaces to separate words since we’ll be escaping the URL later in this tutorial. For demonstration purposes, let’s look up the artist `Kanye West`.</li>
-  <li>`location`: To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of your computer to find your current location. Then, set the `radius` parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our favorite artist that are within a 50 mile radius of our current location.</li> 
+  <li>`location`: To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of your computer to find your current location. Then, set the `radius` parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our most listened to artists that are within a 50 mile radius of our current location.</li> 
   <li>`app_id`: your `app_id` could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, the `app_id` will be `discover-shows`.</li>
   <li>`version`: There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
   <li>`format`: Finally, fill in the `format parameter` with `json` so our data will be returned to us in json format.</li> 
-</ul>
+</ol>
 Now our url should look like this:
 {% highlight ruby %} "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json" {% endhighlight %}
 
@@ -99,7 +99,7 @@ Next, we’ll convert this URL into an URI object by passing it into the URI.par
 
 Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted `uri` variable into the `get_response` method of the `Net::HTTP` class:
 
-{% highlight ruby linenos %} response = Net::HTTP.get_response(uri).body {% endhighlight %}
+{% highlight ruby %} response = Net::HTTP.get_response(uri).body {% endhighlight %}
 
 Chaining body to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
 
@@ -107,6 +107,6 @@ Chaining body to the end of the `get_response` method returns the body of the re
 
 If we were to encapsulate all of our code, do a little refactoring, and put it inside a method, we’d get:
 
-{% highlight ruby %} def events escaped_uri = URI.escape("http://api.bandsintown.com/artists/Kanye West /events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json") uri = URI.parse(escaped_uri) JSON.parse(Net::HTTP.get_response(uri).body) end {% endhighlight %}
+{% highlight ruby %} def events escaped_uri = URI.escape("http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json") uri = URI.parse(escaped_uri) JSON.parse(Net::HTTP.get_response(uri).body) end {% endhighlight %}
 
-There you have it. That’s how to use the Spotify API combined with the BandsInTown API to retrieve upcoming concerts of your most listened to bands on Spotify. You can view all of the other endpoints Spotify's API has to offer here.
+There you have it. That’s how to use the Spotify API combined with the BandsInTown API to retrieve upcoming concerts of your most listened to bands on Spotify. You can view all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
