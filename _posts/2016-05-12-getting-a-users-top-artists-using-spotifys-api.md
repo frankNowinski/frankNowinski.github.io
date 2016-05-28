@@ -71,9 +71,9 @@ JSON.parse(http)
 You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you'll receive your top artists!
 
 
-<h2>Finding local concerts with the BandsInTown API</h2>
+<h2>Finding local concerts using the BandsInTown API</h2>
 
-In accordance to the BandsInTown API, if we want our app to return the upcoming concerts for a particular artist we’ll have to construct the following URL:
+In accordance to the BandsInTown API, if we receive upcoming concerts for a particular artist we’ll have to construct the following URL:
 
 {% highlight ruby %} "http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}" {% endhighlight %}
 
@@ -83,7 +83,7 @@ The BandsInTown API  artist endpoint requires the following five parameters:
   <li>location: To get upcoming concerts in an area nearby your current location, insert 'use_geoip&radius=50' in the location parameter. 'use_geoip' uses the ip address of your computer to find your current location. Then, set the 'radius' parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our most listened to artists that are within a 50 mile radius of our current location.</li> 
   <li>app_id: your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, the app_id will be discover-shows.</li>
   <li>version: There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
-  <li>format: Finally, fill in the format parameter with json so our data will be returned to us in json format.</li> 
+  <li>format: Finally, fill in the format parameter with 'json' so our data will be returned to us in json format.</li> 
 </ol>
 Now our url should look like this:
 {% highlight ruby %} "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json" {% endhighlight %}
@@ -101,12 +101,18 @@ Now we’re ready to send a get request to the BandsInTown API. We can accomplis
 
 {% highlight ruby %} response = Net::HTTP.get_response(uri).body {% endhighlight %}
 
-Chaining body to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
+Chaining `body` to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
 
 {% highlight ruby %} JSON.parse(response) {% endhighlight %}
 
 If we were to encapsulate all of our code, do a little refactoring, and put it inside a method, we’d get:
 
-{% highlight ruby %} def events escaped_uri = URI.escape("http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json") uri = URI.parse(escaped_uri) JSON.parse(Net::HTTP.get_response(uri).body) end {% endhighlight %}
+{% highlight ruby %} 
+def events 
+  escaped_uri = URI.escape("http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json") 
+  uri = URI.parse(escaped_uri) 
+  JSON.parse(Net::HTTP.get_response(uri).body) 
+end 
+{% endhighlight %}
 
 There you have it. That’s how to use the Spotify API combined with the BandsInTown API to retrieve upcoming concerts of your most listened to bands on Spotify. You can view all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
