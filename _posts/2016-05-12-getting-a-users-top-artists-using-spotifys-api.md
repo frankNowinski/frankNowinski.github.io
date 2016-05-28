@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Finding Upcoming Concerts of Your Favorite Bands Using the Spotify and BandsInTown API
+title: Finding Upcoming Concerts of Your Favorite Bands
 modified:
 categories:
 description:
