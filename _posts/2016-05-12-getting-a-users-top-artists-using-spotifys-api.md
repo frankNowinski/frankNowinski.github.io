@@ -18,8 +18,8 @@ Spotify’s API has a whole host of endpoints that allow programmers to extract 
 Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on `Curb` later). Include the following gems in your Gemfile and run `bundle`: edit this
 
 {% highlight ruby %}
-`gem 'rspotify'`
-`gem 'curb'`
+gem 'rspotify'
+gem 'curb'
 {% endhighlight %}
 
 If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
