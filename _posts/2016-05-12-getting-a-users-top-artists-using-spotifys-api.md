@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Getting a Users Top Artists Using Spotify's API
+title: Finding Upcoming Concerts of Your Favorite Bands Using the Spotify and BandsInTown API
 modified:
 categories:
 description:
