@@ -73,72 +73,40 @@ You can request a minimum of one or a maximum of fifty artists by modifying the 
 
 <h2>Finding local concerts with the BandsInTown API</h2>
 
-The BandsInTown API endpoint requires the following five parameters:
+In accordance to the BandsInTown API, if we want our app to return the upcoming concerts for a particular artist we’ll have to construct the following URL:
 
-<ol>
-  <li>artist_name</li>
-  <li>location</li>
-  <li>app_id</li>
-  <li>api_version</li>
-  <li>format</li>
-</ol>
+{% highlight ruby %} "http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}" {% endhighlight %}
 
-Below is the BandsInTown URL we’re aiming to construct:
+The BandsInTown API  artist endpoint requires the following five parameters:
+<ul>
+  <li>`artist_name`: Populate the `artist_name` parameter with the artist you’d like to look up. Feel free to use spaces to separate words since we’ll be escaping the URL later in this tutorial. For demonstration purposes, let’s look up the artist `Kanye West`.</li>
+  <li>`location`: To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of your computer to find your current location. Then, set the `radius` parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our favorite artist that are within a 50 mile radius of our current location.</li> 
+  <li>`app_id`: your `app_id` could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, the `app_id` will be `discover-shows`.</li>
+  <li>`version`: There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
+  <li>`format`: Finally, fill in the `format parameter` with `json` so our data will be returned to us in json format.</li> 
+</ul>
+Now our url should look like this:
+{% highlight ruby %} "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json" {% endhighlight %}
 
-{% highlight ruby linenos %}
-"http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}"
-{% endhighlight %}
+See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with `%20`, resulting in a valid URL.
 
-Now let’s populate these parameters.
+{% highlight ruby %} escaped_url = URI.escape("http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json")
+#=> escaped_url = "http://api.bandsintown.com/artists/Kanye%20West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json"
+ {% endhighlight %}
+ 
+Next, we’ll convert this URL into an URI object by passing it into the URI.parse method:
+{% highlight ruby %} uri = URI.parse(escaped_url) {% endhighlight %}
 
-<ol>
-  <li>Input the name of the artist in the `artist_name` parameter. Feel free to use spaces to separate words since we’ll be encoding the url anyways. For this demonstration, let’s look up the artist `Kanye West`.</li>
-  <li>To get upcoming concerts in an area nearby your current location, insert `use_geoip&radius=50` in the `location` parameter. `use_geoip` uses the ip address of the computer you’re currently on to find your location. If you’d like to broaden your search of nearby concerts, increase the value of the radius parameter (maximum value is 150).</li>
-  <li>Your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, my app_id will be `discover-shows`.</li>
-  <li>There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
-  <li>Finally, fill in the format parameter with ‘json’ so our data will be formatted in json when it is returned to us.</li>
-</ol>
+Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted `uri` variable into the `get_response` method of the `Net::HTTP` class:
 
-So, now our url should look like this:
+{% highlight ruby linenos %} response = Net::HTTP.get_response(uri).body {% endhighlight %}
 
-{% highlight ruby %}
-"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json"
-{% endhighlight %}
+Chaining body to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
 
-See that space between Kanye and West? Yeah, that’s no good, and it will generate an error if we submit this to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method will replace any whitespace characters with `%20`, resulting in a valid URL.
+{% highlight ruby %} JSON.parse(response) {% endhighlight %}
 
-{% highlight ruby linenos %}
-escaped_url = URI.escape("http://api.bandsintown.com/artists/#{self.name}/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json")
-{% endhighlight %}
+If we were to encapsulate all of our code, do a little refactoring, and put it inside a method, we’d get:
 
-Next, we’ll convert this URL into an URI object by passing it into the URI.parse method.
+{% highlight ruby %} def events escaped_uri = URI.escape("http://api.bandsintown.com/artists/Kanye West /events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json") uri = URI.parse(escaped_uri) JSON.parse(Net::HTTP.get_response(uri).body) end {% endhighlight %}
 
-{% highlight ruby linenos %}
-escaped_url = URI.escape("http://api.bandsintown.com/artists/#{self.name}/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json")
-uri = URI.parse(escaped_url)
-{% endhighlight %}
-
-Now, we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the `uri` variable into the `get_response` method of the `Net::HTTP` class:  
-
-{% highlight ruby linenos %}
-response = Net::HTTP.get_response(uri).body
-{% endhighlight %}
-
-Chaining `body` to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is to parse the response!
-
-{% highlight ruby linenos %}
-JSON.parse(response)
-{% endhighlight %}
-
-Let’s refactor our code and encapsulate it inside an method called `events`:
-
-{% highlight ruby linenos %}
-  def events
-    escaped_uri = URI.escape("http://api.bandsintown.com/artists/#{self.name}/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json")
-    uri = URI.parse(escaped_uri)
-    JSON.parse(Net::HTTP.get_response(uri).body)
-  end
-{% endhighlight %}
-
-
-View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
+There you have it. That’s how to use the Spotify API combined with the BandsInTown API to retrieve upcoming concerts of your most listened to bands on Spotify. You can view all of the other endpoints Spotify's API has to offer here.
