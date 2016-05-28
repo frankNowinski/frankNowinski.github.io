@@ -15,7 +15,7 @@ date: 2016-05-12T22:02:58-04:00
 ---
 Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn't it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify's API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.
 
-Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on `Curb` later). Include the following gems in your Gemfile and run `bundle`:
+Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on `Curb` later). Include the following gems in your Gemfile and run `bundle`: edit this
 
 {% highlight ruby linenos %}
 `gem 'rspotify'`
