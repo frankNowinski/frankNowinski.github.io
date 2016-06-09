@@ -78,12 +78,13 @@ In accordance to the BandsInTown API, if we receive upcoming concerts for a part
 
 The BandsInTown API  artist endpoint requires the following five parameters:
 <ol>
-  <li>'artist_name': Populate the artist_name parameter with the artist you’d like to look up. Feel free to use spaces to separate words since we’ll be escaping the URL later in this tutorial. For demonstration purposes, let’s look up the artist 'Kanye West'.</li>
+  <li>artist_name: Populate the artist_name parameter with the artist you’d like to look up. Feel free to use spaces to separate words since we’ll be escaping the URL later in this tutorial. For demonstration purposes, let’s look up the artist 'Kanye West'.</li>
   <li>location: To get upcoming concerts in an area nearby your current location, insert 'use_geoip&radius=50' in the location parameter. 'use_geoip' uses the ip address of your computer to find your current location. Then, set the 'radius' parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our most listened to artists that are within a 50 mile radius of our current location.</li>
   <li>app_id: your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, the app_id will be discover-shows.</li>
   <li>version: There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
   <li>format: Finally, fill in the format parameter with 'json' so our data will be returned to us in json format.</li>
 </ol>
+
 Now our url should look like this:
 {% highlight ruby %} "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json" {% endhighlight %}
 
