@@ -72,7 +72,7 @@ You can request a minimum of one or a maximum of fifty artists by modifying the 
 
 <h2>Finding local concerts using the BandsInTown API</h2>
 
-In accordance to the BandsInTown API, if we receive upcoming concerts for a particular artist we’ll have to construct the following URL:
+In accordance with the BandsInTown API, if we receive upcoming concerts for a particular artist we’ll have to construct the following URL:
 
 {% highlight ruby %} "http://api.bandsintown.com/artists/#{artist_name}/events/recommended?location=#{location}&app_id=#{app_id}&api_version=#{api_version}&format=#{format}" {% endhighlight %}
 
