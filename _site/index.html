@@ -156,11 +156,11 @@ Reading time ~2 minutes
    
     <!-- <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code>O(n)</code> and <code>O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code>O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code>O(n log(n))</code> means, then this blog post is for you.</p>
 
-<p>First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm is as the input gets arbitrarily large.</p>
+<p>First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.</p>
 
-<p>Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of some external variable (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but how much the runtime grows as the input gets larger.</p>
+<p>Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.</p>
 
-<p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code>O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in ruby would be:</p>
+<p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code>O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">linear_time</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
   <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
@@ -169,7 +169,7 @@ Reading time ~2 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Demonstrating <code>O(n^2)</code> is a little more complex. Let’s say we’re provided with two arrays: the first containing digits <code>[5, 6, 7, 8, 9, 10]</code> and the second array is a range of digits from 1 to 100 and we want to, for some inconceivable reason, print out all digits that are equally divisible by the numbers in the first array. Let’s see a Ruby implementation:</p>
+<p>Demonstrating <code>O(n^2)</code> is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">quadratic_time</span><span class="p">(</span><span class="n">divisors</span><span class="p">,</span> <span class="n">range_of_digits</span><span class="p">)</span>
   <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
@@ -179,9 +179,9 @@ Reading time ~2 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>*(This is not the most effective way to solve this problem)</p>
+<p><small>(This is not the most effective way to solve this problem)</small></p>
 
-<p>Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or <i>n</i> times, and the inner loop must run <i>n</i> times for the each iteration of the outer loop, giving us O(n^2)` or quadratic time.</p>
+<p>Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or <i>n</i> times, and the inner loop must run <i>n</i> times for <em>each</em> iteration of the outer loop, giving us <code>O(n^2)</code> or quadratic time.</p>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

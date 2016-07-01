@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-06-30T20:09:07-04:00</updated>
+<updated>2016-06-30T20:24:21-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -27,11 +27,11 @@
   <content type="html">
     &lt;p&gt;The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as &lt;code&gt;O(n)&lt;/code&gt; and &lt;code&gt;O(n^2)&lt;/code&gt;. The first few complexities are pretty straightforward, it’s only when you find yourself staring at &lt;code&gt;O(n log(n))&lt;/code&gt; when the confusion kicks in. If you can relate, or you just want to brush up on what exactly &lt;code&gt;O(n log(n))&lt;/code&gt; means, then this blog post is for you.&lt;/p&gt;
 
-&lt;p&gt;First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm is as the input gets arbitrarily large.&lt;/p&gt;
+&lt;p&gt;First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.&lt;/p&gt;
 
-&lt;p&gt;Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of some external variable (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but how much the runtime grows as the input gets larger.&lt;/p&gt;
+&lt;p&gt;Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.&lt;/p&gt;
 
-&lt;p&gt;For example, a simple iteration through an array of &lt;i&gt;n&lt;/i&gt; items to find the largest value would be considered &lt;code&gt;O(n)&lt;/code&gt;, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in ruby would be:&lt;/p&gt;
+&lt;p&gt;For example, a simple iteration through an array of &lt;i&gt;n&lt;/i&gt; items to find the largest value would be considered &lt;code&gt;O(n)&lt;/code&gt;, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;linear_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
@@ -40,7 +40,7 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Demonstrating &lt;code&gt;O(n^2)&lt;/code&gt; is a little more complex. Let’s say we’re provided with two arrays: the first containing digits &lt;code&gt;[5, 6, 7, 8, 9, 10]&lt;/code&gt; and the second array is a range of digits from 1 to 100 and we want to, for some inconceivable reason, print out all digits that are equally divisible by the numbers in the first array. Let’s see a Ruby implementation:&lt;/p&gt;
+&lt;p&gt;Demonstrating &lt;code&gt;O(n^2)&lt;/code&gt; is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;quadratic_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;range_of_digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;divisor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
@@ -50,9 +50,9 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;*(This is not the most effective way to solve this problem)&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;(This is not the most effective way to solve this problem)&lt;/small&gt;&lt;/p&gt;
 
-&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or &lt;i&gt;n&lt;/i&gt; times, and the inner loop must run &lt;i&gt;n&lt;/i&gt; times for the each iteration of the outer loop, giving us O(n^2)` or quadratic time.&lt;/p&gt;
+&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or &lt;i&gt;n&lt;/i&gt; times, and the inner loop must run &lt;i&gt;n&lt;/i&gt; times for &lt;em&gt;each&lt;/em&gt; iteration of the outer loop, giving us &lt;code&gt;O(n^2)&lt;/code&gt; or quadratic time.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/understanding-o-n-log-n/&quot;&gt;Understanding o(n Log(n))&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on June 30, 2016.&lt;/p&gt;
   </content>
