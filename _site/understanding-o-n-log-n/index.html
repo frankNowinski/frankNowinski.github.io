@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Understanding o(n Log(n)) &#8211; Frank Nowinski</title>
+<title>Understanding O(n log(n)) &#8211; Frank Nowinski</title>
 <meta name="description" content="My personal blog.">
 <meta name="keywords" content="">
 
@@ -14,7 +14,7 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Understanding o(n Log(n))">
+<meta property="og:title" content="Understanding O(n log(n))">
 <meta property="og:description" content="My personal blog.">
 <meta property="og:url" content="http://franknowinski.github.io/understanding-o-n-log-n/">
 <meta property="og:site_name" content="Frank Nowinski">
@@ -43,9 +43,10 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.ico">
+<!-- <link rel="shortcut icon" href="http://franknowinski.github.io/favicon.ico"> -->
+<link rel="shortcut icon" href="http://franknowinski.github.io/images/background-image.jpg">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="http://franknowinski.github.io/favicon.png">
+<link rel="shortcut icon" href="http://franknowinski.github.io/images/background-image.jpg">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
 <link rel="apple-touch-icon-precomposed" href="http://franknowinski.github.io/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
@@ -115,7 +116,7 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://franknowinski.github.io/understanding-o-n-log-n/" rel="bookmark" title="Understanding o(n Log(n))">Understanding o(n Log(n))</a></h1>
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/understanding-o-n-log-n/" rel="bookmark" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h1>
         
         <h2><span class="entry-date date published"><time datetime="2016-06-30T20:04:18-04:00">June 30, 2016</time></span></h2>
         
@@ -153,9 +154,11 @@ Reading time ~2 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p><small>(This is not the most effective way to solve this problem)</small></p>
+<p><small>Not the most efficient solution</small></p>
 
 <p>Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or <i>n</i> times, and the inner loop must run <i>n</i> times for <em>each</em> iteration of the outer loop, giving us <code>O(n^2)</code> or quadratic time.</p>
+
+<p>IN PROGRESS…</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>

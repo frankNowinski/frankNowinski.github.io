@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Understanding o(n Log(n))
+title: Understanding O(n log(n))
 modified:
 categories:
 description:
