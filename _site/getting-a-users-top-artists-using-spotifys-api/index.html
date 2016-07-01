@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Getting a Users Top Artists Using Spotify's API &#8211; Frank Nowinski</title>
+<title>Finding Upcoming Concerts of Your Favorite Bands &#8211; Frank Nowinski</title>
 <meta name="description" content="My personal blog.">
 <meta name="keywords" content="">
 
@@ -14,7 +14,7 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Getting a Users Top Artists Using Spotify's API">
+<meta property="og:title" content="Finding Upcoming Concerts of Your Favorite Bands">
 <meta property="og:description" content="My personal blog.">
 <meta property="og:url" content="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">
 <meta property="og:site_name" content="Frank Nowinski">
@@ -115,14 +115,14 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" rel="bookmark" title="Getting a Users Top Artists Using Spotify's API">Getting a Users Top Artists Using Spotify's API</a></h1>
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" rel="bookmark" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h1>
         
         <h2><span class="entry-date date published"><time datetime="2016-05-12T22:02:58-04:00">May 12, 2016</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~4 minutes
+Reading time ~5 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
@@ -130,173 +130,94 @@ Reading time ~4 minutes
     <div class="entry-content">
       <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.</p>
 
-<p>Before we get underway, let’s add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on <code>Curb</code> later). Include the following gems in your Gemfile and run <code>bundle</code>:</p>
+<p>Before we get underway, let’s add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on <code>Curb</code> later). Include the following gems in your Gemfile and run <code>bundle</code>: edit this</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="sb">`gem 'rspotify'`</span>
-<span class="sb">`gem 'curb'`</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'rspotify'</span>
+<span class="n">gem</span> <span class="s1">'curb'</span></code></pre></div>
 
+<p>If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span></code></pre></div>
 
-If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
+<p>Then, in <code>config/initializers/omniauth.rb</code> include:</p>
 
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Then, in `config/initializers/omniauth.rb` include:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6</pre></td><td class="code"><pre><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
 
 <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">middleware</span><span class="p">.</span><span class="nf">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
   <span class="n">provider</span> <span class="ss">:spotify</span><span class="p">,</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">],</span>
   <span class="ss">scope: </span><span class="s1">'user-read-email user-top-read'</span>
-<span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="k">end</span></code></pre></div>
 
+<p>By including the <code>user-top-read</code> scope you’re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you’ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.</p>
 
+<p>Next, provide a link so the user can log into their Spotify account:</p>
 
-By including the `user-top-read` scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you'll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Sign in with Spotify"</span><span class="p">,</span> <span class="s2">"/auth/spotify"</span> <span class="cp">%&gt;</span></code></pre></div>
 
-Next, provide a link so the user can log into their Spotify account:
+<p>Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to <code>routes.rb</code> and declare what controller and action you’ll like your callback to hit:</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s2">"/auth/spotify/callback"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"users/spotify"</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Sign in with Spotify"</span><span class="p">,</span> <span class="s2">"/auth/spotify"</span> <span class="cp">%&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<p>You now have access to basic user information, such as name and email address, as well as the unique access token in the <code>spotify</code> action of your app.</p>
 
+<p>Once you’ve retrieved the access token you’re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the <code>curb</code> gem which we previously installed in our app.</p>
 
+<p>The <code>curb</code> gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:</p>
 
-Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to `routes.rb` and declare what controller and action you’ll like your callback to hit:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">get</span> <span class="s2">"/auth/spotify/callback"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"users/spotify"</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-You now have access to basic user information, such as name and email address, as well as the unique access token in the `spotify` action of your app.
-
-Once you've retrieved the access token you're ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem which we previously installed in our app.
-
-The `curb` gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6</pre></td><td class="code"><pre><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
   <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
   <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bearer </span><span class="si">#{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span><span class="p">.</span><span class="nf">body_str</span>
 
-<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span></code></pre></div>
 
+<p>You can request a minimum of one or a maximum of fifty artists by modifying the <code>limit</code> query parameter at the conclusion of the endpoint (ex: <code>limit=50</code>). Finally, replace <code>#{access_token}</code> with the actual access token, pass in the http local variable as an argument to the <code>JSON.parse</code> method and you’ll receive your top artists!</p>
 
+<h2>Finding local concerts using the BandsInTown API</h2>
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you'll receive your top artists!
+<p>In accordance with the BandsInTown API, if we receive upcoming concerts for a particular artist we’ll have to construct the following URL:</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="s2">"http://api.bandsintown.com/artists/</span><span class="si">#{</span><span class="n">artist_name</span><span class="si">}</span><span class="s2">/events/recommended?location=</span><span class="si">#{</span><span class="n">location</span><span class="si">}</span><span class="s2">&amp;app_id=</span><span class="si">#{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">&amp;api_version=</span><span class="si">#{</span><span class="n">api_version</span><span class="si">}</span><span class="s2">&amp;format=</span><span class="si">#{</span><span class="nb">format</span><span class="si">}</span><span class="s2">"</span></code></pre></div>
 
-<h2>Finding local concerts with the BandsInTown API</h2>
-
-The BandsInTown API endpoint requires the following five parameters:
-
+<p>The BandsInTown API  artist endpoint requires the following five parameters:</p>
 <ol>
-  <li>artist_name</li>
-  <li>location</li>
-  <li>app_id</li>
-  <li>api_version</li>
-  <li>format</li>
+  <li>artist_name: Populate the artist_name parameter with the artist you’d like to look up. Feel free to use spaces to separate words since we’ll be escaping the URL later in this tutorial. For demonstration purposes, let’s look up the artist 'Kanye West'.</li>
+  <li>location: To get upcoming concerts in an area nearby your current location, insert 'use_geoip&amp;radius=50' in the location parameter. 'use_geoip' uses the ip address of your computer to find your current location. Then, set the 'radius' parameter, which is measured in miles, to however far you’d be willing to travel to see one of your favorite bands (maximum distance is 150 miles). For this post, we’ll find concerts for our most listened to artists that are within a 50 mile radius of our current location.</li>
+  <li>app_id: your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, the app_id will be discover-shows.</li>
+  <li>version: There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
+  <li>format: Finally, fill in the format parameter with 'json' so our data will be returned to us in json format.</li>
 </ol>
 
-Below is the BandsInTown URL we’re aiming to construct:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"http://api.bandsintown.com/artists/</span><span class="si">#{</span><span class="n">artist_name</span><span class="si">}</span><span class="s2">/events/recommended?location=</span><span class="si">#{</span><span class="n">location</span><span class="si">}</span><span class="s2">&amp;app_id=</span><span class="si">#{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">&amp;api_version=</span><span class="si">#{</span><span class="n">api_version</span><span class="si">}</span><span class="s2">&amp;format=</span><span class="si">#{</span><span class="nb">format</span><span class="si">}</span><span class="s2">"</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Now let’s populate these parameters.
-
-<ol>
-  <li>Input the name of the artist in the `artist_name` parameter. Feel free to use spaces to separate words since we’ll be encoding the url anyways. For this demonstration, let’s look up the artist `Kanye West`.</li>
-  <li>To get upcoming concerts in an area nearby your current location, insert `use_geoip&amp;radius=50` in the `location` parameter. `use_geoip` uses the ip address of the computer you’re currently on to find your location. If you’d like to broaden your search of nearby concerts, increase the value of the radius parameter (maximum value is 150).</li>
-  <li>Your app_id could be anything you wish, although it’s best practice to use a word, or words, that reflect the app you’re building. For the purpose of this tutorial, my app_id will be `discover-shows`.</li>
-  <li>There are two versions of the BandsInTown API: 1.0 and 2.0. We’ll use 2.0 because it’s more current.</li>
-  <li>Finally, fill in the format parameter with ‘json’ so our data will be formatted in json when it is returned to us.</li>
-</ol>
-
-So, now our url should look like this:
-
+<p>Now our url should look like this:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span></code></pre></div>
 
+<p>See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with <code>%20</code>, resulting in a valid URL.</p>
 
-See that space between Kanye and West? Yeah, that’s no good, and it will generate an error if we submit this to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method will replace any whitespace characters with `%20`, resulting in a valid URL.
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">escaped_url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span>
+<span class="c1">#=&gt; escaped_url = "http://api.bandsintown.com/artists/Kanye%20West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span></code></pre></div>
 
+<p>Next, we’ll convert this URL into an URI object by passing it into the URI.parse method:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">escaped_url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/</span><span class="si">#{</span><span class="nb">self</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">escaped_url</span><span class="p">)</span></code></pre></div>
 
+<p>Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted <code>uri</code> variable into the <code>get_response</code> method of the <code>Net::HTTP</code> class:</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">response</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="nf">body</span></code></pre></div>
 
-Next, we’ll convert this URL into an URI object by passing it into the URI.parse method.
+<p>Chaining <code>body</code> to the end of the <code>get_response</code> method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="n">escaped_url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/</span><span class="si">#{</span><span class="nb">self</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span>
-<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">escaped_url</span><span class="p">)</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<p>If we were to encapsulate all of our code, do a little refactoring, and put it inside a method, we’d get:</p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">events</span>
+  <span class="n">escaped_uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span>
+  <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">escaped_uri</span><span class="p">)</span>
+  <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="nf">body</span><span class="p">)</span>
+<span class="k">end</span></code></pre></div>
 
-
-Now, we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the `uri` variable into the `get_response` method of the `Net::HTTP` class:  
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">response</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="nf">body</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Chaining `body` to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is to parse the response!
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Let’s refactor our code and encapsulate it inside an method called `events`:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">events</span>
-    <span class="n">escaped_uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/</span><span class="si">#{</span><span class="nb">self</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span>
-    <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">escaped_uri</span><span class="p">)</span>
-    <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="nf">body</span><span class="p">)</span>
-  <span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-
-View all of the other endpoints Spotify's API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+<p>There you have it. That’s how to use the Spotify API combined with the BandsInTown API to retrieve upcoming concerts of your most listened to bands on Spotify. You can view all of the other endpoints Spotify’s API has to offer <a href="https://developer.spotify.com/web-api/endpoint-reference/">here</a>.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
@@ -317,20 +238,20 @@ View all of the other endpoints Spotify's API has to offer <a href="https://deve
       <a href="http://franknowinski.github.io/editing-a-form-asynchronously/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h3>
-      <p>Recently I built a Rails application that allows a user to create workouts corresponding to a specific muscle group. Throughout my app I ...&hellip; <a href="http://franknowinski.github.io/editing-a-form-asynchronously/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/understading-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h3>
+      <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your ...&hellip; <a href="http://franknowinski.github.io/understading-o-n-log-n/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
-        <span>Published on February 21, 2016</span>
+        <h4><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h4>
+        <span>Published on March 18, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/dynamic-dispatching/" title="Dynamic Dispatching Basics">Dynamic Dispatching Basics</a></h4>
-        <span>Published on January 29, 2016</span>
+        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
+        <span>Published on February 21, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

@@ -128,6 +128,87 @@
 <article class="hentry">
   <header>
     
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-01-29T05:44:58-05:00"><a href="http://franknowinski.github.io/using-csv-parse-to-access-stock-data/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/using-csv-parse-to-access-stock-data/" rel="bookmark" title="Using CSV.parse to Access Stock Data" itemprop="url">Using CSV.parse to Access Stock Data</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>The Yahoo! Finance API makes it remarkably easy to retrieve realtime stock data and store it in a comma separated values (csv) file. But how do you get the values from the csv file into your program? That was the second challenge that I faced as I tried to implement my stock ruby gem.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/using-csv-parse-to-access-stock-data//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>The Yahoo! Finance API makes it remarkably easy to retrieve realtime stock data and store it in a comma separated values (csv) file. But how do you get the values from the csv file into your program? That was the second challenge that I faced as I tried to implement my stock ruby gem.</p>
+
+<p>Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+  <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">row</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.
+
+However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the 'csv' and 'open-uri' gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.
+
+The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it's own String object within that array.
+
+I think it's time for an example. Say we requested to view the name and asking price of Apple's and Google's stock. The csv file would look like this:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="s2">"Apple Inc."</span><span class="p">,</span> <span class="mi">115</span><span class="o">.</span><span class="mi">46</span>
+<span class="s2">"Alphabet Inc."</span><span class="p">,</span> <span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+<pre>(Alphabet Inc. is Google's parent company)</pre>
+
+The CSV.parse method would then create a new array for each row of data and separately input each value as it's own String into that array. The final result would be:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="p">[</span><span class="err">“</span><span class="no">Apple</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">115</span><span class="o">.</span><span class="mi">46</span><span class="err">“</span><span class="p">]</span>
+<span class="p">[</span><span class="err">“</span><span class="no">Alphabet</span> <span class="no">Inc</span><span class="o">.</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="mi">755</span><span class="o">.</span><span class="mi">97</span><span class="err">“</span><span class="p">]</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple's name, and we were on the first iteration of row, we would enter <code>row[0]</code> in our loop, or if we wanted to access Apple's price we would enter <code>row[1]</code>. Then on our next iteration of row we would be able to access Alphabet Inc.'s elements.
+
+Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.
+</code></pre></div></code></pre></div></code></pre></div>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
       <div class="entry-image-index">
         <a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Formatting the URL for the Yahoo Finance API"><img src="http://franknowinski.github.io/images/stocks-photo.jpg" alt="Formatting the URL for the Yahoo Finance API"></a>
       </div><!-- /.entry-image -->
