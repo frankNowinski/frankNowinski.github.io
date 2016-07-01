@@ -42,6 +42,8 @@ def quadratic_time(divisors, range_of_digits)
   end
 end
 {% endhighlight %}
-<small>(This is not the most effective way to solve this problem)</small>
+<small>Not the most efficient solution</small>
 
 Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or <i>n</i> times, and the inner loop must run <i>n</i> times for <em>each</em> iteration of the outer loop, giving us `O(n^2)` or quadratic time.
+
+IN PROGRESS...
