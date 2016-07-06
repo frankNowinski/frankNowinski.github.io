@@ -57,9 +57,9 @@ The basic premise of mergesort comes down to these three steps:
   <li>Merge the sorted arrays</li>
 </ul>
 
-To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let's say we want to sort the following array of integers from 1-10: `[8, 2, 4, 7, 3, 1, 6, 9, 10, 5]`. Mergesort believes in reducing this array of 10 elements into 10 individual subarrays by repeatedly dividing itself in half until each element is its own subarray.
+To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let's say we want to sort the following array of integers from 1-8: `[8, 2, 4, 7, 3, 1, 6, 5]`. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.
 
-Following our example, first the array is reduced to `[8, 2, 4, 7, 3]`. Then, mergesort is recursively called (since the array's length is larger than 1) and cut in half again to equal `[8, 2]`. This process continues until we're left with `[8]` and `[2]`, the first two elements of the array. Now the left portion of the array is compared to the right portion and merged together to form a sorted array, giving us `[2, 8]`. This technique is then applied to the right portion of the array, and then the two arrays are merged together. See a full implementation of mergesort in Ruby below:
+Following our example, first the array is reduced to `[8, 2, 4, 7]`. Then, mergesort is recursively called (since the array's length is larger than 1) and cut in half again to equal `[8, 2]`. This process continues until we're left with `[8]` and `[2]`, the first two elements of the array. Now that there's only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, `[8]` would be declared the left portion and `[2]` the right. So, the first pair of our sorted array would be `[2, 8]` since `8` is less than `2`. Next, we would sort `[[4], [7]]` which just so happens to be sorted. Finally, we would merge the first two pairs into `[2, 4, 7, 8]`, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:
 
 {% highlight ruby %}
 def merge_sort(arr)
@@ -86,4 +86,4 @@ def merge(left, right)
 end
 {% endhighlight %}
 
-Now, you can see that `log(n)` is attributed to the number of times we have to divide the array of integers in half until they're converted to subarrays of 1, and the `n` comes from the time it takes to merge both the left portion and the right portion together. To conclude, `O(n log(n))` is such a popular  complexity because it has the best worst-case runtime we can get for sorting.
+Now, you can see that `log(n)` is attributed to the number of times we have to divide the array of integers in half until they're converted to subarrays of 1, and the `n` comes from the time it takes to merge both the left portion and the right portion together. `O(n log(n))` is such a popular complexity because it has the best worst-case runtime we can get for sorting.
