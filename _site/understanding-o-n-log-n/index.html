@@ -123,15 +123,15 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~2 minutes
+Reading time ~4 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code>O(n)</code> and <code>O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code>O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code>O(n log(n))</code> means, then this blog post is for you.</p>
+      <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code>O(n)</code> and <code>O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code>O(n log2(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code>O(n log2(n))</code> means, then this blog post is for you.</p>
 
-<p>First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.</p>
+<p>First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. <strong>Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.</strong></p>
 
 <p>Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.</p>
 
@@ -154,11 +154,49 @@ Reading time ~2 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p><small>Not the most efficient solution</small></p>
+<p><small>*Not the most efficient solution</small></p>
 
-<p>Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or <i>n</i> times, and the inner loop must run <i>n</i> times for <em>each</em> iteration of the outer loop, giving us <code>O(n^2)</code> or quadratic time.</p>
+<p>Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of <code>O(n^2)</code> or quadratic time.</p>
 
-<p>IN PROGRESS…</p>
+<p>After a brief explanation of linear and quadratic, let’s now to try to tackle the meaning behind <code>O(n log2(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
+
+<p>The second part of the complexity, <code>log2(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log2(n))</code>, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)</p>
+
+<p>The basic premise of mergesort comes down to these three steps:</p>
+<ul>
+  <li>Divide the array in half</li>
+  <li>Sort the divided array</li>
+  <li>Merge the sorted arrays</li>
+</ul>
+
+<p>To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-10: <code>[8, 2, 4, 7, 3, 1, 6, 9, 10, 5]</code>. Mergesort believes in reducing this array of 10 elements into 10 individual subarrays by repeatedly dividing itself in half until each element is its own subarray.</p>
+
+<p>Following our example, first the array is reduced to <code>[8, 2, 4, 7, 3]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now the left portion of the array is compared to the right portion and merged together to form a sorted array, giving us <code>[2, 8]</code>. This technique is then applied to the right portion of the array, and then the two arrays are merged together. See a full implementation of mergesort in Ruby below:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+    <span class="n">arr</span>
+  <span class="k">else</span>
+    <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="nf">length</span><span class="o">/</span><span class="mi">2</span><span class="p">).</span><span class="nf">floor</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="n">middle</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">middle</span><span class="p">.</span><span class="nf">.</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">left</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="n">right</span>
+  <span class="k">elsif</span> <span class="n">right</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="n">left</span>
+  <span class="k">elsif</span> <span class="n">left</span><span class="p">.</span><span class="nf">first</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">.</span><span class="nf">first</span>
+    <span class="p">[</span><span class="n">left</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">left</span><span class="p">.</span><span class="nf">length</span><span class="p">],</span> <span class="n">right</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="p">[</span><span class="n">right</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">right</span><span class="p">.</span><span class="nf">length</span><span class="p">])</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Now, you can see that <code>log2(n)</code> is attributed to the number of times we have to divide the array of integers in half until they’re converted to subarrays of 1, and the <code>n</code> comes from the time it takes to merge both the left portion and the right portion together. To conclude, <code>O(n log2(n))</code> is such a popular  complexity because it has the best worst-case runtime we can get for sorting.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>

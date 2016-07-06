@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-06-30T22:43:30-04:00</updated>
+<updated>2016-07-05T21:59:20-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
@@ -25,9 +25,9 @@
     <email>nowinski.frank@gmail.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as &lt;code&gt;O(n)&lt;/code&gt; and &lt;code&gt;O(n^2)&lt;/code&gt;. The first few complexities are pretty straightforward, it’s only when you find yourself staring at &lt;code&gt;O(n log(n))&lt;/code&gt; when the confusion kicks in. If you can relate, or you just want to brush up on what exactly &lt;code&gt;O(n log(n))&lt;/code&gt; means, then this blog post is for you.&lt;/p&gt;
+    &lt;p&gt;The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as &lt;code&gt;O(n)&lt;/code&gt; and &lt;code&gt;O(n^2)&lt;/code&gt;. The first few complexities are pretty straightforward, it’s only when you find yourself staring at &lt;code&gt;O(n log2(n))&lt;/code&gt; when the confusion kicks in. If you can relate, or you just want to brush up on what exactly &lt;code&gt;O(n log2(n))&lt;/code&gt; means, then this blog post is for you.&lt;/p&gt;
 
-&lt;p&gt;First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.&lt;/p&gt;
+&lt;p&gt;First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. &lt;strong&gt;Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.&lt;/p&gt;
 
@@ -50,11 +50,49 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;small&gt;Not the most efficient solution&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;*Not the most efficient solution&lt;/small&gt;&lt;/p&gt;
 
-&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. As a result, the outer loop must run the length of the array, or &lt;i&gt;n&lt;/i&gt; times, and the inner loop must run &lt;i&gt;n&lt;/i&gt; times for &lt;em&gt;each&lt;/em&gt; iteration of the outer loop, giving us &lt;code&gt;O(n^2)&lt;/code&gt; or quadratic time.&lt;/p&gt;
+&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of &lt;code&gt;O(n^2)&lt;/code&gt; or quadratic time.&lt;/p&gt;
 
-&lt;p&gt;IN PROGRESS…&lt;/p&gt;
+&lt;p&gt;After a brief explanation of linear and quadratic, let’s now to try to tackle the meaning behind &lt;code&gt;O(n log2(n))&lt;/code&gt;. The first part of the complexity, &lt;code&gt;O(n)&lt;/code&gt;, should look familiar – we’re iterating over the length of the array, touching each item once.&lt;/p&gt;
+
+&lt;p&gt;The second part of the complexity, &lt;code&gt;log2(n)&lt;/code&gt;, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide &lt;i&gt;n&lt;/i&gt; in half to convert all the items in &lt;i&gt;n&lt;/i&gt; to equal subarrays of 1? I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of &lt;code&gt;O(n log2(n))&lt;/code&gt;, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)&lt;/p&gt;
+
+&lt;p&gt;The basic premise of mergesort comes down to these three steps:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Divide the array in half&lt;/li&gt;
+  &lt;li&gt;Sort the divided array&lt;/li&gt;
+  &lt;li&gt;Merge the sorted arrays&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-10: &lt;code&gt;[8, 2, 4, 7, 3, 1, 6, 9, 10, 5]&lt;/code&gt;. Mergesort believes in reducing this array of 10 elements into 10 individual subarrays by repeatedly dividing itself in half until each element is its own subarray.&lt;/p&gt;
+
+&lt;p&gt;Following our example, first the array is reduced to &lt;code&gt;[8, 2, 4, 7, 3]&lt;/code&gt;. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal &lt;code&gt;[8, 2]&lt;/code&gt;. This process continues until we’re left with &lt;code&gt;[8]&lt;/code&gt; and &lt;code&gt;[2]&lt;/code&gt;, the first two elements of the array. Now the left portion of the array is compared to the right portion and merged together to form a sorted array, giving us &lt;code&gt;[2, 8]&lt;/code&gt;. This technique is then applied to the right portion of the array, and then the two arrays are merged together. See a full implementation of mergesort in Ruby below:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;middle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;floor&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;empty?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;empty?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, you can see that &lt;code&gt;log2(n)&lt;/code&gt; is attributed to the number of times we have to divide the array of integers in half until they’re converted to subarrays of 1, and the &lt;code&gt;n&lt;/code&gt; comes from the time it takes to merge both the left portion and the right portion together. To conclude, &lt;code&gt;O(n log2(n))&lt;/code&gt; is such a popular  complexity because it has the best worst-case runtime we can get for sorting.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/understanding-o-n-log-n/&quot;&gt;Understanding O(n log(n))&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on June 30, 2016.&lt;/p&gt;
   </content>
