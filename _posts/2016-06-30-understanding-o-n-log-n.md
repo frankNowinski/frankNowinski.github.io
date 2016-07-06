@@ -14,7 +14,7 @@ share:
 date: 2016-06-30T20:04:18-04:00
 ---
 
-The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It's here where you're introduced to Big O notation and runtime complexities such as `O(n)` and `O(n^2)`. The first few complexities are pretty straightforward, it’s only when you find yourself staring at `O(n log2(n))` when the confusion kicks in. If you can relate, or you just want to brush up on what exactly `O(n log2(n))` means, then this blog post is for you.
+The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It's here where you're introduced to Big O notation and runtime complexities such as `O(n)` and `O(n^2)`. The first few complexities are pretty straightforward, it’s only when you find yourself staring at `O(n log(n))` when the confusion kicks in. If you can relate, or you just want to brush up on what exactly `O(n log(n))` means, then this blog post is for you.
 
 First, let’s begin with understanding exactly what Big O notation is and why it's so useful. <strong>Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.</strong>
 
@@ -46,9 +46,9 @@ end
 
 Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it's array, finally giving us a runtime of `O(n^2)` or quadratic time.
 
-After a brief explanation of linear and quadratic, let's now to try to tackle the meaning behind `O(n log2(n))`. The first part of the complexity, `O(n)`, should look familiar – we're iterating over the length of the array, touching each item once.
+After a brief explanation of linear and quadratic, let's now to try to tackle the meaning behind `O(n log(n))`. The first part of the complexity, `O(n)`, should look familiar – we're iterating over the length of the array, touching each item once.
 
-The second part of the complexity, `log2(n)`, may look a little cryptic if you've never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? I'll walkthrough how to implement mergesort, a popular algorithm that has a complexity of `O(n log2(n))`, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)
+The second part of the complexity, `log(n)`, may look a little cryptic if you've never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? I'll walkthrough how to implement mergesort, a popular algorithm that has a complexity of `O(n log(n))`, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)
 
 The basic premise of mergesort comes down to these three steps:
 <ul>
@@ -86,4 +86,4 @@ def merge(left, right)
 end
 {% endhighlight %}
 
-Now, you can see that `log2(n)` is attributed to the number of times we have to divide the array of integers in half until they're converted to subarrays of 1, and the `n` comes from the time it takes to merge both the left portion and the right portion together. To conclude, `O(n log2(n))` is such a popular  complexity because it has the best worst-case runtime we can get for sorting.
+Now, you can see that `log(n)` is attributed to the number of times we have to divide the array of integers in half until they're converted to subarrays of 1, and the `n` comes from the time it takes to merge both the left portion and the right portion together. To conclude, `O(n log(n))` is such a popular  complexity because it has the best worst-case runtime we can get for sorting.
