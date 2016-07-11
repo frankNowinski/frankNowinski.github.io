@@ -35,7 +35,7 @@ However, if the method cannot be called upon the object then an error message is
  #=> TypeError: no implicit conversion of Fixnum into String
 {% endhighlight %}
 
-<h3>Updating a Hash using Dynamic Dispatching<h3>
+<h3>Updating a Hash using Dynamic Dispatching</h3>
 
 Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
 
