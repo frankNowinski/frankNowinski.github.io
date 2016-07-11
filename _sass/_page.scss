@@ -39,11 +39,12 @@ body {
 }
 .header-title {
   text-align: center;
+  margin-bottom: 26px;
   h1 {
     margin: 10px 20px;
     font-weight: 400;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 63px;
     width: 75%;
     @include font-rem(32);
     color: lighten($base-color,20);
@@ -237,7 +238,7 @@ header .entry-meta {
       // margin: 50px auto 30px auto;
       margin: -2px auto 30px auto;
       border-top: 1px solid lightgray;
-      padding: 3px 80px;
+      padding: 47px 80px;
       > p:first-child {
         @include font-size(20);
       }
