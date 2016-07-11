@@ -39,8 +39,6 @@ body {
 }
 .header-title {
   text-align: center;
-  // // margin-top: 100px;
-  // margin-bottom: -65px;
   h1 {
     margin: 10px 20px;
     font-weight: 300;
@@ -51,10 +49,6 @@ body {
       @include font-rem(48);
     }
     @media #{$large} {
-      margin-top: 100px;
-      margin-bottom: -65px;
-      width: 75%;
-      margin: auto;
       @include font-rem(60);
     }
   }
