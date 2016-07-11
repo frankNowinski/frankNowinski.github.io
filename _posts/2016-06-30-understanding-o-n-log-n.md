@@ -86,4 +86,4 @@ def merge(left, right)
 end
 {% endhighlight %}
 
-As stated earlier, mergesort's complexity is `O(n log(n))`. The `log(n)` is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1, and the `n` comes from the time it takes to merge the left and the right sorted halves together. `O(n log(n))` is such a popular complexity because it has the best worst-case runtime you can get for sorting.
+As stated earlier, mergesort's complexity is `O(n log(n))`. The `log(n)` is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The `n` comes from the time it takes to merge the left and the right sorted halves together. `O(n log(n))` is such a popular complexity because it has the best worst-case runtime you can get for sorting.
