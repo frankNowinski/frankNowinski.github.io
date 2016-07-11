@@ -43,6 +43,7 @@ body {
     margin: 10px 20px;
     font-weight: 300;
     margin: auto;
+    margin-top: 100px;
     @include font-rem(32);
     color: lighten($base-color,20);
     @media #{$medium} {
@@ -232,7 +233,7 @@ header .entry-meta {
     @media #{$large} {
       max-width: 1100px;
       margin: 50px auto 30px auto;
-      padding: 50px 80px;
+      padding: 3px 80px;
       > p:first-child {
         @include font-size(20);
       }
