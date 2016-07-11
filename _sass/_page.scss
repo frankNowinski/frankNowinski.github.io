@@ -21,7 +21,7 @@ body {
   // Dotted line underlines for links
   p > a,
   li > a {
-    border-bottom: 1px dotted lighten($link-color, 50);
+    // border-bottom: 1px dotted lighten($link-color, 50);
     &:hover {
       border-bottom-style: solid;
     }
@@ -41,7 +41,7 @@ body {
   text-align: center;
   h1 {
     margin: 10px 20px;
-    font-weight: 300;
+    font-weight: 400;
     margin: auto;
     margin-top: 100px;
     width: 75%;
