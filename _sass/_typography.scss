@@ -30,11 +30,11 @@ a {
   // color: $link-color;
   color: black;
   &:hover {
-    color: darken($link-color, 20);
+    color: $link-color;
   }
   &:focus {
     outline: thin dotted;
-    color: darken($link-color, 20);
+    color: $link-color;
   }
   &:hover,
   &:active {
