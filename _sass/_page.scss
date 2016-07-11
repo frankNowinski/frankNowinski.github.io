@@ -379,17 +379,19 @@ header .entry-meta {
   }
   article {
     background-color: $white;
-    box-shadow: 0px 6px 10px -3px #777;
+    // box-shadow: 0px 6px 10px -3px #777;
     // box-shadow: 0 0 0 0, 0 6px 12px rgba($base-color,0.1);
     @include rounded(3px);
     margin-bottom: 20px;
     padding: 25px 15px;
     @media #{$medium} {
       padding: 30px;
+      border-bottom: 0.5px solid lightgray;
     }
     @media #{$large} {
-      margin-bottom: 30px;
-      padding: 50px 80px;
+      // margin-bottom: 30px;
+      border-bottom: 0.5px solid lightgray;
+      padding: 0px 90px;
     }
   }
 }
