@@ -20,7 +20,7 @@ In Ruby, we rely on the <code>send</code> method to dynamically dispatch. To ill
 {% highlight ruby linenos %}
 "Hello, World".send("reverse")
 {% endhighlight %}
-* The arguments passed into the send method could be a String or a Symbol.
+\*<small>The arguments passed into the send method could be a String or a Symbol.</small>
 
 Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:
 
@@ -35,9 +35,7 @@ However, if the method cannot be called upon the object then an error message is
  #=> TypeError: no implicit conversion of Fixnum into String
 {% endhighlight %}
 
----
-
-#Updating a Hash using Dynamic Dispatching
+<h3>Updating a Hash using Dynamic Dispatching<h3>
 
 Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
 
@@ -57,7 +55,7 @@ Our intention is to have the <code>goal</code> hash reflect the users progress a
 {% highlight ruby linenos %}
 updated_muscles = {"chest"=> 40,  "cardio"=> 20}
 {% endhighlight %}
-* We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.
+\*<small>We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.</small>
 
 Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:
 

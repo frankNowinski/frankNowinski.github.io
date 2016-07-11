@@ -54,6 +54,9 @@ body {
     @media #{$large} {
       @include font-rem(60);
     }
+    a {
+      color: rgb(37, 90, 125);
+    }
   }
   h2 {
     margin: 0;
@@ -436,7 +439,7 @@ header .entry-meta {
   color: white;
   // color: lighten($text-color,20);
   a {
-    color: lighten($text-color,20);
+    color: #069;
   }
 }
 
