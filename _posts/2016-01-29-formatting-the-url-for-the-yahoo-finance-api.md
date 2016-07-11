@@ -6,7 +6,7 @@ categories:
 description:
 tags: []
 image:
-  feature: stocks-photo.jpg
+  feature:
   credit:
   creditlink:
 comments:
