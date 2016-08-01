@@ -1,6 +1,6 @@
 ---
 layout: post
-title: AngularJS: Factories vs Services
+title: Factories vs Services
 modified:
 categories:
 description:
