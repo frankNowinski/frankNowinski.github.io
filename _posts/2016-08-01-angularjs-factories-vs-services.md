@@ -16,7 +16,7 @@ date: 2016-08-01T14:59:20-04:00
 
 When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this is achieved through services. Two of the most popular types of services in Angular are Factories and Services.
 
-Factories and Services are pretty similar but have one key difference: you instantiate a Factory as an object, add properties to the object, and then return the object whereas you instantiate a Service with the <i>new</i> keyword, add properties to <i>this</i>, and return <i>this</i> or the Service instance.
+Factories and Services share many similarities but have one key difference: you instantiate a Factory as an object, add properties to the object, and then return the object whereas you instantiate a Service with the <i>new</i> keyword, add properties to <i>this</i>, and return <i>this</i> or the Service instance.
 
 To further clarify this distinction, let’s look at an example from an app that I'm currently working on that calculates a users daily return on investment for their stock portfolio. In the services, I'll make a call to the backend API to retrieve all of a users stocks.
 
@@ -56,4 +56,4 @@ app.factory('StockService', function($http) {
 
 Just like in the Factory, setStocks is available in every controller in which you inject, through dependency injection, the StockService.
 
-In short, Factories and Services do pretty much the same thing, it's just a matter of code style. That being said, according to "Mastering Web Application Development with AngularJS" by <i>Pawel Kozlowski</i>, "The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate "private" variables. This is very useful as we can hide implementation details of a given service."
+In short, Factories and Services have very similar functionality, it's just a matter of code style. That being said, according to "Mastering Web Application Development with AngularJS" by <i>Pawel Kozlowski</i>, "The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate "private" variables. This is very useful as we can hide implementation details of a given service."
