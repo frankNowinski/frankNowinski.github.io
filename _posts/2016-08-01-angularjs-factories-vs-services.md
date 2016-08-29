@@ -14,11 +14,11 @@ share:
 date: 2016-08-01T14:59:20-04:00
 ---
 
-When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this is achieved through services. Two of the most popular types of services in Angular are Factories and Services.
+When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are Factories and Services.
 
 Factories and Services share many similarities but have one key difference: you instantiate a Factory as an object, add properties to the object, and then return the object whereas you instantiate a Service with the <i>new</i> keyword, add properties to <i>this</i>, and return <i>this</i> or the Service instance.
 
-To further clarify this distinction, let’s look at an example from an app that I'm currently working on that calculates a users daily return on investment for their stock portfolio. In the services, I'll make a call to the backend API to retrieve all of a users stocks.
+To further clarify this distinction, let’s look at an example from an app that I'm currently working on that calculates a users daily return on investment for their stock portfolio. In the services, I'll make a call to the backend API to retrieve all of the stocks that are held in a users portfolio.
 
 {% highlight javascript %}
 var app = angular.module("app", []);

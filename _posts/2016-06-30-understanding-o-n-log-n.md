@@ -63,14 +63,14 @@ Following our example, first the array is reduced to `[8, 2, 4, 7]`. Then, merge
 
 {% highlight ruby %}
 def merge_sort(arr)
-  if arr.length <= 1
-    arr
-  else
-    middle = (arr.length/2).floor
-    left = merge_sort(arr[0..middle-1])
-    right = merge_sort(arr[middle..-1])
-    merge(left, right)
-  end
+    if arr.length <= 1
+        arr
+    else
+        middle = (arr.length/2).floor
+        left = merge_sort(arr[0..middle-1])
+        right = merge_sort(arr[middle..-1])
+        merge(left, right)
+    end
 end
 
 def merge(left, right)
