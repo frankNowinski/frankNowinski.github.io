@@ -24,10 +24,10 @@ For example, a simple iteration through an array of <i>n</i> items to find the l
 
 {% highlight ruby %}
 def linear_time(digits)
-  max = digits.first
-  digits.each do |digit|
-    max = digit if digit > max
-  end
+    max = digits.first
+    digits.each do |digit|
+        max = digit if digit > max
+    end
 end
 {% endhighlight %}
 
@@ -35,11 +35,11 @@ Demonstrating `O(n^2)` is a little more complex. Let’s say we want to print ou
 
 {% highlight ruby %}
 def quadratic_time(divisors, range_of_digits)
-  divisors.each do |divisor|
-    range_of_digits.each do |digit|
-      puts digit if digit % divisor == 0
+    divisors.each do |divisor|
+        range_of_digits.each do |digit|
+            puts digit if digit % divisor == 0
+        end
     end
-  end
 end
 {% endhighlight %}
 <small>\*Not the most efficient solution</small>
@@ -52,9 +52,9 @@ The second part of the complexity, `log(n)`, may look a little cryptic if you've
 
 The basic premise of mergesort comes down to these three steps:
 <ul>
-  <li>Divide the array in half</li>
-  <li>Sort the divided array</li>
-  <li>Merge the sorted arrays</li>
+    <li>Divide the array in half</li>
+    <li>Sort the divided array</li>
+    <li>Merge the sorted arrays</li>
 </ul>
 
 To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let's say we want to sort the following array of integers from 1-8: `[8, 2, 4, 7, 3, 1, 6, 5]`. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.
@@ -74,15 +74,15 @@ def merge_sort(arr)
 end
 
 def merge(left, right)
-  if left.empty?
-    right
-  elsif right.empty?
-    left
-  elsif left.first < right.first
-    [left.first] + merge(left[1..left.length], right)
-  else
-    [right.first] + merge(left, right[1..right.length])
-  end
+    if left.empty?
+        right
+    elsif right.empty?
+        left
+    elsif left.first < right.first
+        [left.first] + merge(left[1..left.length], right)
+    else
+        [right.first] + merge(left, right[1..right.length])
+    end
 end
 {% endhighlight %}
 
