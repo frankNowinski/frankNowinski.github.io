@@ -63,6 +63,6 @@ app.controller('StockController', function(Stock) {
 });
 {% endhighlight %}
 
-As a result, our <code>stock</code> variable would be assigned <code>Object {symbol: "AAPL", price: "106.10"}</code>.
+As a result, our <code>stock</code> variable would be assigned <code>{symbol: "AAPL", price: "106.10"}</code>.
 
 In short, factories and services have very similar functionality but have a key distinguishable difference. That being said, I'll leave you with a quote by <i>Pawel Kozlowski</i> from his book "Mastering Web Application Development with AngularJS": "The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate "private" variables. This is very useful as we can hide implementation details of a given service."
