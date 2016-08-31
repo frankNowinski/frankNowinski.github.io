@@ -35,13 +35,13 @@ app.factory('StockFactory', function($http) {
 });
 {% endhighlight %}
 
-The above example shows how to receive a user's stocks in both a service and a factory. Looks pretty similar right? They may be performing the same functionality but the architecture of that make up these services are quite different.
+The above example shows how to receive a user's stocks in both a service and a factory. Looks pretty similar right? They may be performing the same functionality but the architecture that make up these services are quite different.
 
 A service is viewed as a constructor function and upon instantiation, implicitly creates an empty object and assigns it to the variable <code>this</code>. <code>this</code> is also automatically returned to you.
 
 A factory differs from a service in that a factory is just called, and whatever is returned from the factory is the value of that service. As a result, factories give programmers more freedom to manipulate the data according to their needs before they return it.
 
-In addition, factories enable the programmer to instantiate a new object and assign it the appropriate data. For example, let's say we want to create a new stock object of Apples stock containing only the stock symbol (AAPL) and the price. Here is how we could implement this using a factory:  
+In addition, factories enable the programmer to instantiate a new object and assign it the appropriate data. For example, let's say we want to create a new stock object of Apple's stock containing only the stock symbol (AAPL) and the price. Here is how we could implement this using a factory:  
 
 {% highlight javascript %}
 app.factory('Stock', function($http) {
@@ -59,10 +59,10 @@ In our <code>StockController</code>, we can create a stock object like this:
 {% highlight javascript %}
 var app = angular.module("app", []);
 app.controller('StockController', function(Stock) {
-  var stock = new Stock('AAPL', '106.10');
+    var stock = new Stock('AAPL', '106.10');
 });
 {% endhighlight %}
 
 As a result, our <code>stock</code> variable would be assigned <code>Object {symbol: "AAPL", price: "106.10"}</code>.
 
-In short, factories and services have very similar functionality but have a key distinguishable difference. That being said, I'll leave you on a quote by <i>Pawel Kozlowski</i> from his book "Mastering Web Application Development with AngularJS": "The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate "private" variables. This is very useful as we can hide implementation details of a given service."
+In short, factories and services have very similar functionality but have a key distinguishable difference. That being said, I'll leave you with a quote by <i>Pawel Kozlowski</i> from his book "Mastering Web Application Development with AngularJS": "The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate "private" variables. This is very useful as we can hide implementation details of a given service."
