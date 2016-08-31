@@ -137,7 +137,7 @@ Reading time ~4 minutes
 </span></pre></td></tr></tbody></table>
 
 
-* The arguments passed into the send method could be a String or a Symbol.
+\*<small>The arguments passed into the send method could be a String or a Symbol.</small>
 
 Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:
 
@@ -157,9 +157,7 @@ However, if the method cannot be called upon the object then an error message is
 
 
 
----
-
-#Updating a Hash using Dynamic Dispatching
+<h3>Updating a Hash using Dynamic Dispatching</h3>
 
 Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
 
@@ -190,7 +188,7 @@ Our intention is to have the <code>goal</code> hash reflect the users progress a
 </span></pre></td></tr></tbody></table>
 
 
-* We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.
+\*<small>We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.</small>
 
 Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:
 
@@ -292,20 +290,20 @@ By using dynamic dispatching you can significantly reduce the lines of code you 
       <a href="http://franknowinski.github.io/using-csv-parse-to-access-stock-data/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/understanding-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h3>
-      <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your ...&hellip; <a href="http://franknowinski.github.io/understanding-o-n-log-n/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/angularjs-factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h3>
+      <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing m...&hellip; <a href="http://franknowinski.github.io/angularjs-factories-vs-services/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h4>
-        <span>Published on May 12, 2016</span>
+        <h4><a href="http://franknowinski.github.io/understanding-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h4>
+        <span>Published on June 30, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h4>
-        <span>Published on March 18, 2016</span>
+        <h4><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h4>
+        <span>Published on May 12, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

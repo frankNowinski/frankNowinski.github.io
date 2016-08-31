@@ -138,65 +138,65 @@ Reading time ~4 minutes
 <p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code>O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">linear_time</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
-  <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
-  <span class="n">digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
-    <span class="n">max</span> <span class="o">=</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="n">max</span>
-  <span class="k">end</span>
+    <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
+    <span class="n">digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
+        <span class="n">max</span> <span class="o">=</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="n">max</span>
+    <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
 <p>Demonstrating <code>O(n^2)</code> is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">quadratic_time</span><span class="p">(</span><span class="n">divisors</span><span class="p">,</span> <span class="n">range_of_digits</span><span class="p">)</span>
-  <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
-    <span class="n">range_of_digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
-      <span class="nb">puts</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
+        <span class="n">range_of_digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
+            <span class="nb">puts</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">end</span>
     <span class="k">end</span>
-  <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
 <p><small>*Not the most efficient solution</small></p>
 
 <p>Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of <code>O(n^2)</code> or quadratic time.</p>
 
-<p>After a brief explanation of linear and quadratic, let’s now to try to tackle the meaning behind <code>O(n log(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
+<p>After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind <code>O(n log(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
 
-<p>The second part of the complexity, <code>log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log(n))</code>, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)</p>
+<p>The second part of the complexity, <code>log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log(n))</code>. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)</p>
 
 <p>The basic premise of mergesort comes down to these three steps:</p>
 <ul>
-  <li>Divide the array in half</li>
-  <li>Sort the divided array</li>
-  <li>Merge the sorted arrays</li>
+    <li>Divide the array in half</li>
+    <li>Sort the divided array</li>
+    <li>Merge the sorted arrays</li>
 </ul>
 
 <p>To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: <code>[8, 2, 4, 7, 3, 1, 6, 5]</code>. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.</p>
 
-<p>Following our example, first the array is reduced to <code>[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code>[8]</code> would be declared the left portion and <code>[2]</code> the right. So, the first pair of our sorted array would be <code>[2, 8]</code> since <code>8</code> is less than <code>2</code>. Next, we would sort <code>[4, 7]</code> which just so happens to be sorted. Finally, we would merge the first two pairs into <code>[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
+<p>Following our example, the array is first cut in half to equal <code>[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code>[8]</code> would be declared the left portion and <code>[2]</code> the right. So, the first pair of our sorted array would be <code>[2, 8]</code> since <code>8</code> is less than <code>2</code>. Next, we would sort <code>[4, 7]</code>, which just so happens to be sorted. Finally, we would merge the first two pairs into <code>[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-    <span class="n">arr</span>
-  <span class="k">else</span>
-    <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="nf">length</span><span class="o">/</span><span class="mi">2</span><span class="p">).</span><span class="nf">floor</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="n">middle</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">middle</span><span class="p">.</span><span class="nf">.</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">end</span>
+    <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+        <span class="n">arr</span>
+    <span class="k">else</span>
+        <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="nf">length</span><span class="o">/</span><span class="mi">2</span><span class="p">).</span><span class="nf">floor</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="n">middle</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">middle</span><span class="p">.</span><span class="nf">.</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">left</span><span class="p">.</span><span class="nf">empty?</span>
-    <span class="n">right</span>
-  <span class="k">elsif</span> <span class="n">right</span><span class="p">.</span><span class="nf">empty?</span>
-    <span class="n">left</span>
-  <span class="k">elsif</span> <span class="n">left</span><span class="p">.</span><span class="nf">first</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">.</span><span class="nf">first</span>
-    <span class="p">[</span><span class="n">left</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">left</span><span class="p">.</span><span class="nf">length</span><span class="p">],</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">else</span>
-    <span class="p">[</span><span class="n">right</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">right</span><span class="p">.</span><span class="nf">length</span><span class="p">])</span>
-  <span class="k">end</span>
+    <span class="k">if</span> <span class="n">left</span><span class="p">.</span><span class="nf">empty?</span>
+        <span class="n">right</span>
+    <span class="k">elsif</span> <span class="n">right</span><span class="p">.</span><span class="nf">empty?</span>
+        <span class="n">left</span>
+    <span class="k">elsif</span> <span class="n">left</span><span class="p">.</span><span class="nf">first</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">.</span><span class="nf">first</span>
+        <span class="p">[</span><span class="n">left</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">left</span><span class="p">.</span><span class="nf">length</span><span class="p">],</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="p">[</span><span class="n">right</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">right</span><span class="p">.</span><span class="nf">length</span><span class="p">])</span>
+    <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>As stated earlier, mergesort’s complexity is <code>O(n log(n))</code>. The <code>log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code>n</code> comes from the time it takes to merge the left and the right sorted halves together. <code>O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get for sorting.</p>
+<p>As stated earlier, mergesort’s complexity is <code>O(n log(n))</code>. The <code>log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code>n</code> comes from the time it takes to merge the left and the right sorted halves together. <code>O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
@@ -217,20 +217,20 @@ Reading time ~4 minutes
       <a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h3>
-      <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top ...&hellip; <a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/angularjs-factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h3>
+      <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing m...&hellip; <a href="http://franknowinski.github.io/angularjs-factories-vs-services/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h4>
-        <span>Published on March 18, 2016</span>
+        <h4><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h4>
+        <span>Published on May 12, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" title="Omniauth-Facebook With Devise">Omniauth-Facebook With Devise</a></h4>
-        <span>Published on February 21, 2016</span>
+        <h4><a href="http://franknowinski.github.io/editing-a-form-asynchronously/" title="Editing a Form Asynchronously">Editing a Form Asynchronously</a></h4>
+        <span>Published on March 18, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

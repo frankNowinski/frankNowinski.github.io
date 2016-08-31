@@ -113,7 +113,7 @@
   
   
     <div class="entry-image">
-      <img src="http://franknowinski.github.io/images/stream.jpeg" alt="">
+      <img src="http://franknowinski.github.io/images/computer.jpeg" alt="">
     </div><!-- /.entry-image -->
   
   <div class="header-title">
@@ -126,6 +126,78 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-08-01T14:59:20-04:00"><a href="http://franknowinski.github.io/angularjs-factories-vs-services/">August 01, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/angularjs-factories-vs-services/" rel="bookmark" title="Factories vs Services" itemprop="url">Factories vs Services</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are Factories and Services.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/angularjs-factories-vs-services//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are Factories and Services.</p>
+
+<p>Factories and Services share many similarities but have one key difference: you instantiate a Factory as an object, add properties to the object, and then return the object whereas you instantiate a Service with the <i>new</i> keyword, add properties to <i>this</i>, and return <i>this</i> or the Service instance.</p>
+
+<p>To further clarify this distinction, let’s look at an example from an app that I’m currently working on that calculates a users daily return on investment for their stock portfolio. In the services, I’ll make a call to the backend API to retrieve all of the stocks that are held in a users portfolio.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">"app"</span><span class="p">,</span> <span class="p">[]);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'StockController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">StockFactory</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">stocks</span> <span class="o">=</span> <span class="nx">StockFactory</span><span class="p">.</span><span class="nx">setStocks</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">'StockFactory'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">stockFactory</span> <span class="o">=</span> <span class="p">{};</span>
+
+  <span class="nx">stockFactory</span><span class="p">.</span><span class="nx">setStocks</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">stockFactory</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>First, you instantiate the Factory object (<code>stockFactory</code>), attach functions or properties to the object, and then finally return the object. Now, the function <code>setStocks</code> is available to use in the <code>StockController</code>.</p>
+
+<p>Angular’s Services work very similarly, except you attach properties directly to <code>this</code> and will be returning the Service itself:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">"app"</span><span class="p">,</span> <span class="p">[]);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'StockController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">StockService</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">stocks</span> <span class="o">=</span> <span class="nx">StockService</span><span class="p">.</span><span class="nx">setStocks</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">'StockService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setStocks</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></div>
+
+<p>Just like in the Factory, setStocks is available in every controller in which you inject, through dependency injection, the StockService.</p>
+
+<p>In short, Factories and Services have very similar functionality, it’s just a matter of code style. That being said, according to “Mastering Web Application Development with AngularJS” by <i>Pawel Kozlowski</i>, “The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate “private” variables. This is very useful as we can hide implementation details of a given service.”</p>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -164,65 +236,65 @@ Reading time ~4 minutes
 <p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code>O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">linear_time</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
-  <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
-  <span class="n">digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
-    <span class="n">max</span> <span class="o">=</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="n">max</span>
-  <span class="k">end</span>
+    <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
+    <span class="n">digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
+        <span class="n">max</span> <span class="o">=</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="n">max</span>
+    <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
 <p>Demonstrating <code>O(n^2)</code> is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">quadratic_time</span><span class="p">(</span><span class="n">divisors</span><span class="p">,</span> <span class="n">range_of_digits</span><span class="p">)</span>
-  <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
-    <span class="n">range_of_digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
-      <span class="nb">puts</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
+        <span class="n">range_of_digits</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">digit</span><span class="o">|</span>
+            <span class="nb">puts</span> <span class="n">digit</span> <span class="k">if</span> <span class="n">digit</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">end</span>
     <span class="k">end</span>
-  <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
 <p><small>*Not the most efficient solution</small></p>
 
 <p>Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of <code>O(n^2)</code> or quadratic time.</p>
 
-<p>After a brief explanation of linear and quadratic, let’s now to try to tackle the meaning behind <code>O(n log(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
+<p>After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind <code>O(n log(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
 
-<p>The second part of the complexity, <code>log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log(n))</code>, to better explain this complexity. (Other common algorithms that have this complexity are heapsort, timesort and, on average, quicksort.)</p>
+<p>The second part of the complexity, <code>log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log(n))</code>. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)</p>
 
 <p>The basic premise of mergesort comes down to these three steps:</p>
 <ul>
-  <li>Divide the array in half</li>
-  <li>Sort the divided array</li>
-  <li>Merge the sorted arrays</li>
+    <li>Divide the array in half</li>
+    <li>Sort the divided array</li>
+    <li>Merge the sorted arrays</li>
 </ul>
 
 <p>To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: <code>[8, 2, 4, 7, 3, 1, 6, 5]</code>. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.</p>
 
-<p>Following our example, first the array is reduced to <code>[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code>[8]</code> would be declared the left portion and <code>[2]</code> the right. So, the first pair of our sorted array would be <code>[2, 8]</code> since <code>8</code> is less than <code>2</code>. Next, we would sort <code>[4, 7]</code> which just so happens to be sorted. Finally, we would merge the first two pairs into <code>[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
+<p>Following our example, the array is first cut in half to equal <code>[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code>[8]</code> would be declared the left portion and <code>[2]</code> the right. So, the first pair of our sorted array would be <code>[2, 8]</code> since <code>8</code> is less than <code>2</code>. Next, we would sort <code>[4, 7]</code>, which just so happens to be sorted. Finally, we would merge the first two pairs into <code>[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-    <span class="n">arr</span>
-  <span class="k">else</span>
-    <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="nf">length</span><span class="o">/</span><span class="mi">2</span><span class="p">).</span><span class="nf">floor</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="n">middle</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">middle</span><span class="p">.</span><span class="nf">.</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">end</span>
+    <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+        <span class="n">arr</span>
+    <span class="k">else</span>
+        <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="nf">length</span><span class="o">/</span><span class="mi">2</span><span class="p">).</span><span class="nf">floor</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="n">middle</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">middle</span><span class="p">.</span><span class="nf">.</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">left</span><span class="p">.</span><span class="nf">empty?</span>
-    <span class="n">right</span>
-  <span class="k">elsif</span> <span class="n">right</span><span class="p">.</span><span class="nf">empty?</span>
-    <span class="n">left</span>
-  <span class="k">elsif</span> <span class="n">left</span><span class="p">.</span><span class="nf">first</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">.</span><span class="nf">first</span>
-    <span class="p">[</span><span class="n">left</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">left</span><span class="p">.</span><span class="nf">length</span><span class="p">],</span> <span class="n">right</span><span class="p">)</span>
-  <span class="k">else</span>
-    <span class="p">[</span><span class="n">right</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">right</span><span class="p">.</span><span class="nf">length</span><span class="p">])</span>
-  <span class="k">end</span>
+    <span class="k">if</span> <span class="n">left</span><span class="p">.</span><span class="nf">empty?</span>
+        <span class="n">right</span>
+    <span class="k">elsif</span> <span class="n">right</span><span class="p">.</span><span class="nf">empty?</span>
+        <span class="n">left</span>
+    <span class="k">elsif</span> <span class="n">left</span><span class="p">.</span><span class="nf">first</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">.</span><span class="nf">first</span>
+        <span class="p">[</span><span class="n">left</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">left</span><span class="p">.</span><span class="nf">length</span><span class="p">],</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="p">[</span><span class="n">right</span><span class="p">.</span><span class="nf">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">right</span><span class="p">.</span><span class="nf">length</span><span class="p">])</span>
+    <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>As stated earlier, mergesort’s complexity is <code>O(n log(n))</code>. The <code>log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code>n</code> comes from the time it takes to merge the left and the right sorted halves together. <code>O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get for sorting.</p>
+<p>As stated earlier, mergesort’s complexity is <code>O(n log(n))</code>. The <code>log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code>n</code> comes from the time it takes to merge the left and the right sorted halves together. <code>O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.</p>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -714,182 +786,6 @@ To create a new user for your app you will need to include at minimum the `passw
 
 In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
- -->
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-
-
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-01-29T05:46:01-05:00"><a href="http://franknowinski.github.io/dynamic-dispatching/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~4 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://franknowinski.github.io/dynamic-dispatching/" rel="bookmark" title="Dynamic Dispatching Basics" itemprop="url">Dynamic Dispatching Basics</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>Besides the added benefit of writing more concise and considerably less code, metaprogramming has many other advantages as well. Possibly the most appealing feature of metaprogramming is it allows your code to become much more flexible and easier to edit. Although there are many aspects of metaprogramming, I would like to focus on one concept in particular: dynamic dispatching. Dynamic dispatching is a valuable tool for any programmer because you can call methods throughout your program at run time.</p>
-
-
-    
-    
-    
-   <p><a class="btn btn-sm btn-info" href="/dynamic-dispatching//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
-   </p>
-   
-    <!-- <p>Besides the added benefit of writing more concise and considerably less code, metaprogramming has many other advantages as well. Possibly the most appealing feature of metaprogramming is it allows your code to become much more flexible and easier to edit. Although there are many aspects of metaprogramming, I would like to focus on one concept in particular: dynamic dispatching. Dynamic dispatching is a valuable tool for any programmer because you can call methods throughout your program at run time.</p>
-
-<p>In Ruby, we rely on the <code>send</code> method to dynamically dispatch. To illustrate how the <code>send</code> method works I’ll use the below example:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-* The arguments passed into the send method could be a String or a Symbol.
-
-Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span> <span class="c1">#=&gt; "dlroW ,olleH"</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(:</span><span class="o">+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
- <span class="c1">#=&gt; TypeError: no implicit conversion of Fixnum into String</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
----
-
-#Updating a Hash using Dynamic Dispatching
-
-Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">120</span>
-<span class="p">}</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Our intention is to have the <code>goal</code> hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">updated_muscles</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">40</span><span class="p">,</span>  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">20</span><span class="p">}</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-* We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.
-
-Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
-  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"chest"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:chest</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"back"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:back</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"legs"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:legs</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"shoulders"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:shoulders</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"arms"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:arms</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"cardio"</span>
-    <span class="n">goal</span><span class="p">[</span><span class="ss">:cardio</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
-  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-  <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">((</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">="</span><span class="p">),</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">))</span>
-<span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.
-
-To correctly update the <code>goal</code> hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the <code>updated_muscles</code> variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called <code>original_t</code>. In our example, the first iteration being called is the chest key-value pair, therefore <code>original_t</code> is set equal to 45, the value of the chest key from the original <code>goal</code> hash.
-
-Now we can use the value of <code>original_t</code>, subtract it from the value of <code>updated_t</code>, and assign the difference to the original <code>goal</code> hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our <code>goal</code> hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in <code>updated_muscles</code> is iterated over. The updated <code>goal</code> hash would become:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
-  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
-  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">100</span>
-<span class="p">}</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

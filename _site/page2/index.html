@@ -113,7 +113,7 @@
   
   
     <div class="entry-image">
-      <img src="http://franknowinski.github.io/images/stream.jpeg" alt="">
+      <img src="http://franknowinski.github.io/images/computer.jpeg" alt="">
     </div><!-- /.entry-image -->
   
   <div class="header-title">
@@ -126,6 +126,180 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-01-29T05:46:01-05:00"><a href="http://franknowinski.github.io/dynamic-dispatching/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~4 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/dynamic-dispatching/" rel="bookmark" title="Dynamic Dispatching Basics" itemprop="url">Dynamic Dispatching Basics</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Besides the added benefit of writing more concise and considerably less code, metaprogramming has many other advantages as well. Possibly the most appealing feature of metaprogramming is it allows your code to become much more flexible and easier to edit. Although there are many aspects of metaprogramming, I would like to focus on one concept in particular: dynamic dispatching. Dynamic dispatching is a valuable tool for any programmer because you can call methods throughout your program at run time.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/dynamic-dispatching//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>Besides the added benefit of writing more concise and considerably less code, metaprogramming has many other advantages as well. Possibly the most appealing feature of metaprogramming is it allows your code to become much more flexible and easier to edit. Although there are many aspects of metaprogramming, I would like to focus on one concept in particular: dynamic dispatching. Dynamic dispatching is a valuable tool for any programmer because you can call methods throughout your program at run time.</p>
+
+<p>In Ruby, we rely on the <code>send</code> method to dynamically dispatch. To illustrate how the <code>send</code> method works I’ll use the below example:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+\*<small>The arguments passed into the send method could be a String or a Symbol.</small>
+
+Here, the <code>send</code> method, or the message, converts the <code> "reverse"</code> argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object <code>"Hello, World"</code>. Since it is, Ruby evaluates it and outputs the following:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"reverse"</span><span class="p">)</span> <span class="c1">#=&gt; "dlroW ,olleH"</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object <code>"Hello, World"</code>, we would get the following <code>Type Error</code>:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="s2">"Hello, World"</span><span class="p">.</span><span class="nf">send</span><span class="p">(:</span><span class="o">+</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="c1">#=&gt; TypeError: no implicit conversion of Fixnum into String</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+<h3>Updating a Hash using Dynamic Dispatching</h3>
+
+Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">120</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Our intention is to have the <code>goal</code> hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">updated_muscles</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">40</span><span class="p">,</span>  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">20</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+\*<small>We’ll assign the hash to a variable called <code>updated_muscles</code> so we can use this data later on in our dynamic dispatching function.</small>
+
+Although it may not be the most eloquent code, we could use a simple if/else statement to update our <code>goal</code> hash:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
+  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"chest"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:chest</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"back"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:back</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"legs"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:legs</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"shoulders"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:shoulders</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"arms"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:arms</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="n">muscle</span> <span class="o">==</span> <span class="s2">"cardio"</span>
+    <span class="n">goal</span><span class="p">[</span><span class="ss">:cardio</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td><td class="code"><pre><span class="n">updated_muscles</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">muscle</span><span class="p">,</span> <span class="n">updated_t</span><span class="o">|</span>
+  <span class="n">original_t</span> <span class="o">=</span> <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">goal</span><span class="p">.</span><span class="nf">send</span><span class="p">((</span><span class="s2">"</span><span class="si">#{</span><span class="n">muscle</span><span class="si">}</span><span class="s2">="</span><span class="p">),</span> <span class="p">(</span><span class="n">original_t</span> <span class="o">-</span> <span class="n">updated_t</span><span class="p">))</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.
+
+To correctly update the <code>goal</code> hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the <code>updated_muscles</code> variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called <code>original_t</code>. In our example, the first iteration being called is the chest key-value pair, therefore <code>original_t</code> is set equal to 45, the value of the chest key from the original <code>goal</code> hash.
+
+Now we can use the value of <code>original_t</code>, subtract it from the value of <code>updated_t</code>, and assign the difference to the original <code>goal</code> hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our <code>goal</code> hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in <code>updated_muscles</code> is iterated over. The updated <code>goal</code> hash would become:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8</pre></td><td class="code"><pre><span class="s2">"goal"</span><span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="s2">"chest"</span><span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">"back"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"legs"</span><span class="o">=&gt;</span> <span class="mi">45</span><span class="p">,</span>
+  <span class="s2">"shoulders"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"arms"</span><span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"cardio"</span><span class="o">=&gt;</span> <span class="mi">100</span>
+<span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -209,10 +383,6 @@ Thanks to Ruby, the process of transferring data from a csv file to your program
 
 <article class="hentry">
   <header>
-    
-      <div class="entry-image-index">
-        <a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Formatting the URL for the Yahoo Finance API"><img src="http://franknowinski.github.io/images/stocks-photo.jpg" alt="Formatting the URL for the Yahoo Finance API"></a>
-      </div><!-- /.entry-image -->
     
 
 
