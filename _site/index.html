@@ -132,7 +132,7 @@
 
 
     <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-08-01T14:59:20-04:00"><a href="http://franknowinski.github.io/angularjs-factories-vs-services/">August 01, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      <span class="entry-date date published updated"><time datetime="2016-09-30T04:16:56-04:00"><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">September 30, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
       
       <span class="entry-reading-time">
         <i class="fa fa-clock-o"></i>
@@ -142,58 +142,110 @@ Reading time ~1 minute
       
     </div><!-- /.entry-meta -->
     
-      <h1 class="entry-title"><a href="http://franknowinski.github.io/angularjs-factories-vs-services/" rel="bookmark" title="Factories vs Services" itemprop="url">Factories vs Services</a></h1>
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" rel="bookmark" title="Behind the Scenes of Website Hosting" itemprop="url">Behind the Scenes of Website Hosting</a></h1>
     
   </header>
   <div class="entry-content">
-    <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are Factories and Services.</p>
+    <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.</p>
 
 
     
     
     
-   <p><a class="btn btn-sm btn-info" href="/angularjs-factories-vs-services//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   <p><a class="btn btn-sm btn-info" href="/website-hosting-behind-the-scenes//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
    </p>
    
-    <!-- <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are Factories and Services.</p>
+    <!-- <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.</p>
 
-<p>Factories and Services share many similarities but have one key difference: you instantiate a Factory as an object, add properties to the object, and then return the object whereas you instantiate a Service with the <i>new</i> keyword, add properties to <i>this</i>, and return <i>this</i> or the Service instance.</p>
+<p>You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: <code>[name of app].herokuapp.com</code>.</p>
 
-<p>To further clarify this distinction, let’s look at an example from an app that I’m currently working on that calculates a users daily return on investment for their stock portfolio. In the services, I’ll make a call to the backend API to retrieve all of the stocks that are held in a users portfolio.</p>
+<p>Underneath a domain name is just an IP address that identifies a specific computer. However, instead of inputting your IP address (ex: 90.47.136.226) into the address bar, we use domain names like www.github.com because who wants to write, much less remember, a 10 digit number?</p>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">"app"</span><span class="p">,</span> <span class="p">[]);</span>
-<span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'StockController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">StockFactory</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">stocks</span> <span class="o">=</span> <span class="nx">StockFactory</span><span class="p">.</span><span class="nx">setStocks</span><span class="p">();</span>
+<p>When a user inputs a domain name into the address bar, how does the browser know what to show? This is where Domain Name System (DNS) or nameservers come in. The concept of DNS is pretty straightforward: DNS is responsible for routing your domain name to the correct server that is hosting your website. Therefore, whenever a user visits your domain name, it will ping the server that is correlated to that  name (or IP address) and load it’s data.</p>
+
+<p>Now that we have our domain name and the DNS is correctly routing visitors to our website, the last step (as you probably guessed) is hosting our website on a web hosting server. A web hosting server stores all of the HTML files, pictures, videos and other documents that your website is made up of. In order for these files to be displayed when a user visits them, they need to be stored in a folder on a computer that is connected to the internet. That is exactly what a web hosting service provides – a place to “serve” your website files.</p>
+
+<p>Simple as that. Those are the three steps that must be taken in order to successfully host your website on the web.</p>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-08-31T10:50:40-04:00"><a href="http://franknowinski.github.io/factories-vs-services/">August 31, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/factories-vs-services/" rel="bookmark" title="Factories vs Services" itemprop="url">Factories vs Services</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are factories and services.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/factories-vs-services//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing most of your business logic and data elsewhere. This type of architectural design is referred to as “Separation of Concerns” and maintains that you split your applications tasks into different sections, where each section is responsible for a particular task. In Angular, this can be achieved through services. Two of the most popular types of services in Angular are factories and services.</p>
+
+<p>Although factories and services share many similarities, there is a key difference between them: you instantiate a factory as an object, add properties to the object, and return the object, whereas you create a new instance of a service (with the <code>new</code> keyword), add properties to <code>this</code>, and return <code>this</code>. Therefore, you can achieve the same things in a factory as you can in a service but since a factory is an object, it is much more flexible.</p>
+
+<p>To further clarify this distinction, let’s look at an example from an app that I’m currently working on that calculates a user’s daily return on investment for their stock portfolio. For demonstrating purposes, I’ll make a call to the backend API to retrieve all of the stocks that are held in a user’s portfolio.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'StockService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setStocks</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
+    <span class="p">};</span>
 <span class="p">});</span>
 
 <span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">'StockFactory'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">stockFactory</span> <span class="o">=</span> <span class="p">{};</span>
-
-  <span class="nx">stockFactory</span><span class="p">.</span><span class="nx">setStocks</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">stockFactory</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">setStocks</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
 <span class="p">});</span></code></pre></div>
 
-<p>First, you instantiate the Factory object (<code>stockFactory</code>), attach functions or properties to the object, and then finally return the object. Now, the function <code>setStocks</code> is available to use in the <code>StockController</code>.</p>
+<p>The above example shows how to receive a user’s stocks in both a service and a factory. Looks pretty similar right? They may be performing the same functionality but the architecture that make up these services are quite different.</p>
 
-<p>Angular’s Services work very similarly, except you attach properties directly to <code>this</code> and will be returning the Service itself:</p>
+<p>A service is viewed as a constructor function and upon instantiation, implicitly creates an empty object and assigns it to the variable <code>this</code>. <code>this</code> is also automatically returned to you.</p>
+
+<p>A factory differs from a service in that a factory is just called, and whatever is returned from the factory is the value of that service. As a result, factories give programmers more freedom to manipulate the data according to their needs before they return it.</p>
+
+<p>In addition, factories enable the programmer to instantiate a new object and assign it the appropriate data. For example, let’s say we want to create a new stock object of Apple’s stock containing only the stock symbol (AAPL) and the price. Here is how we could implement this using a factory:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">'Stock'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">price</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span>
+          <span class="na">symbol</span><span class="p">:</span> <span class="nx">symbol</span><span class="p">,</span>
+          <span class="na">price</span><span class="p">:</span> <span class="nx">price</span>
+      <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></div>
+
+<p>In our <code>StockController</code>, we can create a stock object like this:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">"app"</span><span class="p">,</span> <span class="p">[]);</span>
-<span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'StockController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">StockService</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">stocks</span> <span class="o">=</span> <span class="nx">StockService</span><span class="p">.</span><span class="nx">setStocks</span><span class="p">();</span>
-<span class="p">});</span>
-
-<span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">'StockService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">setStocks</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'api/v1/stocks'</span><span class="p">);</span>
-  <span class="p">};</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'StockController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Stock</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">stock</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stock</span><span class="p">(</span><span class="s1">'AAPL'</span><span class="p">,</span> <span class="s1">'106.10'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></div>
 
-<p>Just like in the Factory, setStocks is available in every controller in which you inject, through dependency injection, the StockService.</p>
+<p>As a result, our <code>stock</code> variable would be assigned <code>{symbol: "AAPL", price: "106.10"}</code>.</p>
 
-<p>In short, Factories and Services have very similar functionality, it’s just a matter of code style. That being said, according to “Mastering Web Application Development with AngularJS” by <i>Pawel Kozlowski</i>, “The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate “private” variables. This is very useful as we can hide implementation details of a given service.”</p>
+<p>In short, factories and services have very similar functionality but have a key distinguishable difference. That being said, I’ll leave you with a quote by <i>Pawel Kozlowski</i> from his book “Mastering Web Application Development with AngularJS”: “The factory method is the most common way of getting objects into AngularJS dependency injection system. It is very flexible and can contain sophisticated creation logic. Since factories are regular functions, we can also take advantage of a new lexical scope to simulate “private” variables. This is very useful as we can hide implementation details of a given service.”</p>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -622,170 +674,6 @@ First, I assigned the workout id to a variable so I could reference the workout 
 
 Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.
 </code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
- -->
-  </div><!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-
-
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2016-02-21T19:25:01-05:00"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">February 21, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-Reading time ~3 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div><!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" rel="bookmark" title="Omniauth-Facebook With Devise" itemprop="url">Omniauth-Facebook With Devise</a></h1>
-    
-  </header>
-  <div class="entry-content">
-    <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
-
-
-    
-    
-    
-   <p><a class="btn btn-sm btn-info" href="/omniauth-facebook-with-devise//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
-   </p>
-   
-    <!-- <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
-
-<p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. For the purpose of this blog I’m going to demonstrate how you can use <a href="https://github.com/mkdynamic/omniauth-facebook">Omniauth-Facebook</a> with <a href="https://github.com/plataformatec/devise">Devise</a>, a popular gem used for user authentication.</p>
-
-<p>First, you’ll need to include the following gems in your <code>Gemfile</code>:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="n">gem</span> <span class="s1">'devise'</span>
-<span class="n">gem</span> <span class="s1">'omniauth-facebook'</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Now run `bundle install`
-
-Next, create your User model with Devise by entering the following two commands in your terminal:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">generate</span> <span class="n">devise</span><span class="ss">:install</span>
-<span class="n">rails</span> <span class="n">g</span> <span class="n">devise</span> <span class="no">User</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file name will have different numbers).
-
-Before you run `rake db:migrate` you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">g</span> <span class="n">migration</span> <span class="no">AddOmniauthToUsers</span> <span class="n">provider</span><span class="ss">:string</span> <span class="n">uid</span><span class="ss">:string</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Now you can run `rake db:migrate`
-
-Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be `config/initializers/devise.rb`. Go to that file to declare Facebook as your authentication provider and fill in your Facebook `APP_ID` and `APP_SECRET`:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">config</span><span class="p">.</span><span class="nf">omniauth</span> <span class="ss">:facebook</span><span class="p">,</span> <span class="s2">"APP_ID"</span><span class="p">,</span> <span class="s2">"APP_SECRET"</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-To get an `APP_ID` and `APP_SECRET` you’ll have to create an app at the [Facebook Developers website](https://developers.facebook.com/). If this is your first time creating a Facebook app then follow this [guide](https://developers.facebook.com/docs/apps/register).
-
-In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in `app/models/user.rb`:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise</span> <span class="ss">:omniauthable</span><span class="p">,</span> <span class="ss">:omniauth</span> <span class="n">providers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:facebook</span><span class="p">]</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-The above code creates these two routes or url methods:
-`user_omniauth_authorize_path(proivider)`
-`user_omniauth_callback_path(proivider)`
-
-To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
-
-
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">“</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Facebook</span><span class="err">”</span><span class="p">,</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Although you won’t be explicitly calling `user_omniauth_callback_path` in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your `config/routes.rb` file:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">users</span><span class="o">/</span><span class="n">omniauth_callbacks</span><span class="err">”</span> <span class="p">}</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Now we’ll need to create a controller so we can create users with Facebook's authentication and sign them in to our app. Label the controller file `app/controllers/users/omniauth_callbacks_controller.rb` and set up the file like so:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
-  <span class="k">def</span> <span class="nf">facebook</span>
-    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s2">"omniauth.auth"</span><span class="p">])</span>
-
-    <span class="vi">@user</span><span class="p">.</span><span class="nf">save</span> <span class="k">if</span> <span class="o">!</span><span class="vi">@user</span>
-    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">:event</span> <span class="o">=&gt;</span> <span class="ss">:authentication</span>
-    <span class="n">set_flash_message</span><span class="p">(</span><span class="ss">:notice</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:kind</span> <span class="o">=&gt;</span> <span class="s2">"Facebook"</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_navigational_format?</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">failure</span>
-    <span class="n">redirect_to</span> <span class="n">root_path</span>
-  <span class="k">end</span>
-<span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-On line 3 inside the `facebook` method you’ll notice we’re calling the `from_omniauth` method on the User class. To utilize this method we’ll have to define it, so head over to `app/models/user.rb` and update your file with the following code:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6</pre></td><td class="code"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
-  <span class="n">where</span><span class="p">(</span><span class="ss">provider: </span><span class="n">auth</span><span class="p">.</span><span class="nf">provider</span><span class="p">,</span> <span class="ss">uid: </span><span class="n">auth</span><span class="p">.</span><span class="nf">uid</span><span class="p">).</span><span class="nf">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
-    <span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">auth</span><span class="p">.</span><span class="nf">info</span><span class="p">.</span><span class="nf">name</span>
-    <span class="n">user</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="no">Devise</span><span class="p">.</span><span class="nf">friendly_token</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
-  <span class="k">end</span>
-<span class="k">end</span><span class="w">
-</span></pre></td></tr></tbody></table>
-
-
-
-Inside this method we use the data that is provided by Facebook to either find a user or create one. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It's important to note that when initializing a new user the `first_or_create` method automatically sets the `uid` and `provider` fields with their appropriate data.
-
-To create a new user for your app you will need to include at minimum the `password` field inside the `first_or_create` loop (remember the `uid` is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop.
-
-In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->

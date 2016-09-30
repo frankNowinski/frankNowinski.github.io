@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Formatting the URL for the Yahoo Finance API &#8211; Frank Nowinski</title>
+<title>Behind the Scenes of Website Hosting &#8211; Frank Nowinski</title>
 <meta name="description" content="My personal blog.">
 <meta name="keywords" content="">
 
@@ -14,16 +14,16 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Formatting the URL for the Yahoo Finance API">
+<meta property="og:title" content="Behind the Scenes of Website Hosting">
 <meta property="og:description" content="My personal blog.">
-<meta property="og:url" content="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/">
+<meta property="og:url" content="http://franknowinski.github.io/website-hosting-behind-the-scenes/">
 <meta property="og:site_name" content="Frank Nowinski">
 
 
 
 
 
-<link rel="canonical" href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/">
+<link rel="canonical" href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">
 <link href="http://franknowinski.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Frank Nowinski Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -116,9 +116,9 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" rel="bookmark" title="Formatting the URL for the Yahoo Finance API">Formatting the URL for the Yahoo Finance API</a></h1>
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" rel="bookmark" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h1>
         
-        <h2><span class="entry-date date published"><time datetime="2016-01-29T04:17:17-05:00">January 29, 2016</time></span></h2>
+        <h2><span class="entry-date date published"><time datetime="2016-09-30T04:16:56-04:00">September 30, 2016</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
@@ -129,30 +129,26 @@ Reading time ~1 minute
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <p>On a mission to create a ruby gem to return realtime stock data to the user, I was confronted with a dilemma: how can I attain stock data from the internet and displaying it in a formatted table within my gem? With the help of Yahoo! Finances incredibly convenient API, this process was made exceptionally easy. If used correctly, this API would return realtime stock data within a csv file—all I had to do was properly assemble the URL.</p>
+      <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.</p>
 
-<p>To accomplish this I needed to input information into two positions of the base URL: the stock tickers position and the tags position. The stock tickers position (represented as <code>{STOCKS}</code> in the below URL) contains the stock tickers that you want to look up joined together by an addition sign (<code>+</code>). So, if the user wanted to look up Apple’s and Google’s stock, the URL in the stock tickers position would read: <code>AAPL+GOOG</code>.</p>
+<p>You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: <code>[name of app].herokuapp.com</code>.</p>
 
-<blockquote>
-  <p>Base URL: “http://finance.yahoo.com/d/quotes.csv?s=<code>{STOCKS}</code>&amp;f=<code>{TAGS}</code>”</p>
-</blockquote>
+<p>Underneath a domain name is just an IP address that identifies a specific computer. However, instead of inputting your IP address (ex: 90.47.136.226) into the address bar, we use domain names like www.github.com because who wants to write, much less remember, a 10 digit number?</p>
 
-<p>The second position that is required to be populated was the tags position (represented by <code>{TAGS}</code> in the above URL). Tags are just characters that symbolize different descriptions that, when included, return information relating to a stock; so, if you include an “n” tag it displays the stocks name, an “a” tag displays the stocks asking price, a “t8” tag displays the stocks 1 Year Target Price (you get the idea). Continuing with our example, if the user wanted to look up the name, earnings per share, and the 52 week high for Apple’s and Google’s stock, we would include the “n”, “e”, and “k” tags in the tags position of the base URL. However, when we add the tags to the URL we concatenate them together, so the end result would be ”nek.”</p>
+<p>When a user inputs a domain name into the address bar, how does the browser know what to show? This is where Domain Name System (DNS) or nameservers come in. The concept of DNS is pretty straightforward: DNS is responsible for routing your domain name to the correct server that is hosting your website. Therefore, whenever a user visits your domain name, it will ping the server that is correlated to that  name (or IP address) and load it’s data.</p>
 
-<p>Below is the final URL of the aforementioned example that will return a csv file that contains the specific information that we requested.</p>
+<p>Now that we have our domain name and the DNS is correctly routing visitors to our website, the last step (as you probably guessed) is hosting our website on a web hosting server. A web hosting server stores all of the HTML files, pictures, videos and other documents that your website is made up of. In order for these files to be displayed when a user visits them, they need to be stored in a folder on a computer that is connected to the internet. That is exactly what a web hosting service provides – a place to “serve” your website files.</p>
 
-<blockquote>
-  <p>http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG&amp;f=nek</p>
-</blockquote>
+<p>Simple as that. Those are the three steps that must be taken in order to successfully host your website on the web.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
         
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/formatting-the-url-for-the-yahoo-finance-api/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
   </ul>
 </div><!-- /.social-share -->
       </footer>
@@ -161,23 +157,23 @@ Reading time ~1 minute
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="http://franknowinski.github.io" class="read-more-btn">Read More</a>
+      <a href="http://franknowinski.github.io/factories-vs-services/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h3>
-      <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perpl...&hellip; <a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h3>
+      <p>When you’re using AngularJS, just like in most other computer languages, you’ll most likely want to keep your controllers thin, storing m...&hellip; <a href="http://franknowinski.github.io/factories-vs-services/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h4>
-        <span>Published on August 31, 2016</span>
+        <h4><a href="http://franknowinski.github.io/understanding-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h4>
+        <span>Published on June 30, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/understanding-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h4>
-        <span>Published on June 30, 2016</span>
+        <h4><a href="http://franknowinski.github.io/getting-a-users-top-artists-using-spotifys-api/" title="Finding Upcoming Concerts of Your Favorite Bands">Finding Upcoming Concerts of Your Favorite Bands</a></h4>
+        <span>Published on May 12, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->

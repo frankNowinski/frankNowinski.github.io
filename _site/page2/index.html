@@ -132,6 +132,170 @@
 
 
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2016-02-21T19:25:01-05:00"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/">February 21, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" rel="bookmark" title="Omniauth-Facebook With Devise" itemprop="url">Omniauth-Facebook With Devise</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
+
+
+    
+    
+    
+   <p><a class="btn btn-sm btn-info" href="/omniauth-facebook-with-devise//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
+   </p>
+   
+    <!-- <p>Instead of putting the burden on yourself and your team for implementing an authentication feature for your app, many programmers are deflecting the responsibility to tech giants such as Facebook, Google, and Twitter to securely log in their users. Besides saving your team from writing code, the major benefit of using another authentication provider is that your app becomes considerably more robust against security vulnerabilities.</p>
+
+<p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. For the purpose of this blog I’m going to demonstrate how you can use <a href="https://github.com/mkdynamic/omniauth-facebook">Omniauth-Facebook</a> with <a href="https://github.com/plataformatec/devise">Devise</a>, a popular gem used for user authentication.</p>
+
+<p>First, you’ll need to include the following gems in your <code>Gemfile</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="n">gem</span> <span class="s1">'devise'</span>
+<span class="n">gem</span> <span class="s1">'omniauth-facebook'</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now run `bundle install`
+
+Next, create your User model with Devise by entering the following two commands in your terminal:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">generate</span> <span class="n">devise</span><span class="ss">:install</span>
+<span class="n">rails</span> <span class="n">g</span> <span class="n">devise</span> <span class="no">User</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file name will have different numbers).
+
+Before you run `rake db:migrate` you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">rails</span> <span class="n">g</span> <span class="n">migration</span> <span class="no">AddOmniauthToUsers</span> <span class="n">provider</span><span class="ss">:string</span> <span class="n">uid</span><span class="ss">:string</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now you can run `rake db:migrate`
+
+Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be `config/initializers/devise.rb`. Go to that file to declare Facebook as your authentication provider and fill in your Facebook `APP_ID` and `APP_SECRET`:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">config</span><span class="p">.</span><span class="nf">omniauth</span> <span class="ss">:facebook</span><span class="p">,</span> <span class="s2">"APP_ID"</span><span class="p">,</span> <span class="s2">"APP_SECRET"</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+To get an `APP_ID` and `APP_SECRET` you’ll have to create an app at the [Facebook Developers website](https://developers.facebook.com/). If this is your first time creating a Facebook app then follow this [guide](https://developers.facebook.com/docs/apps/register).
+
+In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in `app/models/user.rb`:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise</span> <span class="ss">:omniauthable</span><span class="p">,</span> <span class="ss">:omniauth</span> <span class="n">providers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:facebook</span><span class="p">]</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+The above code creates these two routes or url methods:
+`user_omniauth_authorize_path(proivider)`
+`user_omniauth_callback_path(proivider)`
+
+To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
+
+
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">“</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Facebook</span><span class="err">”</span><span class="p">,</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Although you won’t be explicitly calling `user_omniauth_callback_path` in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your `config/routes.rb` file:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">users</span><span class="o">/</span><span class="n">omniauth_callbacks</span><span class="err">”</span> <span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Now we’ll need to create a controller so we can create users with Facebook's authentication and sign them in to our app. Label the controller file `app/controllers/users/omniauth_callbacks_controller.rb` and set up the file like so:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
+  <span class="k">def</span> <span class="nf">facebook</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s2">"omniauth.auth"</span><span class="p">])</span>
+
+    <span class="vi">@user</span><span class="p">.</span><span class="nf">save</span> <span class="k">if</span> <span class="o">!</span><span class="vi">@user</span>
+    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">:event</span> <span class="o">=&gt;</span> <span class="ss">:authentication</span>
+    <span class="n">set_flash_message</span><span class="p">(</span><span class="ss">:notice</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:kind</span> <span class="o">=&gt;</span> <span class="s2">"Facebook"</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_navigational_format?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">failure</span>
+    <span class="n">redirect_to</span> <span class="n">root_path</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+On line 3 inside the `facebook` method you’ll notice we’re calling the `from_omniauth` method on the User class. To utilize this method we’ll have to define it, so head over to `app/models/user.rb` and update your file with the following code:
+
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6</pre></td><td class="code"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+  <span class="n">where</span><span class="p">(</span><span class="ss">provider: </span><span class="n">auth</span><span class="p">.</span><span class="nf">provider</span><span class="p">,</span> <span class="ss">uid: </span><span class="n">auth</span><span class="p">.</span><span class="nf">uid</span><span class="p">).</span><span class="nf">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+    <span class="n">user</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">auth</span><span class="p">.</span><span class="nf">info</span><span class="p">.</span><span class="nf">name</span>
+    <span class="n">user</span><span class="p">.</span><span class="nf">password</span> <span class="o">=</span> <span class="no">Devise</span><span class="p">.</span><span class="nf">friendly_token</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span><span class="w">
+</span></pre></td></tr></tbody></table>
+
+
+
+Inside this method we use the data that is provided by Facebook to either find a user or create one. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It's important to note that when initializing a new user the `first_or_create` method automatically sets the `uid` and `provider` fields with their appropriate data.
+
+To create a new user for your app you will need to include at minimum the `password` field inside the `first_or_create` loop (remember the `uid` is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook's profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop.
+
+In a nutshell, that's how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
+</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+ -->
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+
+
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2016-01-29T05:46:01-05:00"><a href="http://franknowinski.github.io/dynamic-dispatching/">January 29, 2016</a></time></span><span class="author vcard"><span class="fn"><a href="http://franknowinski.github.io/about/" title="About Frank Nowisnki">Frank Nowisnki</a></span></span>
       
       <span class="entry-reading-time">

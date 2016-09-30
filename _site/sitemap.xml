@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>http://franknowinski.github.io/angularjs-factories-vs-services/</loc>
-<lastmod>2016-08-01T14:59:20-04:00</lastmod>
+<loc>http://franknowinski.github.io/website-hosting-behind-the-scenes/</loc>
+<lastmod>2016-09-30T04:16:56-04:00</lastmod>
+</url>
+<url>
+<loc>http://franknowinski.github.io/factories-vs-services/</loc>
+<lastmod>2016-08-31T10:50:40-04:00</lastmod>
 </url>
 <url>
 <loc>http://franknowinski.github.io/understanding-o-n-log-n/</loc>
