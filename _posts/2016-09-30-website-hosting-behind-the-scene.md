@@ -13,7 +13,6 @@ comments:
 share:
 date: 2016-09-30T04:07:24-04:00
 ---
-
 Ever wonder what Heroku is doing being the scenes that allows you to view it in the browser? If this question has perplexed you, as it did me, read on.
 
 You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is usually going to cost you around $10 to $40. However, there’s an alternative route: you can use a free domain name that’s that’s often provided by the hosting service (Heroku formats their domain like so: <code>[name of app].herokuapp.com</code>).
