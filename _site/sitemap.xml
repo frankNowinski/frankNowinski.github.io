@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/</loc>
+<lastmod>2017-03-30T15:57:45-04:00</lastmod>
+</url>
+<url>
 <loc>http://franknowinski.github.io/website-hosting-behind-the-scenes/</loc>
 <lastmod>2016-09-30T04:16:56-04:00</lastmod>
 </url>
@@ -40,13 +44,13 @@
 <loc>http://franknowinski.github.io/404.html</loc>
 </url>
 <url>
+<loc>http://franknowinski.github.io/tags/</loc>
+</url>
+<url>
 <loc>http://franknowinski.github.io/posts/</loc>
 </url>
 <url>
 <loc>http://franknowinski.github.io/</loc>
-</url>
-<url>
-<loc>http://franknowinski.github.io/tags/</loc>
 </url>
 <url>
 <loc>http://franknowinski.github.io/about/</loc>
@@ -59,6 +63,6 @@
 </url>
 <url>
 <loc>http://franknowinski.github.io/images/WorkoutTracker.html</loc>
-<lastmod>2016-02-15T13:52:17-05:00</lastmod>
+<lastmod>2017-03-30T15:37:04-04:00</lastmod>
 </url>
 </urlset>

@@ -38,7 +38,6 @@ bing_verify:
 timezone:    America/New_York
 future:      true
 highlighter: rouge
-markdown:    kramdown
 gems:
   - jekyll-sitemap
 sass:
@@ -51,13 +50,11 @@ permalink:   /:categories/:title/
 # Amount of post to show on home page
 paginate: 5
 excerpt_separator: "\n\n"
+markdown: kramdown
 
 kramdown:
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  use_coderay: true
+  input: GFM
+  syntax_highlighter: rouge
 
   coderay:
     coderay_line_numbers: nil

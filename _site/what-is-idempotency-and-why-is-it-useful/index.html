@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Behind the Scenes of Website Hosting &#8211; Frank Nowinski</title>
+<title>What Is Idempotency and Why Is It Useful? &#8211; Frank Nowinski</title>
 <meta name="description" content="My personal blog.">
 <meta name="keywords" content="">
 
@@ -14,16 +14,16 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Behind the Scenes of Website Hosting">
+<meta property="og:title" content="What Is Idempotency and Why Is It Useful?">
 <meta property="og:description" content="My personal blog.">
-<meta property="og:url" content="http://franknowinski.github.io/website-hosting-behind-the-scenes/">
+<meta property="og:url" content="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/">
 <meta property="og:site_name" content="Frank Nowinski">
 
 
 
 
 
-<link rel="canonical" href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">
+<link rel="canonical" href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/">
 <link href="http://franknowinski.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Frank Nowinski Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -116,39 +116,49 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" rel="bookmark" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h1>
+          <h1 class="entry-title"><a href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" rel="bookmark" title="What Is Idempotency and Why Is It Useful?">What Is Idempotency and Why Is It Useful?</a></h1>
         
-        <h2><span class="entry-date date published"><time datetime="2016-09-30T04:16:56-04:00">September 30, 2016</time></span></h2>
+        <h2><span class="entry-date date published"><time datetime="2017-03-30T15:57:45-04:00">March 30, 2017</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~1 minute
+Reading time ~3 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.</p>
+      <p>Just the other day I was on a phone interview when I was asked to explain the benefits of idempotency. At first, this term bewildered me, but after asking the interviewer to elaborate, I had a good idea as to what he was referring to. Nevertheless, after the interview I researched the term to get a better understanding of what idempotency is and why it’s useful when constructing RESTful APIs. This is what I learned.</p>
 
-<p>You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: <code class="highlighter-rouge">[name of app].herokuapp.com</code>.</p>
+<p>Wouldn’t it be nice if you never lost your wifi connection and were always able to connect to the internet? I think we can all agree that it would, but we aren’t quite technologically there yet. We still lose our wifi connection, our requests may not reach the server, our responses may not reach the client, etc. Since the internet is susceptible to an unreliable connection, we want to make our APIs as robust and reliable as possible.</p>
 
-<p>Underneath a domain name is just an IP address that identifies a specific computer. However, instead of inputting your IP address (ex: 90.47.136.226) into the address bar, we use domain names like www.github.com because who wants to write, much less remember, a 10 digit number?</p>
+<p>Continuing on what I said above, there are a few ways a network could lose it’s connection:</p>
 
-<p>When a user inputs a domain name into the address bar, how does the browser know what to show? This is where Domain Name System (DNS) or nameservers come in. The concept of DNS is pretty straightforward: DNS is responsible for routing your domain name to the correct server that is hosting your website. Therefore, whenever a user visits your domain name, it will ping the server that is correlated to that  name (or IP address) and load it’s data.</p>
+<ul>
+  <li>The initial request from the client to the server could fail.</li>
+  <li>A call could fail while the server is processing the request.</li>
+  <li>The request could get processed, but the response from the server to the client could fail.</li>
+</ul>
 
-<p>Now that we have our domain name and the DNS is correctly routing visitors to our website, the last step (as you probably guessed) is hosting our website on a web hosting server. A web hosting server stores all of the HTML files, pictures, videos and other documents that your website is made up of. In order for these files to be displayed when a user visits them, they need to be stored in a folder on a computer that is connected to the internet. That is exactly what a web hosting service provides – a place to “serve” your website files.</p>
+<p>For example, say you’re making a GET request to a SHOW action but the request never connects to the server. In this scenario, the request would simply get resent to the server. Since there’s a chance this request can get called more than once, we want to design our actions so that we can rest assured knowing that the same result will be returned no matter how many times the method is called, which is essentially what idempotency is.<strong> An idempotent method returns the same result, regardless if you call the method once or if you call it 100 times. </strong> Therefore, in an idempotent SHOW action, when the initial request fails, the request would get resent and the SHOW action would return the same result as if the initial call was processed successfully.</p>
 
-<p>Simple as that. Those are the three steps that must be taken in order to successfully host your website on the web.</p>
+<p>Let’s take a look at an idempotent UPDATE action to illustrate what would happen if a request would fail while the server is fulfilling the operation. The UPDATE action is responsible for updating a record in the database with the parameters that are sent to the action. If a request to the UPDATE action failed either before or after the record was updated, the request would be resent to the action where it would proceed to run normally. You don’t have to be concerned with any adverse side effects because if the record is updated once or updated five times, it’s still going to update the record with the same parameters that it was passed.</p>
+
+<p>Finally, lets take a look at the CREATE action, which isn’t considered idempotent, and discuss what we can do to ensure this method is robust and reliable. Typically, you’ll want the CREATE method to be processed once and only once to prevent adding multiple records to the database; or, if you’re endpoint is charging your customers money, charging your customers multiple times. To prevent these unwanted side effects, we can rely on <i>idempotentcy keys</i> which is a unique ID that’s generated and sent along with the request from the client to the server. Now, on the server side, you can read the idempotentcy keys ID and determine what type of logic to perform.</p>
+
+<p>If the request failed before it was processed, a second request would be sent and the action would proceed to be processed as normal. If the request is successfully processed, the result is cached and the response is sent back to the client. In the event that the client doesn’t receive the response, the CREATE action would receive the request again, read the idempotency key, know that the request was already processed, and return the cached result.</p>
+
+<p>Any API should be concerned with minimizing adverse side effects and uncertainty and by implementing idempotent methods in your controllers, you do just that.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
         
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
   </ul>
 </div><!-- /.social-share -->
       </footer>
@@ -157,11 +167,11 @@ Reading time ~1 minute
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="http://franknowinski.github.io/factories-vs-services/" class="read-more-btn">Read More</a>
+      <a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" title="What Is Idempotency and Why Is It Useful?">What Is Idempotency and Why Is It Useful?</a></h3>
-      <p>Just the other day I was on a phone interview when I was asked to explain the benefits of idempotency. At first, this term bewildered me,...&hellip; <a href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h3>
+      <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perpl...&hellip; <a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">

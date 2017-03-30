@@ -4,13 +4,52 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://franknowinski.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://franknowinski.github.io" />
-<updated>2016-09-30T04:39:07-04:00</updated>
+<updated>2017-04-12T02:28:06-04:00</updated>
 <id>http://franknowinski.github.io/</id>
 <author>
   <name>Frank Nowisnki</name>
   <uri>http://franknowinski.github.io/</uri>
   <email>nowinski.frank@gmail.com</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[What Is Idempotency and Why Is It Useful?]]></title>
+ <link rel="alternate" type="text/html" href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" />
+  <id>http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful</id>
+  <published>2017-03-30T15:57:45-04:00</published>
+  <updated>2017-03-30T15:57:45-04:00</updated>
+  <author>
+    <name>Frank Nowisnki</name>
+    <uri>http://franknowinski.github.io</uri>
+    <email>nowinski.frank@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Just the other day I was on a phone interview when I was asked to explain the benefits of idempotency. At first, this term bewildered me, but after asking the interviewer to elaborate, I had a good idea as to what he was referring to. Nevertheless, after the interview I researched the term to get a better understanding of what idempotency is and why it’s useful when constructing RESTful APIs. This is what I learned.&lt;/p&gt;
+
+&lt;p&gt;Wouldn’t it be nice if you never lost your wifi connection and were always able to connect to the internet? I think we can all agree that it would, but we aren’t quite technologically there yet. We still lose our wifi connection, our requests may not reach the server, our responses may not reach the client, etc. Since the internet is susceptible to an unreliable connection, we want to make our APIs as robust and reliable as possible.&lt;/p&gt;
+
+&lt;p&gt;Continuing on what I said above, there are a few ways a network could lose it’s connection:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The initial request from the client to the server could fail.&lt;/li&gt;
+  &lt;li&gt;A call could fail while the server is processing the request.&lt;/li&gt;
+  &lt;li&gt;The request could get processed, but the response from the server to the client could fail.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, say you’re making a GET request to a SHOW action but the request never connects to the server. In this scenario, the request would simply get resent to the server. Since there’s a chance this request can get called more than once, we want to design our actions so that we can rest assured knowing that the same result will be returned no matter how many times the method is called, which is essentially what idempotency is.&lt;strong&gt; An idempotent method returns the same result, regardless if you call the method once or if you call it 100 times. &lt;/strong&gt; Therefore, in an idempotent SHOW action, when the initial request fails, the request would get resent and the SHOW action would return the same result as if the initial call was processed successfully.&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at an idempotent UPDATE action to illustrate what would happen if a request would fail while the server is fulfilling the operation. The UPDATE action is responsible for updating a record in the database with the parameters that are sent to the action. If a request to the UPDATE action failed either before or after the record was updated, the request would be resent to the action where it would proceed to run normally. You don’t have to be concerned with any adverse side effects because if the record is updated once or updated five times, it’s still going to update the record with the same parameters that it was passed.&lt;/p&gt;
+
+&lt;p&gt;Finally, lets take a look at the CREATE action, which isn’t considered idempotent, and discuss what we can do to ensure this method is robust and reliable. Typically, you’ll want the CREATE method to be processed once and only once to prevent adding multiple records to the database; or, if you’re endpoint is charging your customers money, charging your customers multiple times. To prevent these unwanted side effects, we can rely on &lt;i&gt;idempotentcy keys&lt;/i&gt; which is a unique ID that’s generated and sent along with the request from the client to the server. Now, on the server side, you can read the idempotentcy keys ID and determine what type of logic to perform.&lt;/p&gt;
+
+&lt;p&gt;If the request failed before it was processed, a second request would be sent and the action would proceed to be processed as normal. If the request is successfully processed, the result is cached and the response is sent back to the client. In the event that the client doesn’t receive the response, the CREATE action would receive the request again, read the idempotency key, know that the request was already processed, and return the cached result.&lt;/p&gt;
+
+&lt;p&gt;Any API should be concerned with minimizing adverse side effects and uncertainty and by implementing idempotent methods in your controllers, you do just that.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/&quot;&gt;What Is Idempotency and Why Is It Useful?&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on March 30, 2017.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
@@ -27,7 +66,7 @@
   <content type="html">
     &lt;p&gt;Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.&lt;/p&gt;
 
-&lt;p&gt;You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: &lt;code&gt;[name of app].herokuapp.com&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: &lt;code class=&quot;highlighter-rouge&quot;&gt;[name of app].herokuapp.com&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Underneath a domain name is just an IP address that identifies a specific computer. However, instead of inputting your IP address (ex: 90.47.136.226) into the address bar, we use domain names like www.github.com because who wants to write, much less remember, a 10 digit number?&lt;/p&gt;
 
@@ -119,13 +158,13 @@
     <email>nowinski.frank@gmail.com</email>
   </author>
   <content type="html">
-    &lt;p&gt;The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as &lt;code&gt;O(n)&lt;/code&gt; and &lt;code&gt;O(n^2)&lt;/code&gt;. The first few complexities are pretty straightforward, it’s only when you find yourself staring at &lt;code&gt;O(n log(n))&lt;/code&gt; when the confusion kicks in. If you can relate, or you just want to brush up on what exactly &lt;code&gt;O(n log(n))&lt;/code&gt; means, then this blog post is for you.&lt;/p&gt;
+    &lt;p&gt;The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n)&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n^2)&lt;/code&gt;. The first few complexities are pretty straightforward, it’s only when you find yourself staring at &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt; when the confusion kicks in. If you can relate, or you just want to brush up on what exactly &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt; means, then this blog post is for you.&lt;/p&gt;
 
 &lt;p&gt;First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. &lt;strong&gt;Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.&lt;/p&gt;
 
-&lt;p&gt;For example, a simple iteration through an array of &lt;i&gt;n&lt;/i&gt; items to find the largest value would be considered &lt;code&gt;O(n)&lt;/code&gt;, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:&lt;/p&gt;
+&lt;p&gt;For example, a simple iteration through an array of &lt;i&gt;n&lt;/i&gt; items to find the largest value would be considered &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n)&lt;/code&gt;, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;linear_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
@@ -134,7 +173,7 @@
     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Demonstrating &lt;code&gt;O(n^2)&lt;/code&gt; is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:&lt;/p&gt;
+&lt;p&gt;Demonstrating &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n^2)&lt;/code&gt; is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;quadratic_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;range_of_digits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;divisor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
@@ -146,11 +185,11 @@
 
 &lt;p&gt;&lt;small&gt;*Not the most efficient solution&lt;/small&gt;&lt;/p&gt;
 
-&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of &lt;code&gt;O(n^2)&lt;/code&gt; or quadratic time.&lt;/p&gt;
+&lt;p&gt;Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n^2)&lt;/code&gt; or quadratic time.&lt;/p&gt;
 
-&lt;p&gt;After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind &lt;code&gt;O(n log(n))&lt;/code&gt;. The first part of the complexity, &lt;code&gt;O(n)&lt;/code&gt;, should look familiar – we’re iterating over the length of the array, touching each item once.&lt;/p&gt;
+&lt;p&gt;After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt;. The first part of the complexity, &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n)&lt;/code&gt;, should look familiar – we’re iterating over the length of the array, touching each item once.&lt;/p&gt;
 
-&lt;p&gt;The second part of the complexity, &lt;code&gt;log(n)&lt;/code&gt;, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide &lt;i&gt;n&lt;/i&gt; in half to convert all the items in &lt;i&gt;n&lt;/i&gt; to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of &lt;code&gt;O(n log(n))&lt;/code&gt;. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)&lt;/p&gt;
+&lt;p&gt;The second part of the complexity, &lt;code class=&quot;highlighter-rouge&quot;&gt;log(n)&lt;/code&gt;, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide &lt;i&gt;n&lt;/i&gt; in half to convert all the items in &lt;i&gt;n&lt;/i&gt; to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt;. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)&lt;/p&gt;
 
 &lt;p&gt;The basic premise of mergesort comes down to these three steps:&lt;/p&gt;
 &lt;ul&gt;
@@ -159,9 +198,9 @@
     &lt;li&gt;Merge the sorted arrays&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: &lt;code&gt;[8, 2, 4, 7, 3, 1, 6, 5]&lt;/code&gt;. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.&lt;/p&gt;
+&lt;p&gt;To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: &lt;code class=&quot;highlighter-rouge&quot;&gt;[8, 2, 4, 7, 3, 1, 6, 5]&lt;/code&gt;. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.&lt;/p&gt;
 
-&lt;p&gt;Following our example, the array is first cut in half to equal &lt;code&gt;[8, 2, 4, 7]&lt;/code&gt;. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal &lt;code&gt;[8, 2]&lt;/code&gt;. This process continues until we’re left with &lt;code&gt;[8]&lt;/code&gt; and &lt;code&gt;[2]&lt;/code&gt;, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, &lt;code&gt;[8]&lt;/code&gt; would be declared the left portion and &lt;code&gt;[2]&lt;/code&gt; the right. So, the first pair of our sorted array would be &lt;code&gt;[2, 8]&lt;/code&gt; since &lt;code&gt;8&lt;/code&gt; is less than &lt;code&gt;2&lt;/code&gt;. Next, we would sort &lt;code&gt;[4, 7]&lt;/code&gt;, which just so happens to be sorted. Finally, we would merge the first two pairs into &lt;code&gt;[2, 4, 7, 8]&lt;/code&gt;, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:&lt;/p&gt;
+&lt;p&gt;Following our example, the array is first cut in half to equal &lt;code class=&quot;highlighter-rouge&quot;&gt;[8, 2, 4, 7]&lt;/code&gt;. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal &lt;code class=&quot;highlighter-rouge&quot;&gt;[8, 2]&lt;/code&gt;. This process continues until we’re left with &lt;code class=&quot;highlighter-rouge&quot;&gt;[8]&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;[2]&lt;/code&gt;, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, &lt;code class=&quot;highlighter-rouge&quot;&gt;[8]&lt;/code&gt; would be declared the left portion and &lt;code class=&quot;highlighter-rouge&quot;&gt;[2]&lt;/code&gt; the right. So, the first pair of our sorted array would be &lt;code class=&quot;highlighter-rouge&quot;&gt;[2, 8]&lt;/code&gt; since &lt;code class=&quot;highlighter-rouge&quot;&gt;8&lt;/code&gt; is less than &lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt;. Next, we would sort &lt;code class=&quot;highlighter-rouge&quot;&gt;[4, 7]&lt;/code&gt;, which just so happens to be sorted. Finally, we would merge the first two pairs into &lt;code class=&quot;highlighter-rouge&quot;&gt;[2, 4, 7, 8]&lt;/code&gt;, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
@@ -186,7 +225,7 @@
     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;As stated earlier, mergesort’s complexity is &lt;code&gt;O(n log(n))&lt;/code&gt;. The &lt;code&gt;log(n)&lt;/code&gt; is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The &lt;code&gt;n&lt;/code&gt; comes from the time it takes to merge the left and the right sorted halves together. &lt;code&gt;O(n log(n))&lt;/code&gt; is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.&lt;/p&gt;
+&lt;p&gt;As stated earlier, mergesort’s complexity is &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt;. The &lt;code class=&quot;highlighter-rouge&quot;&gt;log(n)&lt;/code&gt; is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; comes from the time it takes to merge the left and the right sorted halves together. &lt;code class=&quot;highlighter-rouge&quot;&gt;O(n log(n))&lt;/code&gt; is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/understanding-o-n-log-n/&quot;&gt;Understanding O(n log(n))&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on June 30, 2016.&lt;/p&gt;
   </content>
@@ -207,16 +246,16 @@
   <content type="html">
     &lt;p&gt;Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the &lt;em&gt;User’s Top Artists and Tracks&lt;/em&gt; endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.&lt;/p&gt;
 
-&lt;p&gt;Before we get underway, let’s add the &lt;a href=&quot;https://github.com/guilhermesad/rspotify&quot;&gt;RSpotify&lt;/a&gt; gem into our app to help access the Spotify API as well as the &lt;a href=&quot;https://github.com/taf2/curb&quot;&gt;Curb&lt;/a&gt; gem for formatting a get request (more on &lt;code&gt;Curb&lt;/code&gt; later). Include the following gems in your Gemfile and run &lt;code&gt;bundle&lt;/code&gt;: edit this&lt;/p&gt;
+&lt;p&gt;Before we get underway, let’s add the &lt;a href=&quot;https://github.com/guilhermesad/rspotify&quot;&gt;RSpotify&lt;/a&gt; gem into our app to help access the Spotify API as well as the &lt;a href=&quot;https://github.com/taf2/curb&quot;&gt;Curb&lt;/a&gt; gem for formatting a get request (more on &lt;code class=&quot;highlighter-rouge&quot;&gt;Curb&lt;/code&gt; later). Include the following gems in your Gemfile and run &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt;: edit this&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;rspotify&#39;&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;curb&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
+&lt;p&gt;If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In &lt;code class=&quot;highlighter-rouge&quot;&gt;application.rb&lt;/code&gt; add:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;RSpotify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authenticate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_CLIENT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SPOTIFY_SECRET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Then, in &lt;code&gt;config/initializers/omniauth.rb&lt;/code&gt; include:&lt;/p&gt;
+&lt;p&gt;Then, in &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/omniauth.rb&lt;/code&gt; include:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;rspotify/oauth&#39;&lt;/span&gt;
 
@@ -225,21 +264,21 @@
   &lt;span class=&quot;ss&quot;&gt;scope: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;user-read-email user-top-read&#39;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;By including the &lt;code&gt;user-top-read&lt;/code&gt; scope you’re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you’ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;By including the &lt;code class=&quot;highlighter-rouge&quot;&gt;user-top-read&lt;/code&gt; scope you’re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you’ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found &lt;a href=&quot;https://developer.spotify.com/web-api/using-scopes/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Next, provide a link so the user can log into their Spotify account:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Sign in with Spotify&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/auth/spotify&quot;&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to &lt;code&gt;routes.rb&lt;/code&gt; and declare what controller and action you’ll like your callback to hit:&lt;/p&gt;
+&lt;p&gt;Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to &lt;code class=&quot;highlighter-rouge&quot;&gt;routes.rb&lt;/code&gt; and declare what controller and action you’ll like your callback to hit:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/auth/spotify/callback&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;to: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;users/spotify&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You now have access to basic user information, such as name and email address, as well as the unique access token in the &lt;code&gt;spotify&lt;/code&gt; action of your app.&lt;/p&gt;
+&lt;p&gt;You now have access to basic user information, such as name and email address, as well as the unique access token in the &lt;code class=&quot;highlighter-rouge&quot;&gt;spotify&lt;/code&gt; action of your app.&lt;/p&gt;
 
-&lt;p&gt;Once you’ve retrieved the access token you’re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the &lt;code&gt;curb&lt;/code&gt; gem which we previously installed in our app.&lt;/p&gt;
+&lt;p&gt;Once you’ve retrieved the access token you’re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the &lt;code class=&quot;highlighter-rouge&quot;&gt;curb&lt;/code&gt; gem which we previously installed in our app.&lt;/p&gt;
 
-&lt;p&gt;The &lt;code&gt;curb&lt;/code&gt; gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &lt;em&gt;Users Top Artist&lt;/em&gt; endpoint:&lt;/p&gt;
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;curb&lt;/code&gt; gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the &lt;em&gt;Users Top Artist&lt;/em&gt; endpoint:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Curl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://api.spotify.com/v1/me/top/artists?limit=25&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Accept&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;application/json&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -248,7 +287,7 @@
 
 &lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You can request a minimum of one or a maximum of fifty artists by modifying the &lt;code&gt;limit&lt;/code&gt; query parameter at the conclusion of the endpoint (ex: &lt;code&gt;limit=50&lt;/code&gt;). Finally, replace &lt;code&gt;#{access_token}&lt;/code&gt; with the actual access token, pass in the http local variable as an argument to the &lt;code&gt;JSON.parse&lt;/code&gt; method and you’ll receive your top artists!&lt;/p&gt;
+&lt;p&gt;You can request a minimum of one or a maximum of fifty artists by modifying the &lt;code class=&quot;highlighter-rouge&quot;&gt;limit&lt;/code&gt; query parameter at the conclusion of the endpoint (ex: &lt;code class=&quot;highlighter-rouge&quot;&gt;limit=50&lt;/code&gt;). Finally, replace &lt;code class=&quot;highlighter-rouge&quot;&gt;#{access_token}&lt;/code&gt; with the actual access token, pass in the http local variable as an argument to the &lt;code class=&quot;highlighter-rouge&quot;&gt;JSON.parse&lt;/code&gt; method and you’ll receive your top artists!&lt;/p&gt;
 
 &lt;h2&gt;Finding local concerts using the BandsInTown API&lt;/h2&gt;
 
@@ -269,7 +308,7 @@
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with &lt;code&gt;%20&lt;/code&gt;, resulting in a valid URL.&lt;/p&gt;
+&lt;p&gt;See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with &lt;code class=&quot;highlighter-rouge&quot;&gt;%20&lt;/code&gt;, resulting in a valid URL.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;escaped_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;escape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; escaped_url = &quot;http://api.bandsintown.com/artists/Kanye%20West/events/recommended?location=use_geoip&amp;amp;radius=50&amp;amp;app_id=discover-shows&amp;amp;api_version=2.0&amp;amp;format=json&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -278,11 +317,11 @@
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;URI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;escaped_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted &lt;code&gt;uri&lt;/code&gt; variable into the &lt;code&gt;get_response&lt;/code&gt; method of the &lt;code&gt;Net::HTTP&lt;/code&gt; class:&lt;/p&gt;
+&lt;p&gt;Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted &lt;code class=&quot;highlighter-rouge&quot;&gt;uri&lt;/code&gt; variable into the &lt;code class=&quot;highlighter-rouge&quot;&gt;get_response&lt;/code&gt; method of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Net::HTTP&lt;/code&gt; class:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTTP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;body&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Chaining &lt;code&gt;body&lt;/code&gt; to the end of the &lt;code&gt;get_response&lt;/code&gt; method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!&lt;/p&gt;
+&lt;p&gt;Chaining &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; to the end of the &lt;code class=&quot;highlighter-rouge&quot;&gt;get_response&lt;/code&gt; method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -321,33 +360,7 @@
 
 &lt;p&gt;Below you can view the code I used to implement this functionality:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exercise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exercise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;workouts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Workout row --&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;workout-rows&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-muscle-group-id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exercise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;muscle_group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-workout-id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
 
@@ -373,88 +386,40 @@
 
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Edit&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edit_workout_plan_workout_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;current_plan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;class: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;edit-link&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;remote: :true&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I’ll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:&lt;/p&gt;
 
-
-Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I&#39;ll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;ss&quot;&gt;display: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Now all of the input fields will default to being hidden within the DOM unless told otherwise.&lt;/p&gt;
 
+&lt;p&gt;The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the &lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt; link. To achieve this I’ll have to create an event listener that will perform this function whenever an &lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt; link gets clicked:&lt;/p&gt;
 
-Now all of the input fields will default to being hidden within the DOM unless told otherwise.
-
-The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I&#39;ll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;tbody&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;click&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;a.edit-link&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;tbody&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;click&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;a.edit-link&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
   &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;tr&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
   &lt;span class=&quot;c1&quot;&gt;// Hide workout values and display edit workout input form&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;span&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;hide-row&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;input&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;id&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;edit-workout&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the &lt;code class=&quot;highlighter-rouge&quot;&gt;hide-row&lt;/code&gt; class and display the edit workout form by adding the &lt;code class=&quot;highlighter-rouge&quot;&gt;edit-workout&lt;/code&gt; id to the input fields.&lt;/p&gt;
 
+&lt;p&gt;Now that the user has upgraded their workout to fulfill their beast mode requirements, I’ll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.&lt;/p&gt;
 
-First, I determine what particular workout row we&#39;re dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
+&lt;p&gt;Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add &lt;code class=&quot;highlighter-rouge&quot;&gt;remote: :true&lt;/code&gt; to your form and create the following event listener in your JavaScript file:&lt;/p&gt;
 
-Now that the user has upgraded their workout to fulfill their beast mode requirements, I&#39;ll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
-
-Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;form&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;form&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax &lt;code class=&quot;highlighter-rouge&quot;&gt;dataType&lt;/code&gt; for a &lt;code class=&quot;highlighter-rouge&quot;&gt;remote true&lt;/code&gt; request is &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt;, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered &lt;code class=&quot;highlighter-rouge&quot;&gt;views/workouts/update.js.erb&lt;/code&gt; where I wrote the following JavaScript code:&lt;/p&gt;
 
-
-The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I&#39;ll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;workout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
   &lt;span class=&quot;c1&quot;&gt;// Assign updated workout values to variables&lt;/span&gt;
   &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;input.&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;-name&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
@@ -475,15 +440,11 @@ The new workout values will be sent to the controller action declared in the for
   &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;input.&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;-name&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;removeAttr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;id&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;input.&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;-sets&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;removeAttr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;id&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;input.&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workoutId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;-reps&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;removeAttr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;id&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the &lt;code class=&quot;highlighter-rouge&quot;&gt;hide-row&lt;/code&gt; class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.&lt;/p&gt;
 
-
-First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
-
-Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/editing-a-form-asynchronously/&quot;&gt;Editing a Form Asynchronously&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on March 18, 2016.&lt;/p&gt;
   </content>
@@ -506,93 +467,51 @@ Although it was a multistep process, giving users the ability to update their da
 
 &lt;p&gt;Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. For the purpose of this blog I’m going to demonstrate how you can use &lt;a href=&quot;https://github.com/mkdynamic/omniauth-facebook&quot;&gt;Omniauth-Facebook&lt;/a&gt; with &lt;a href=&quot;https://github.com/plataformatec/devise&quot;&gt;Devise&lt;/a&gt;, a popular gem used for user authentication.&lt;/p&gt;
 
-&lt;p&gt;First, you’ll need to include the following gems in your &lt;code&gt;Gemfile&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;First, you’ll need to include the following gems in your &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;devise&#39;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;omniauth-facebook&#39;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;devise&#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;omniauth-facebook&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Now run &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;&lt;/p&gt;
 
+&lt;p&gt;Next, create your User model with Devise by entering the following two commands in your terminal:&lt;/p&gt;
 
-Now run `bundle install`
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:install&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-Next, create your User model with Devise by entering the following two commands in your terminal:
+&lt;p&gt;This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to &lt;code class=&quot;highlighter-rouge&quot;&gt;db/migrate/20160215180931_devise_create_users.rb&lt;/code&gt; (your file name will have different numbers).&lt;/p&gt;
 
+&lt;p&gt;Before you run &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:migrate&lt;/code&gt; you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:install&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;migration&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AddOmniauthToUsers&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;provider&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Now you can run &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:migrate&lt;/code&gt;&lt;/p&gt;
 
+&lt;p&gt;Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/devise.rb&lt;/code&gt;. Go to that file to declare Facebook as your authentication provider and fill in your Facebook &lt;code class=&quot;highlighter-rouge&quot;&gt;APP_ID&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;APP_SECRET&lt;/code&gt;:&lt;/p&gt;
 
-This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to `db/migrate/20160215180931_devise_create_users.rb` (your file name will have different numbers).
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;omniauth&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;APP_ID&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;APP_SECRET&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-Before you run `rake db:migrate` you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.
+&lt;p&gt;To get an &lt;code class=&quot;highlighter-rouge&quot;&gt;APP_ID&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;APP_SECRET&lt;/code&gt; you’ll have to create an app at the &lt;a href=&quot;https://developers.facebook.com/&quot;&gt;Facebook Developers website&lt;/a&gt;. If this is your first time creating a Facebook app then follow this &lt;a href=&quot;https://developers.facebook.com/docs/apps/register&quot;&gt;guide&lt;/a&gt;.&lt;/p&gt;
 
+&lt;p&gt;In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in &lt;code class=&quot;highlighter-rouge&quot;&gt;app/models/user.rb&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;migration&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AddOmniauthToUsers&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;provider&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauthable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauth&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;The above code creates these two routes or url methods:&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;user_omniauth_authorize_path(proivider)&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;user_omniauth_callback_path(proivider)&lt;/code&gt;&lt;/p&gt;
 
+&lt;p&gt;To activate the &lt;code class=&quot;highlighter-rouge&quot;&gt;user_omniauth_authrorize_path&lt;/code&gt; you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:&lt;/p&gt;
 
-Now you can run `rake db:migrate`
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Sign&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Facebook&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user_omniauth_authorize_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be `config/initializers/devise.rb`. Go to that file to declare Facebook as your authentication provider and fill in your Facebook `APP_ID` and `APP_SECRET`:
+&lt;p&gt;Although you won’t be explicitly calling &lt;code class=&quot;highlighter-rouge&quot;&gt;user_omniauth_callback_path&lt;/code&gt; in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your &lt;code class=&quot;highlighter-rouge&quot;&gt;config/routes.rb&lt;/code&gt; file:&lt;/p&gt;
 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;devise_for&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:controllers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauth_callbacks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;omniauth_callbacks&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;omniauth&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;APP_ID&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;APP_SECRET&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;Now we’ll need to create a controller so we can create users with Facebook’s authentication and sign them in to our app. Label the controller file &lt;code class=&quot;highlighter-rouge&quot;&gt;app/controllers/users/omniauth_callbacks_controller.rb&lt;/code&gt; and set up the file like so:&lt;/p&gt;
 
-
-
-To get an `APP_ID` and `APP_SECRET` you’ll have to create an app at the [Facebook Developers website](https://developers.facebook.com/). If this is your first time creating a Facebook app then follow this [guide](https://developers.facebook.com/docs/apps/register).
-
-In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in `app/models/user.rb`:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;devise&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauthable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauth&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;providers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
-
-The above code creates these two routes or url methods:
-`user_omniauth_authorize_path(proivider)`
-`user_omniauth_callback_path(proivider)`
-
-To activate the `user_omniauth_authrorize_path` you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Sign&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Facebook&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user_omniauth_authorize_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
-
-Although you won’t be explicitly calling `user_omniauth_callback_path` in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your `config/routes.rb` file:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;devise_for&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:controllers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:omniauth_callbacks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;omniauth_callbacks&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
-
-Now we’ll need to create a controller so we can create users with Facebook&#39;s authentication and sign them in to our app. Label the controller file `app/controllers/users/omniauth_callbacks_controller.rb` and set up the file like so:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OmniauthCallbacksController&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;facebook&lt;/span&gt;
     &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;omniauth.auth&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
@@ -604,35 +523,22 @@ Now we’ll need to create a controller so we can create users with Facebook&#39
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;failure&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root_path&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;On line 3 inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;facebook&lt;/code&gt; method you’ll notice we’re calling the &lt;code class=&quot;highlighter-rouge&quot;&gt;from_omniauth&lt;/code&gt; method on the User class. To utilize this method we’ll have to define it, so head over to &lt;code class=&quot;highlighter-rouge&quot;&gt;app/models/user.rb&lt;/code&gt; and update your file with the following code:&lt;/p&gt;
 
-
-On line 3 inside the `facebook` method you’ll notice we’re calling the `from_omniauth` method on the User class. To utilize this method we’ll have to define it, so head over to `app/models/user.rb` and update your file with the following code:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;from_omniauth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;provider: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;uid: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first_or_create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;friendly_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Inside this method we use the data that is provided by Facebook to either find a user or create one. The &lt;code class=&quot;highlighter-rouge&quot;&gt;first_or_create&lt;/code&gt; method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It’s important to note that when initializing a new user the &lt;code class=&quot;highlighter-rouge&quot;&gt;first_or_create&lt;/code&gt; method automatically sets the &lt;code class=&quot;highlighter-rouge&quot;&gt;uid&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;provider&lt;/code&gt; fields with their appropriate data.&lt;/p&gt;
 
+&lt;p&gt;To create a new user for your app you will need to include at minimum the &lt;code class=&quot;highlighter-rouge&quot;&gt;password&lt;/code&gt; field inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;first_or_create&lt;/code&gt; loop (remember the &lt;code class=&quot;highlighter-rouge&quot;&gt;uid&lt;/code&gt; is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook’s profile picture to use in your application by adding &lt;code class=&quot;highlighter-rouge&quot;&gt;user.image = auth.info.image&lt;/code&gt; inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;first_or_create&lt;/code&gt; loop.&lt;/p&gt;
 
-Inside this method we use the data that is provided by Facebook to either find a user or create one. The `first_or_create` method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It&#39;s important to note that when initializing a new user the `first_or_create` method automatically sets the `uid` and `provider` fields with their appropriate data.
-
-To create a new user for your app you will need to include at minimum the `password` field inside the `first_or_create` loop (remember the `uid` is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook&#39;s profile picture to use in your application by adding `user.image = auth.info.image` inside the `first_or_create` loop.
-
-In a nutshell, that&#39;s how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In a nutshell, that’s how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/omniauth-facebook-with-devise/&quot;&gt;Omniauth-Facebook With Devise&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on February 21, 2016.&lt;/p&gt;
   </content>
@@ -655,82 +561,41 @@ In a nutshell, that&#39;s how to use Omniauth-Facebook in conjunction with Devis
 
 &lt;p&gt;In Ruby, we rely on the &lt;code&gt;send&lt;/code&gt; method to dynamically dispatch. To illustrate how the &lt;code&gt;send&lt;/code&gt; method works I’ll use the below example:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;reverse&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;reverse&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;*&lt;small&gt;The arguments passed into the send method could be a String or a Symbol.&lt;/small&gt;&lt;/p&gt;
 
-\*&lt;small&gt;The arguments passed into the send method could be a String or a Symbol.&lt;/small&gt;
+&lt;p&gt;Here, the &lt;code&gt;send&lt;/code&gt; method, or the message, converts the &lt;code&gt; &quot;reverse&quot;&lt;/code&gt; argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object &lt;code&gt;&quot;Hello, World&quot;&lt;/code&gt;. Since it is, Ruby evaluates it and outputs the following:&lt;/p&gt;
 
-Here, the &lt;code&gt;send&lt;/code&gt; method, or the message, converts the &lt;code&gt; &quot;reverse&quot;&lt;/code&gt; argument into a method and determines whether it’s a viable method to be called upon the receiver, the String object &lt;code&gt;&quot;Hello, World&quot;&lt;/code&gt;. Since it is, Ruby evaluates it and outputs the following:
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;reverse&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; &quot;dlroW ,olleH&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object &lt;code&gt;&quot;Hello, World&quot;&lt;/code&gt;, we would get the following &lt;code&gt;Type Error&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;reverse&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; &quot;dlroW ,olleH&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
-
-However, if the method cannot be called upon the object then an error message is displayed. For example, if we tried to add the integer 1 to the String object &lt;code&gt;&quot;Hello, World&quot;&lt;/code&gt;, we would get the following &lt;code&gt;Type Error&lt;/code&gt;:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
- &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; TypeError: no implicit conversion of Fixnum into String&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; TypeError: no implicit conversion of Fixnum into String&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Updating a Hash using Dynamic Dispatching&lt;/h3&gt;
 
-Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:
+&lt;p&gt;Another opportune time to utilize dynamic dispatching is when you want to update a hash. Let’s say you’re creating an application that tracks a users fitness goal for the week. At the beginning of the week the user designates how many minutes they plan on working out each muscle group and throughout the week they’re able to update their progress and monitor their results. The users weekly goal is stored in a hash like the one below where the key is the muscle group and the value is the amount of time they plan on working out that muscle:&lt;/p&gt;
 
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;goal&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;goal&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;chest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;back&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;legs&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;shoulders&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;arms&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;cardio&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;120&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Our intention is to have the &lt;code&gt;goal&lt;/code&gt; hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.&lt;/p&gt;
 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;chest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;s2&quot;&gt;&quot;cardio&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-Our intention is to have the &lt;code&gt;goal&lt;/code&gt; hash reflect the users progress after they conclude a workout. Let’s say the user worked out their chest for 40 minutes as well as doing about 20 minutes of cardio. We could expect to receive this data in a hash where the key is the muscle group and the value is the duration of the workout corresponding to that muscle.
+&lt;p&gt;*&lt;small&gt;We’ll assign the hash to a variable called &lt;code&gt;updated_muscles&lt;/code&gt; so we can use this data later on in our dynamic dispatching function.&lt;/small&gt;&lt;/p&gt;
 
+&lt;p&gt;Although it may not be the most eloquent code, we could use a simple if/else statement to update our &lt;code&gt;goal&lt;/code&gt; hash:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;chest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;s2&quot;&gt;&quot;cardio&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
-
-\*&lt;small&gt;We’ll assign the hash to a variable called &lt;code&gt;updated_muscles&lt;/code&gt; so we can use this data later on in our dynamic dispatching function.&lt;/small&gt;
-
-Although it may not be the most eloquent code, we could use a simple if/else statement to update our &lt;code&gt;goal&lt;/code&gt; hash:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;original_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chest&quot;&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:chest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;original_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -745,53 +610,31 @@ Although it may not be the most eloquent code, we could use a simple if/else sta
   &lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;cardio&quot;&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:cardio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;original_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.&lt;/p&gt;
 
-
-Is it just me or does there seem to be a lot of repetitious code in the above function? Let’s see if we can refactor this function using dynamic dispatching.
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;updated_muscles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;original_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;muscle&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;original_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updated_t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.&lt;/p&gt;
 
+&lt;p&gt;To correctly update the &lt;code&gt;goal&lt;/code&gt; hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the &lt;code&gt;updated_muscles&lt;/code&gt; variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called &lt;code&gt;original_t&lt;/code&gt;. In our example, the first iteration being called is the chest key-value pair, therefore &lt;code&gt;original_t&lt;/code&gt; is set equal to 45, the value of the chest key from the original &lt;code&gt;goal&lt;/code&gt; hash.&lt;/p&gt;
 
-That’s better. These two functions perform the same task, just with different syntax. Now let’s examine the latter function to fully understand the functionality behind it.
+&lt;p&gt;Now we can use the value of &lt;code&gt;original_t&lt;/code&gt;, subtract it from the value of &lt;code&gt;updated_t&lt;/code&gt;, and assign the difference to the original &lt;code&gt;goal&lt;/code&gt; hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our &lt;code&gt;goal&lt;/code&gt; hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in &lt;code&gt;updated_muscles&lt;/code&gt; is iterated over. The updated &lt;code&gt;goal&lt;/code&gt; hash would become:&lt;/p&gt;
 
-To correctly update the &lt;code&gt;goal&lt;/code&gt; hash we have to subtract the users inputted workout duration from their original goal. As the function iterates over each key-value pair stored inside the &lt;code&gt;updated_muscles&lt;/code&gt; variable, the time that is associated with the muscle group that the current iteration is being called upon is stored in a local variable called &lt;code&gt;original_t&lt;/code&gt;. In our example, the first iteration being called is the chest key-value pair, therefore &lt;code&gt;original_t&lt;/code&gt; is set equal to 45, the value of the chest key from the original &lt;code&gt;goal&lt;/code&gt; hash.
-
-Now we can use the value of &lt;code&gt;original_t&lt;/code&gt;, subtract it from the value of &lt;code&gt;updated_t&lt;/code&gt;, and assign the difference to the original &lt;code&gt;goal&lt;/code&gt; hash, thereby successfully updating our hash like we intended. On the current iteration, we access the chest key from our &lt;code&gt;goal&lt;/code&gt; hash and assign it the value of 5 (45 – 40). This process would be repeated until each key-value pair in &lt;code&gt;updated_muscles&lt;/code&gt; is iterated over. The updated &lt;code&gt;goal&lt;/code&gt; hash would become:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;goal&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;goal&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;chest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;back&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;legs&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;shoulders&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;arms&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;s2&quot;&gt;&quot;cardio&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
-
-By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By using dynamic dispatching you can significantly reduce the lines of code you need to express a solution. In addition, your code will be able to handle future edits with ease. What’s not to like?&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/dynamic-dispatching/&quot;&gt;Dynamic Dispatching Basics&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on January 29, 2016.&lt;/p&gt;
   </content>
@@ -814,50 +657,33 @@ By using dynamic dispatching you can significantly reduce the lines of code you 
 
 &lt;p&gt;Fortunately, this task was made substantially more easy after I discovered that Ruby has a CSV library with specifically defined methods that allow the programmer to easily transfer data from a csv file into their program. Below is a high level overview of the code that I utilized to migrate stock data from a csv file into my gem:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;no&quot;&gt;CSV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
     &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.&lt;/p&gt;
 
+&lt;p&gt;However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the ‘csv’ and ‘open-uri’ gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.&lt;/p&gt;
 
-With just that code and a correctly assembled URL (see Formatting the URL blog post) I was able to retrieve realtime stock data from the Yahoo Finance API and access it within my program.
+&lt;p&gt;The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it’s own String object within that array.&lt;/p&gt;
 
-However, before I was able to get this code functioning there were a few obstacles I had to overcome. First, I had to require both the &#39;csv&#39; and &#39;open-uri&#39; gems in my Gemfile. Next, I had to pass the formatted URL containing the stock(s) the user wanted to look up along with the tags or information they wanted to view into the open-uri module. This returned a csv file that I could now use as an argument within our CSV.parse method.
+&lt;p&gt;I think it’s time for an example. Say we requested to view the name and asking price of Apple’s and Google’s stock. The csv file would look like this:&lt;/p&gt;
 
-The CSV.parse method simply goes row by row within the csv file and transfers the data into your program as an array of String objects. Each row is its own array and each value is it&#39;s own String object within that array.
-
-I think it&#39;s time for an example. Say we requested to view the name and asking price of Apple&#39;s and Google&#39;s stock. The csv file would look like this:
-
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Apple Inc.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;115&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Alphabet Inc.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;755&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;97&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Apple Inc.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;115&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;Alphabet Inc.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;755&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;97&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;pre&gt;(Alphabet Inc. is Google&#39;s parent company)&lt;/pre&gt;
 
-The CSV.parse method would then create a new array for each row of data and separately input each value as it&#39;s own String into that array. The final result would be:
+&lt;p&gt;The CSV.parse method would then create a new array for each row of data and separately input each value as it’s own String into that array. The final result would be:&lt;/p&gt;
 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Apple&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Inc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;115&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Alphabet&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Inc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;755&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;97&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Apple&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Inc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;115&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Alphabet&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Inc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;755&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;97&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple’s name, and we were on the first iteration of row, we would enter &lt;code&gt;row[0]&lt;/code&gt; in our loop, or if we wanted to access Apple’s price we would enter &lt;code&gt;row[1]&lt;/code&gt;. Then on our next iteration of row we would be able to access Alphabet Inc.’s elements.&lt;/p&gt;
 
-
-
-Now each array is represented as a row in the CSV.parse loop. So, if we wanted to access Apple&#39;s name, and we were on the first iteration of row, we would enter &lt;code&gt;row[0]&lt;/code&gt; in our loop, or if we wanted to access Apple&#39;s price we would enter &lt;code&gt;row[1]&lt;/code&gt;. Then on our next iteration of row we would be able to access Alphabet Inc.&#39;s elements.
-
-Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Thanks to Ruby, the process of transferring data from a csv file to your program is made easy.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://franknowinski.github.io/using-csv-parse-to-access-stock-data/&quot;&gt;Using CSV.parse to Access Stock Data&lt;/a&gt; was originally published by Frank Nowisnki at &lt;a href=&quot;http://franknowinski.github.io&quot;&gt;Frank Nowinski&lt;/a&gt; on January 29, 2016.&lt;/p&gt;
   </content>

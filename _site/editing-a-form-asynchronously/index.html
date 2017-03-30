@@ -123,7 +123,7 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~5 minutes
+Reading time ~4 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
@@ -137,33 +137,7 @@ Reading time ~5 minutes
 
 <p>Below you can view the code I used to implement this functionality:</p>
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27</pre></td><td class="code"><pre><span class="cp">&lt;%</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">workouts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="cp">%&gt;</span>
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">workouts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">workout</span><span class="o">|</span> <span class="cp">%&gt;</span>
   <span class="c">&lt;!-- Workout row --&gt;</span>
   <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"workout-rows"</span> <span class="na">data-muscle-group-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">exercise</span><span class="p">.</span><span class="nf">muscle_group</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">data-workout-id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">workout</span><span class="p">.</span><span class="nf">id</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
 
@@ -189,88 +163,40 @@ Reading time ~5 minutes
 
   <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_workout_plan_workout_path</span><span class="p">(</span><span class="n">current_user</span><span class="p">.</span><span class="nf">current_plan</span><span class="p">,</span>
   <span class="n">workout</span><span class="p">),</span> <span class="ss">class: </span><span class="s1">'edit-link'</span><span class="p">,</span> <span class="ss">remote: :true</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
-<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre></div>
 
+<p>Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I’ll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:</p>
 
-
-Within each table data field I have the capability to either render text or an input form depending on what element I choose to show/hide. Initially, I want to display the workout values so I'll need to hide all of the input form fields. Without even assigning a class to the input fields, I can accomplish this task by writing some basic CSS:
-
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3</pre></td><td class="code"><pre><span class="p">.</span><span class="nf">workout</span><span class="o">-</span><span class="n">rows</span> <span class="n">input</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">.</span><span class="nf">workout</span><span class="o">-</span><span class="n">rows</span> <span class="n">input</span> <span class="p">{</span>
   <span class="ss">display: </span><span class="n">none</span><span class="p">;</span>
-<span class="p">}</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="p">}</span></code></pre></div>
 
+<p>Now all of the input fields will default to being hidden within the DOM unless told otherwise.</p>
 
+<p>The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code class="highlighter-rouge">Edit</code> link. To achieve this I’ll have to create an event listener that will perform this function whenever an <code class="highlighter-rouge">Edit</code> link gets clicked:</p>
 
-Now all of the input fields will default to being hidden within the DOM unless told otherwise.
-
-The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
-
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
   <span class="kd">var</span> <span class="nx">workoutRow</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">'tr'</span><span class="p">)</span>
 
   <span class="c1">// Hide workout values and display edit workout input form</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">'span'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">'hide-row'</span><span class="p">);</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'edit-workout'</span><span class="p">)</span>
-<span class="p">});</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="p">});</span></code></pre></div>
 
+<p>First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the <code class="highlighter-rouge">hide-row</code> class and display the edit workout form by adding the <code class="highlighter-rouge">edit-workout</code> id to the input fields.</p>
 
+<p>Now that the user has upgraded their workout to fulfill their beast mode requirements, I’ll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.</p>
 
-First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
+<p>Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code class="highlighter-rouge">remote: :true</code> to your form and create the following event listener in your JavaScript file:</p>
 
-Now that the user has upgraded their workout to fulfill their beast mode requirements, I'll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
-
-Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
-
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-<span class="p">})</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="p">})</span></code></pre></div>
 
+<p>The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax <code class="highlighter-rouge">dataType</code> for a <code class="highlighter-rouge">remote true</code> request is <code class="highlighter-rouge">script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code class="highlighter-rouge">views/workouts/update.js.erb</code> where I wrote the following JavaScript code:</p>
 
-
-The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
-
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23</pre></td><td class="code"><pre><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-  <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="err">@</span><span class="nx">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="p">@</span><span class="nd">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
 
   <span class="c1">// Assign updated workout values to variables</span>
   <span class="kd">var</span> <span class="nx">workoutName</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
@@ -291,15 +217,11 @@ The new workout values will be sent to the controller action declared in the for
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-name'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-sets'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
-<span class="p">});</span><span class="w">
-</span></pre></td></tr></tbody></table>
+<span class="p">});</span></code></pre></div>
 
+<p>First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code class="highlighter-rouge">hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.</p>
 
-
-First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
-
-Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.
-</code></pre></div></code></pre></div></code></pre></div></code></pre></div></code></pre></div>
+<p>Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.</p>
 
       <footer class="entry-meta">
         <span class="entry-tags"></span>
@@ -320,20 +242,20 @@ Although it was a multistep process, giving users the ability to update their da
       <a href="http://franknowinski.github.io/omniauth-facebook-with-devise/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h3>
-      <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perpl...&hellip; <a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/">Continue reading</a></p>
+      <h3><a href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/" title="What Is Idempotency and Why Is It Useful?">What Is Idempotency and Why Is It Useful?</a></h3>
+      <p>Just the other day I was on a phone interview when I was asked to explain the benefits of idempotency. At first, this term bewildered me,...&hellip; <a href="http://franknowinski.github.io/what-is-idempotency-and-why-is-it-useful/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h4>
-        <span>Published on August 31, 2016</span>
+        <h4><a href="http://franknowinski.github.io/website-hosting-behind-the-scenes/" title="Behind the Scenes of Website Hosting">Behind the Scenes of Website Hosting</a></h4>
+        <span>Published on September 30, 2016</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="http://franknowinski.github.io/understanding-o-n-log-n/" title="Understanding O(n log(n))">Understanding O(n log(n))</a></h4>
-        <span>Published on June 30, 2016</span>
+        <h4><a href="http://franknowinski.github.io/factories-vs-services/" title="Factories vs Services">Factories vs Services</a></h4>
+        <span>Published on August 31, 2016</span>
       </div><!-- /.list-item -->
     
   </div><!-- /.read-more-list -->
@@ -343,7 +265,7 @@ Although it was a multistep process, giving users the ability to update their da
 
 <div class="footer-wrapper">
   <footer role="contentinfo">
-    <span>&copy; 2016 Frank Nowisnki.</span>
+    <span>&copy; 2017 Frank Nowisnki.</span>
 
    <!-- Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span> -->
 
