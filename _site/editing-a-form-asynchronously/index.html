@@ -173,7 +173,7 @@ Reading time ~4 minutes
 
 <p>Now all of the input fields will default to being hidden within the DOM unless told otherwise.</p>
 
-<p>The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code class="highlighter-rouge">Edit</code> link. To achieve this I’ll have to create an event listener that will perform this function whenever an <code class="highlighter-rouge">Edit</code> link gets clicked:</p>
+<p>The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code>Edit</code> link. To achieve this I’ll have to create an event listener that will perform this function whenever an <code>Edit</code> link gets clicked:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
   <span class="kd">var</span> <span class="nx">workoutRow</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">'tr'</span><span class="p">)</span>
@@ -183,17 +183,17 @@ Reading time ~4 minutes
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'edit-workout'</span><span class="p">)</span>
 <span class="p">});</span></code></pre></div>
 
-<p>First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the <code class="highlighter-rouge">hide-row</code> class and display the edit workout form by adding the <code class="highlighter-rouge">edit-workout</code> id to the input fields.</p>
+<p>First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the <code>hide-row</code> class and display the edit workout form by adding the <code>edit-workout</code> id to the input fields.</p>
 
 <p>Now that the user has upgraded their workout to fulfill their beast mode requirements, I’ll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.</p>
 
-<p>Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code class="highlighter-rouge">remote: :true</code> to your form and create the following event listener in your JavaScript file:</p>
+<p>Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code>remote: :true</code> to your form and create the following event listener in your JavaScript file:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
 <span class="p">})</span></code></pre></div>
 
-<p>The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax <code class="highlighter-rouge">dataType</code> for a <code class="highlighter-rouge">remote true</code> request is <code class="highlighter-rouge">script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code class="highlighter-rouge">views/workouts/update.js.erb</code> where I wrote the following JavaScript code:</p>
+<p>The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax <code>dataType</code> for a <code>remote true</code> request is <code>script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code>views/workouts/update.js.erb</code> where I wrote the following JavaScript code:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
   <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="p">@</span><span class="nd">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
@@ -219,7 +219,7 @@ Reading time ~4 minutes
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></div>
 
-<p>First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code class="highlighter-rouge">hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.</p>
+<p>First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code>hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.</p>
 
 <p>Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.</p>
 

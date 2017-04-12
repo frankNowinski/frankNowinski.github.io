@@ -199,7 +199,7 @@ Reading time ~4 minutes
 
 <p>Now all of the input fields will default to being hidden within the DOM unless told otherwise.</p>
 
-<p>The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code class="highlighter-rouge">Edit</code> link. To achieve this I’ll have to create an event listener that will perform this function whenever an <code class="highlighter-rouge">Edit</code> link gets clicked:</p>
+<p>The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code>Edit</code> link. To achieve this I’ll have to create an event listener that will perform this function whenever an <code>Edit</code> link gets clicked:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'tbody'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'a.edit-link'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
   <span class="kd">var</span> <span class="nx">workoutRow</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">'tr'</span><span class="p">)</span>
@@ -209,17 +209,17 @@ Reading time ~4 minutes
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input'</span><span class="p">,</span> <span class="nx">workoutRow</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'edit-workout'</span><span class="p">)</span>
 <span class="p">});</span></code></pre></div>
 
-<p>First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the <code class="highlighter-rouge">hide-row</code> class and display the edit workout form by adding the <code class="highlighter-rouge">edit-workout</code> id to the input fields.</p>
+<p>First, I determine what particular workout row we’re dealing with. Then, I conceal the span element showing the workout values by adding the <code>hide-row</code> class and display the edit workout form by adding the <code>edit-workout</code> id to the input fields.</p>
 
 <p>Now that the user has upgraded their workout to fulfill their beast mode requirements, I’ll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.</p>
 
-<p>Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code class="highlighter-rouge">remote: :true</code> to your form and create the following event listener in your JavaScript file:</p>
+<p>Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code>remote: :true</code> to your form and create the following event listener in your JavaScript file:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
 <span class="p">})</span></code></pre></div>
 
-<p>The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax <code class="highlighter-rouge">dataType</code> for a <code class="highlighter-rouge">remote true</code> request is <code class="highlighter-rouge">script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code class="highlighter-rouge">views/workouts/update.js.erb</code> where I wrote the following JavaScript code:</p>
+<p>The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I’ll have to write some JavaScript code. Since the Ajax <code>dataType</code> for a <code>remote true</code> request is <code>script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code>views/workouts/update.js.erb</code> where I wrote the following JavaScript code:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
   <span class="kd">var</span> <span class="nx">workoutId</span> <span class="o">=</span> <span class="o">&lt;%=</span> <span class="p">@</span><span class="nd">workout</span><span class="p">.</span><span class="nx">id</span> <span class="o">%&gt;</span><span class="p">;</span>
@@ -245,7 +245,7 @@ Reading time ~4 minutes
   <span class="nx">$</span><span class="p">(</span><span class="s1">'input.'</span> <span class="o">+</span> <span class="nx">workoutId</span> <span class="o">+</span><span class="s1">'-reps'</span><span class="p">).</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></div>
 
-<p>First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code class="highlighter-rouge">hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.</p>
+<p>First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code>hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.</p>
 
 <p>Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.</p>
  -->
@@ -285,49 +285,49 @@ Reading time ~3 minutes
 
 <p>Omniauth is the miraculous gem that allows you to use alternative authentication providers in your app. For the purpose of this blog I’m going to demonstrate how you can use <a href="https://github.com/mkdynamic/omniauth-facebook">Omniauth-Facebook</a> with <a href="https://github.com/plataformatec/devise">Devise</a>, a popular gem used for user authentication.</p>
 
-<p>First, you’ll need to include the following gems in your <code class="highlighter-rouge">Gemfile</code>:</p>
+<p>First, you’ll need to include the following gems in your <code>Gemfile</code>:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'devise'</span>
 <span class="n">gem</span> <span class="s1">'omniauth-facebook'</span></code></pre></div>
 
-<p>Now run <code class="highlighter-rouge">bundle install</code></p>
+<p>Now run <code>bundle install</code></p>
 
 <p>Next, create your User model with Devise by entering the following two commands in your terminal:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">rails</span> <span class="n">generate</span> <span class="n">devise</span><span class="ss">:install</span>
 <span class="n">rails</span> <span class="n">g</span> <span class="n">devise</span> <span class="no">User</span></code></pre></div>
 
-<p>This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to <code class="highlighter-rouge">db/migrate/20160215180931_devise_create_users.rb</code> (your file name will have different numbers).</p>
+<p>This will create a migration file for your User model with all the predefined fields that ship with Devise. You can view all of these attributes by going to <code>db/migrate/20160215180931_devise_create_users.rb</code> (your file name will have different numbers).</p>
 
-<p>Before you run <code class="highlighter-rouge">rake db:migrate</code> you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.</p>
+<p>Before you run <code>rake db:migrate</code> you’ll need to add two more fields to the User table so you’ll be able to create users with data returned to you from Facebook.</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">rails</span> <span class="n">g</span> <span class="n">migration</span> <span class="no">AddOmniauthToUsers</span> <span class="n">provider</span><span class="ss">:string</span> <span class="n">uid</span><span class="ss">:string</span></code></pre></div>
 
-<p>Now you can run <code class="highlighter-rouge">rake db:migrate</code></p>
+<p>Now you can run <code>rake db:migrate</code></p>
 
-<p>Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be <code class="highlighter-rouge">config/initializers/devise.rb</code>. Go to that file to declare Facebook as your authentication provider and fill in your Facebook <code class="highlighter-rouge">APP_ID</code> and <code class="highlighter-rouge">APP_SECRET</code>:</p>
+<p>Earlier when you installed Devise you created several files for your rails application, and one of those files happens to be <code>config/initializers/devise.rb</code>. Go to that file to declare Facebook as your authentication provider and fill in your Facebook <code>APP_ID</code> and <code>APP_SECRET</code>:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">config</span><span class="p">.</span><span class="nf">omniauth</span> <span class="ss">:facebook</span><span class="p">,</span> <span class="s2">"APP_ID"</span><span class="p">,</span> <span class="s2">"APP_SECRET"</span></code></pre></div>
 
-<p>To get an <code class="highlighter-rouge">APP_ID</code> and <code class="highlighter-rouge">APP_SECRET</code> you’ll have to create an app at the <a href="https://developers.facebook.com/">Facebook Developers website</a>. If this is your first time creating a Facebook app then follow this <a href="https://developers.facebook.com/docs/apps/register">guide</a>.</p>
+<p>To get an <code>APP_ID</code> and <code>APP_SECRET</code> you’ll have to create an app at the <a href="https://developers.facebook.com/">Facebook Developers website</a>. If this is your first time creating a Facebook app then follow this <a href="https://developers.facebook.com/docs/apps/register">guide</a>.</p>
 
-<p>In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in <code class="highlighter-rouge">app/models/user.rb</code>:</p>
+<p>In order for Devise to be aware that Omniauth exists in your application you’ll need to let your User model know. Include the following code in <code>app/models/user.rb</code>:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">devise</span> <span class="ss">:omniauthable</span><span class="p">,</span> <span class="ss">:omniauth</span> <span class="n">providers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:facebook</span><span class="p">]</span></code></pre></div>
 
 <p>The above code creates these two routes or url methods:<br />
-<code class="highlighter-rouge">user_omniauth_authorize_path(proivider)</code><br />
-<code class="highlighter-rouge">user_omniauth_callback_path(proivider)</code></p>
+<code>user_omniauth_authorize_path(proivider)</code><br />
+<code>user_omniauth_callback_path(proivider)</code></p>
 
-<p>To activate the <code class="highlighter-rouge">user_omniauth_authrorize_path</code> you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:</p>
+<p>To activate the <code>user_omniauth_authrorize_path</code> you’ll need to display a link in your application. Input the following link in the view where you would like your user to have the option to sign in through Facebook:</p>
 
 <div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="err">“</span><span class="no">Sign</span> <span class="k">in</span> <span class="n">with</span> <span class="no">Facebook</span><span class="err">”</span><span class="p">,</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="cp">%&gt;</span></code></pre></div>
 
-<p>Although you won’t be explicitly calling <code class="highlighter-rouge">user_omniauth_callback_path</code> in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your <code class="highlighter-rouge">config/routes.rb</code> file:</p>
+<p>Although you won’t be explicitly calling <code>user_omniauth_callback_path</code> in your views, it’s essential to have in your app. After a user signs in through Facebook they are redirected to this callback url within your application where you’ll have access to the data you received from Facebook. To declare this callback url update your <code>config/routes.rb</code> file:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">users</span><span class="o">/</span><span class="n">omniauth_callbacks</span><span class="err">”</span> <span class="p">}</span></code></pre></div>
 
-<p>Now we’ll need to create a controller so we can create users with Facebook’s authentication and sign them in to our app. Label the controller file <code class="highlighter-rouge">app/controllers/users/omniauth_callbacks_controller.rb</code> and set up the file like so:</p>
+<p>Now we’ll need to create a controller so we can create users with Facebook’s authentication and sign them in to our app. Label the controller file <code>app/controllers/users/omniauth_callbacks_controller.rb</code> and set up the file like so:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
   <span class="k">def</span> <span class="nf">facebook</span>
@@ -343,7 +343,7 @@ Reading time ~3 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>On line 3 inside the <code class="highlighter-rouge">facebook</code> method you’ll notice we’re calling the <code class="highlighter-rouge">from_omniauth</code> method on the User class. To utilize this method we’ll have to define it, so head over to <code class="highlighter-rouge">app/models/user.rb</code> and update your file with the following code:</p>
+<p>On line 3 inside the <code>facebook</code> method you’ll notice we’re calling the <code>from_omniauth</code> method on the User class. To utilize this method we’ll have to define it, so head over to <code>app/models/user.rb</code> and update your file with the following code:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_omniauth</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
   <span class="n">where</span><span class="p">(</span><span class="ss">provider: </span><span class="n">auth</span><span class="p">.</span><span class="nf">provider</span><span class="p">,</span> <span class="ss">uid: </span><span class="n">auth</span><span class="p">.</span><span class="nf">uid</span><span class="p">).</span><span class="nf">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
@@ -352,9 +352,9 @@ Reading time ~3 minutes
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Inside this method we use the data that is provided by Facebook to either find a user or create one. The <code class="highlighter-rouge">first_or_create</code> method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It’s important to note that when initializing a new user the <code class="highlighter-rouge">first_or_create</code> method automatically sets the <code class="highlighter-rouge">uid</code> and <code class="highlighter-rouge">provider</code> fields with their appropriate data.</p>
+<p>Inside this method we use the data that is provided by Facebook to either find a user or create one. The <code>first_or_create</code> method is pretty self-explanatory: it returns the user if they exist in the database or it creates a new user. It’s important to note that when initializing a new user the <code>first_or_create</code> method automatically sets the <code>uid</code> and <code>provider</code> fields with their appropriate data.</p>
 
-<p>To create a new user for your app you will need to include at minimum the <code class="highlighter-rouge">password</code> field inside the <code class="highlighter-rouge">first_or_create</code> loop (remember the <code class="highlighter-rouge">uid</code> is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook’s profile picture to use in your application by adding <code class="highlighter-rouge">user.image = auth.info.image</code> inside the <code class="highlighter-rouge">first_or_create</code> loop.</p>
+<p>To create a new user for your app you will need to include at minimum the <code>password</code> field inside the <code>first_or_create</code> loop (remember the <code>uid</code> is provided for you by default). However, the programmer is free to use whatever data Facebook provides to incorporate into their user class. For instance, you can extract the users Facebook’s profile picture to use in your application by adding <code>user.image = auth.info.image</code> inside the <code>first_or_create</code> loop.</p>
 
 <p>In a nutshell, that’s how to use Omniauth-Facebook in conjunction with Devise to allow your users to sign in securely to your website.</p>
  -->

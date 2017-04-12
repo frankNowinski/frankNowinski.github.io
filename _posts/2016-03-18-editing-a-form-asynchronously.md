@@ -62,7 +62,7 @@ Within each table data field I have the capability to either render text or an i
 
 Now all of the input fields will default to being hidden within the DOM unless told otherwise.
 
-The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the `Edit` link. To achieve this I'll have to create an event listener that will perform this function whenever an `Edit` link gets clicked:
+The next barrier will be hiding the plain html text while simultaneously displaying the workout input fields when the user clicks on the <code>Edit</code> link. To achieve this I'll have to create an event listener that will perform this function whenever an <code>Edit</code> link gets clicked:
 
 {% highlight javascript linenos %}
 $('tbody').on('click', 'a.edit-link', function(){
@@ -74,11 +74,11 @@ $('tbody').on('click', 'a.edit-link', function(){
 });
 {% endhighlight %}
 
-First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the `hide-row` class and display the edit workout form by adding the `edit-workout` id to the input fields.
+First, I determine what particular workout row we're dealing with. Then, I conceal the span element showing the workout values by adding the <code>hide-row</code> class and display the edit workout form by adding the <code>edit-workout</code> id to the input fields.
 
 Now that the user has upgraded their workout to fulfill their beast mode requirements, I'll need to submit their form and update the workout row without refreshing the page. Enter obstacle number three: submitting the updated workout form via Ajax.
 
-Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add `remote: :true` to your form and create the following event listener in your JavaScript file:
+Remote true makes capturing the inputted values and transferring it to the backend server a piece of cake; all you have to do is add <code>remote: :true</code> to your form and create the following event listener in your JavaScript file:
 
 {% highlight javascript linenos %}
 $('form').submit(function(event){
@@ -86,7 +86,7 @@ $('form').submit(function(event){
 })
 {% endhighlight %}
 
-The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax `dataType` for a `remote true` request is `script`, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered `views/workouts/update.js.erb` where I wrote the following JavaScript code:
+The new workout values will be sent to the controller action declared in the form where you can now update your database. Okay, the database reflects the correct values for this particular workout but if I want these values to appear in the DOM I'll have to write some JavaScript code. Since the Ajax <code>dataType</code> for a <code>remote true</code> request is <code>script</code>, the controller action that the form is directed to will implicitly try to render a JavaScript file by the title of that action. In this application, rails explicitly rendered <code>views/workouts/update.js.erb</code> where I wrote the following JavaScript code:
 
 {% highlight javascript linenos %}
 $(function(){
@@ -114,6 +114,6 @@ $(function(){
 });
 {% endhighlight %}
 
-First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the `hide-row` class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
+First, I assigned the workout id to a variable so I could reference the workout row within my jQuery selectors. Next, I assigned the new workout form values to variables. Then, I updated the DOM to display the updated workout values and removed the <code>hide-row</code> class so the span element containing the html text would appear. Lastly, I hide the input fields by removing the id field. And viola, finished.
 
 Although it was a multistep process, giving users the ability to update their data within the DOM and not having to be redirected to a new page will not only increase the users satisfaction but it will make your app more intuitive, and therefore, a feature worth implementing.

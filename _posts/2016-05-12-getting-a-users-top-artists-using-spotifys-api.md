@@ -15,20 +15,20 @@ date: 2016-05-12T22:02:58-04:00
 ---
 Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn't it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify's API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.
 
-Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on `Curb` later). Include the following gems in your Gemfile and run `bundle`: edit this
+Before we get underway, let's add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on <code>Curb</code> later). Include the following gems in your Gemfile and run <code>bundle</code>: edit this
 
 {% highlight ruby %}
 gem 'rspotify'
 gem 'curb'
 {% endhighlight %}
 
-If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In `application.rb` add:
+If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In <code>application.rb</code> add:
 
 {% highlight ruby %}
 RSpotify::authenticate(ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"])
 {% endhighlight %}
 
-Then, in `config/initializers/omniauth.rb` include:
+Then, in <code>config/initializers/omniauth.rb</code> include:
 
 {% highlight ruby %}
 require 'rspotify/oauth'
@@ -39,7 +39,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 {% endhighlight %}
 
-By including the `user-top-read` scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you'll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
+By including the <code>user-top-read</code> scope you're asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you'll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.
 
 Next, provide a link so the user can log into their Spotify account:
 
@@ -47,17 +47,17 @@ Next, provide a link so the user can log into their Spotify account:
 <%= link_to "Sign in with Spotify", "/auth/spotify" %>
 {% endhighlight %}
 
-Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to `routes.rb` and declare what controller and action you’ll like your callback to hit:
+Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to <code>routes.rb</code> and declare what controller and action you’ll like your callback to hit:
 
 {% highlight ruby %}
 get "/auth/spotify/callback", to: "users/spotify"
 {% endhighlight %}
 
-You now have access to basic user information, such as name and email address, as well as the unique access token in the `spotify` action of your app.
+You now have access to basic user information, such as name and email address, as well as the unique access token in the <code>spotify</code> action of your app.
 
-Once you've retrieved the access token you're ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the `curb` gem which we previously installed in our app.
+Once you've retrieved the access token you're ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the <code>curb</code> gem which we previously installed in our app.
 
-The `curb` gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:
+The <code>curb</code> gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:
 
 {% highlight ruby %}
 http = Curl.get("https://api.spotify.com/v1/me/top/artists?limit=25") do |http|
@@ -68,7 +68,7 @@ end.body_str
 JSON.parse(http)
 {% endhighlight %}
 
-You can request a minimum of one or a maximum of fifty artists by modifying the `limit` query parameter at the conclusion of the endpoint (ex: `limit=50`). Finally, replace `#{access_token}` with the actual access token, pass in the http local variable as an argument to the `JSON.parse` method and you'll receive your top artists!
+You can request a minimum of one or a maximum of fifty artists by modifying the <code>limit</code> query parameter at the conclusion of the endpoint (ex: <code>limit=50</code>). Finally, replace <code>#{access_token}</code> with the actual access token, pass in the http local variable as an argument to the <code>JSON.parse</code> method and you'll receive your top artists!
 
 <h2>Finding local concerts using the BandsInTown API</h2>
 
@@ -88,7 +88,7 @@ The BandsInTown API  artist endpoint requires the following five parameters:
 Now our url should look like this:
 {% highlight ruby %} "http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json" {% endhighlight %}
 
-See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with `%20`, resulting in a valid URL.
+See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with <code>%20</code>, resulting in a valid URL.
 
 {% highlight ruby %} escaped_url = URI.escape("http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json")
 #=> escaped_url = "http://api.bandsintown.com/artists/Kanye%20West/events/recommended?location=use_geoip&radius=50&app_id=discover-shows&api_version=2.0&format=json"
@@ -97,11 +97,11 @@ See that space between ‘Kanye’ and ‘West’? That’s no good, and will ge
 Next, we’ll convert this URL into an URI object by passing it into the URI.parse method:
 {% highlight ruby %} uri = URI.parse(escaped_url) {% endhighlight %}
 
-Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted `uri` variable into the `get_response` method of the `Net::HTTP` class:
+Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted <code>uri</code> variable into the <code>get_response</code> method of the <code>Net::HTTP</code> class:
 
 {% highlight ruby %} response = Net::HTTP.get_response(uri).body {% endhighlight %}
 
-Chaining `body` to the end of the `get_response` method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
+Chaining <code>body</code> to the end of the <code>get_response</code> method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!
 
 {% highlight ruby %} JSON.parse(response) {% endhighlight %}
 

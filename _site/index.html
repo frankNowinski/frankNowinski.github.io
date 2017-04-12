@@ -211,7 +211,7 @@ Reading time ~1 minute
    
     <!-- <p>Ever wonder what a hosting service is doing being the scenes that allows your website to be viewed in the browser? If this question perplexes you, as it did me, read on.</p>
 
-<p>You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: <code class="highlighter-rouge">[name of app].herokuapp.com</code>.</p>
+<p>You just spent the last month building an awesome app and now you want to show it off to the world. Before you do anything, you’ll need to obtain a domain name so users are able to visit your website. Owning a domain name is like owning an incredibly small piece of the internet, and with ownership usually comes a price tag. Buying your own custom domain name is going to cost you around $10 to $40. However, there’s an alternative solution: you can use a free domain name that’s often provided by the hosting service. Heroku, for one, provides free domain names but requires the url to be formatted like so: <code>[name of app].herokuapp.com</code>.</p>
 
 <p>Underneath a domain name is just an IP address that identifies a specific computer. However, instead of inputting your IP address (ex: 90.47.136.226) into the address bar, we use domain names like www.github.com because who wants to write, much less remember, a 10 digit number?</p>
 
@@ -324,7 +324,7 @@ Reading time ~4 minutes
     
   </header>
   <div class="entry-content">
-    <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code class="highlighter-rouge">O(n)</code> and <code class="highlighter-rouge">O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code class="highlighter-rouge">O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code class="highlighter-rouge">O(n log(n))</code> means, then this blog post is for you.</p>
+    <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code>O(n)</code> and <code>O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code>O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code>O(n log(n))</code> means, then this blog post is for you.</p>
 
 
     
@@ -333,13 +333,13 @@ Reading time ~4 minutes
    <p><a class="btn btn-sm btn-info" href="/understanding-o-n-log-n//#read-more" role="button">Read more <i class="fa fa-arrow-circle-right"></i></a>
    </p>
    
-    <!-- <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code class="highlighter-rouge">O(n)</code> and <code class="highlighter-rouge">O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code class="highlighter-rouge">O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code class="highlighter-rouge">O(n log(n))</code> means, then this blog post is for you.</p>
+    <!-- <p>The long awaited day has come and you finally graduated from a coding bootcamp. There is only one obstacle in your way from landing your dream job as a Web Developer – the technical interview. To prepare, you head to Wikipedia and start looking up the most prominent sorting algorithms. It’s here where you’re introduced to Big O notation and runtime complexities such as <code>O(n)</code> and <code>O(n^2)</code>. The first few complexities are pretty straightforward, it’s only when you find yourself staring at <code>O(n log(n))</code> when the confusion kicks in. If you can relate, or you just want to brush up on what exactly <code>O(n log(n))</code> means, then this blog post is for you.</p>
 
 <p>First, let’s begin with understanding exactly what Big O notation is and why it’s so useful. <strong>Big O notation is the measurement we use to gauge the runtime or complexity of an algorithm as the input gets arbitrarily large.</strong></p>
 
 <p>Computer scientists agreed that measuring the exact runtime of an algorithm was an inadequate way to test its efficiency since the same algorithm could run faster on one computer opposed to another equally capable computer because of external variables (such as containing a faster processor). Therefore, they concluded to gauge an algorithm not by how long it takes to run, but by how much the runtime grows as the input gets larger.</p>
 
-<p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code class="highlighter-rouge">O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:</p>
+<p>For example, a simple iteration through an array of <i>n</i> items to find the largest value would be considered <code>O(n)</code>, or linear time, since you have to iterate through every item at least once to see if it is the largest digit. An implementation of this in Ruby would be:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">linear_time</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span>
     <span class="n">max</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="nf">first</span>
@@ -348,7 +348,7 @@ Reading time ~4 minutes
     <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Demonstrating <code class="highlighter-rouge">O(n^2)</code> is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:</p>
+<p>Demonstrating <code>O(n^2)</code> is a little more complex. Let’s say we want to print out all the digits between 1 and 100 that are equally divisible by the numbers in an array. This is how it would look look in Ruby:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">quadratic_time</span><span class="p">(</span><span class="n">divisors</span><span class="p">,</span> <span class="n">range_of_digits</span><span class="p">)</span>
     <span class="n">divisors</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">divisor</span><span class="o">|</span>
@@ -360,11 +360,11 @@ Reading time ~4 minutes
 
 <p><small>*Not the most efficient solution</small></p>
 
-<p>Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of <code class="highlighter-rouge">O(n^2)</code> or quadratic time.</p>
+<p>Here, we’re nesting two loops: an outer and inner loop. First, the outer loop must iterate over the length of the array. Then, for each iteration of the outer loop, the inner loop must iterate each item in it’s array, finally giving us a runtime of <code>O(n^2)</code> or quadratic time.</p>
 
-<p>After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind <code class="highlighter-rouge">O(n log(n))</code>. The first part of the complexity, <code class="highlighter-rouge">O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
+<p>After a brief explanation of linear and quadratic, let’s now try to tackle the meaning behind <code>O(n log(n))</code>. The first part of the complexity, <code>O(n)</code>, should look familiar – we’re iterating over the length of the array, touching each item once.</p>
 
-<p>The second part of the complexity, <code class="highlighter-rouge">log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code class="highlighter-rouge">O(n log(n))</code>. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)</p>
+<p>The second part of the complexity, <code>log(n)</code>, may look a little cryptic if you’ve never encountered it before. Essentially, this asks how many times do we have to divide <i>n</i> in half to convert all the items in <i>n</i> to equal subarrays of 1? To better explain this complexity, I’ll walkthrough how to implement mergesort, a popular algorithm that has a complexity of <code>O(n log(n))</code>. (Other common algorithms that have this complexity are heapsort, timesort and, quicksort.)</p>
 
 <p>The basic premise of mergesort comes down to these three steps:</p>
 <ul>
@@ -373,9 +373,9 @@ Reading time ~4 minutes
     <li>Merge the sorted arrays</li>
 </ul>
 
-<p>To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: <code class="highlighter-rouge">[8, 2, 4, 7, 3, 1, 6, 5]</code>. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.</p>
+<p>To sort the divided array, mergesort reduces each element in the array into a subarray of 1 by using a common computer science function called recursion. Let’s say we want to sort the following array of integers from 1-8: <code>[8, 2, 4, 7, 3, 1, 6, 5]</code>. Mergesort believes in reducing this array of eight elements into eight individual subarrays by repeatedly dividing itself in half until each element is its own subarray.</p>
 
-<p>Following our example, the array is first cut in half to equal <code class="highlighter-rouge">[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code class="highlighter-rouge">[8, 2]</code>. This process continues until we’re left with <code class="highlighter-rouge">[8]</code> and <code class="highlighter-rouge">[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code class="highlighter-rouge">[8]</code> would be declared the left portion and <code class="highlighter-rouge">[2]</code> the right. So, the first pair of our sorted array would be <code class="highlighter-rouge">[2, 8]</code> since <code class="highlighter-rouge">8</code> is less than <code class="highlighter-rouge">2</code>. Next, we would sort <code class="highlighter-rouge">[4, 7]</code>, which just so happens to be sorted. Finally, we would merge the first two pairs into <code class="highlighter-rouge">[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
+<p>Following our example, the array is first cut in half to equal <code>[8, 2, 4, 7]</code>. Then, mergesort is recursively called (since the array’s length is larger than 1) and cut in half again to equal <code>[8, 2]</code>. This process continues until we’re left with <code>[8]</code> and <code>[2]</code>, the first two elements of the array. Now that there’s only two elements, we can compare one to the other and begin sorting our array. While implementing mergesort, you usually split up the array into the left and right half. Here, <code>[8]</code> would be declared the left portion and <code>[2]</code> the right. So, the first pair of our sorted array would be <code>[2, 8]</code> since <code>8</code> is less than <code>2</code>. Next, we would sort <code>[4, 7]</code>, which just so happens to be sorted. Finally, we would merge the first two pairs into <code>[2, 4, 7, 8]</code>, giving us the sorted left portion of our unsorted array. This process is completed on the right half of the array, and then the left and right portions are merged together. You can see a full implementation of mergesort in Ruby below:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="nf">length</span> <span class="o">&lt;=</span> <span class="mi">1</span>
@@ -400,7 +400,7 @@ Reading time ~4 minutes
     <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>As stated earlier, mergesort’s complexity is <code class="highlighter-rouge">O(n log(n))</code>. The <code class="highlighter-rouge">log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code class="highlighter-rouge">n</code> comes from the time it takes to merge the left and the right sorted halves together. <code class="highlighter-rouge">O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.</p>
+<p>As stated earlier, mergesort’s complexity is <code>O(n log(n))</code>. The <code>log(n)</code> is attributed to the number of times we divide the array in half until each element is converted to subarrays of 1. The <code>n</code> comes from the time it takes to merge the left and the right sorted halves together. <code>O(n log(n))</code> is such a popular complexity because it has the best worst-case runtime you can get achieve for sorting.</p>
  -->
   </div><!-- /.entry-content -->
 </article><!-- /.hentry -->
@@ -436,16 +436,16 @@ Reading time ~5 minutes
    
     <!-- <p>Spotify’s API has a whole host of endpoints that allow programmers to extract data; you can access everything from artists and their top songs to information about the users themselves. One endpoint I found particularly intriguing was the <em>User’s Top Artists and Tracks</em> endpoint where (as the title implies) Spotify collects data of a users most listened to artists and tracks. This is when I got thinking - if Spotify aggregates your top artists, wouldn’t it be cool if you could view the upcoming concerts of your favorite artists in your area? In this blog post I’m going to demonstrate how I used Spotify’s API in conjunction with the BandsInTown API to output all of the nearby upcoming concerts of my favorite artists.</p>
 
-<p>Before we get underway, let’s add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on <code class="highlighter-rouge">Curb</code> later). Include the following gems in your Gemfile and run <code class="highlighter-rouge">bundle</code>: edit this</p>
+<p>Before we get underway, let’s add the <a href="https://github.com/guilhermesad/rspotify">RSpotify</a> gem into our app to help access the Spotify API as well as the <a href="https://github.com/taf2/curb">Curb</a> gem for formatting a get request (more on <code>Curb</code> later). Include the following gems in your Gemfile and run <code>bundle</code>: edit this</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'rspotify'</span>
 <span class="n">gem</span> <span class="s1">'curb'</span></code></pre></div>
 
-<p>If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In <code class="highlighter-rouge">application.rb</code> add:</p>
+<p>If our end goal is to display upcoming concerts of our top artists on Spotify, our first priority is to obtain a users top artists. In order to access a users Spotify account you’ll need to obtain an access token, provided by Spotify, that gives the developer permission to receive user information. This can be accomplished by configuring the following two files. In <code>application.rb</code> add:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">RSpotify</span><span class="o">::</span><span class="n">authenticate</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_CLIENT"</span><span class="p">],</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"SPOTIFY_SECRET"</span><span class="p">])</span></code></pre></div>
 
-<p>Then, in <code class="highlighter-rouge">config/initializers/omniauth.rb</code> include:</p>
+<p>Then, in <code>config/initializers/omniauth.rb</code> include:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'rspotify/oauth'</span>
 
@@ -454,21 +454,21 @@ Reading time ~5 minutes
   <span class="ss">scope: </span><span class="s1">'user-read-email user-top-read'</span>
 <span class="k">end</span></code></pre></div>
 
-<p>By including the <code class="highlighter-rouge">user-top-read</code> scope you’re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you’ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.</p>
+<p>By including the <code>user-top-read</code> scope you’re asking the user for permission to access their top artists from Spotify. If the user accepts when they are prompted at log in, you’ll be granted an access token that you will later use in another request to the Spotify API. You can request additional user information by including other scopes found <a href="https://developer.spotify.com/web-api/using-scopes/">here</a>.</p>
 
 <p>Next, provide a link so the user can log into their Spotify account:</p>
 
 <div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Sign in with Spotify"</span><span class="p">,</span> <span class="s2">"/auth/spotify"</span> <span class="cp">%&gt;</span></code></pre></div>
 
-<p>Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to <code class="highlighter-rouge">routes.rb</code> and declare what controller and action you’ll like your callback to hit:</p>
+<p>Now, we’ll need to create a callback so we can manipulate the data that’s returned to us from Spotify. Head to <code>routes.rb</code> and declare what controller and action you’ll like your callback to hit:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s2">"/auth/spotify/callback"</span><span class="p">,</span> <span class="ss">to: </span><span class="s2">"users/spotify"</span></code></pre></div>
 
-<p>You now have access to basic user information, such as name and email address, as well as the unique access token in the <code class="highlighter-rouge">spotify</code> action of your app.</p>
+<p>You now have access to basic user information, such as name and email address, as well as the unique access token in the <code>spotify</code> action of your app.</p>
 
-<p>Once you’ve retrieved the access token you’re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the <code class="highlighter-rouge">curb</code> gem which we previously installed in our app.</p>
+<p>Once you’ve retrieved the access token you’re ready to make a subsequent request to the Spotify API for a users top artists. To facilitate formatting the endpoint I relied on the <code>curb</code> gem which we previously installed in our app.</p>
 
-<p>The <code class="highlighter-rouge">curb</code> gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:</p>
+<p>The <code>curb</code> gem offers a straightforward way to append headers in your GET request. The following code will correctly format your request to meet Spotify’s guidelines for the <em>Users Top Artist</em> endpoint:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">http</span> <span class="o">=</span> <span class="no">Curl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.spotify.com/v1/me/top/artists?limit=25"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
   <span class="n">http</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Accept'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span><span class="p">,</span>
@@ -477,7 +477,7 @@ Reading time ~5 minutes
 
 <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">http</span><span class="p">)</span></code></pre></div>
 
-<p>You can request a minimum of one or a maximum of fifty artists by modifying the <code class="highlighter-rouge">limit</code> query parameter at the conclusion of the endpoint (ex: <code class="highlighter-rouge">limit=50</code>). Finally, replace <code class="highlighter-rouge">#{access_token}</code> with the actual access token, pass in the http local variable as an argument to the <code class="highlighter-rouge">JSON.parse</code> method and you’ll receive your top artists!</p>
+<p>You can request a minimum of one or a maximum of fifty artists by modifying the <code>limit</code> query parameter at the conclusion of the endpoint (ex: <code>limit=50</code>). Finally, replace <code>#{access_token}</code> with the actual access token, pass in the http local variable as an argument to the <code>JSON.parse</code> method and you’ll receive your top artists!</p>
 
 <h2>Finding local concerts using the BandsInTown API</h2>
 
@@ -498,7 +498,7 @@ Reading time ~5 minutes
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span></code></pre></div>
 
-<p>See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with <code class="highlighter-rouge">%20</code>, resulting in a valid URL.</p>
+<p>See that space between ‘Kanye’ and ‘West’? That’s no good, and will generate an error if we submit this URL to the BandsInTown API. To prevent this, it’s as easy as passing our URL into the URI.escape method as an argument. The URI.escape method, which comes preinstalled in Ruby, will replace any whitespace characters with <code>%20</code>, resulting in a valid URL.</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">escaped_url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"http://api.bandsintown.com/artists/Kanye West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span><span class="p">)</span>
 <span class="c1">#=&gt; escaped_url = "http://api.bandsintown.com/artists/Kanye%20West/events/recommended?location=use_geoip&amp;radius=50&amp;app_id=discover-shows&amp;api_version=2.0&amp;format=json"</span></code></pre></div>
@@ -507,11 +507,11 @@ Reading time ~5 minutes
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">escaped_url</span><span class="p">)</span></code></pre></div>
 
-<p>Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted <code class="highlighter-rouge">uri</code> variable into the <code class="highlighter-rouge">get_response</code> method of the <code class="highlighter-rouge">Net::HTTP</code> class:</p>
+<p>Now we’re ready to send a get request to the BandsInTown API. We can accomplish this by passing the formatted <code>uri</code> variable into the <code>get_response</code> method of the <code>Net::HTTP</code> class:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">response</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="n">uri</span><span class="p">).</span><span class="nf">body</span></code></pre></div>
 
-<p>Chaining <code class="highlighter-rouge">body</code> to the end of the <code class="highlighter-rouge">get_response</code> method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!</p>
+<p>Chaining <code>body</code> to the end of the <code>get_response</code> method returns the body of the response, or the data in which we are looking for. The response is a representation of Kanye West’s upcoming concerts in JSON format. All that’s left to do is parse the response!</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></code></pre></div>
 
